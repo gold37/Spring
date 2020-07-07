@@ -1,0 +1,6 @@
+package com.spring.controller;
+
+@Controller
+public class BoardController {
+
+}

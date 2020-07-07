@@ -1,0 +1,9 @@
+package com.spring.service;
+
+
+// === #31. Service 선언 === //
+public class BoardService implements InterBoardService {
+
+	
+
+}

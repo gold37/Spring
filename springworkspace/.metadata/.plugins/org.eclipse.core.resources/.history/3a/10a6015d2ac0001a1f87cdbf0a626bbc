@@ -1,0 +1,10 @@
+package com.spring.service;
+import org.springframework.stereotype.Service;
+
+// === #31. Service 선언 === //
+@Service
+public class BoardService implements InterBoardService {
+	// Service는 DB와 관련된 업무(insert, update, delete 등)처리를 수행함
+	
+
+}
