@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	request.getContextPath();
+%>    
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript" src=""></script>
+<script type="text/javascript" ></script>
+
+</head>
+<body>
+
+	<form name="myFrm">
+		<input type="text" name="no" /><br/>
+		<input type="text" name="name" /><br/>
+		<button type="button" onclick="goSubmit()">확인</button>
+		<button type="reset">취소</button>
+	</form>
+
+</body>
+</html>

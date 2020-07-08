@@ -1,0 +1,38 @@
+package com.spring.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.spring.service.InterBoardService;
+
+@Controller
+public class BoardController {
+
+	@Autowired
+	private  InterBoardService service;
+	
+	@RequestMapping(value="/test_insert.action")
+	public String test_insert(HttpServletRequest request) {
+
+		int n = service.test_insert();
+		
+		String message = "";
+		
+		if(n>0) {
+			message = "데이터 입력 성공 !";
+		}
+		else {
+			message = "데이터 입력 실패 !";
+		}
+		
+		request.setAttribute("message", message);
+		
+		return "test_insert";
+		//  	/WEB-INF/views/test_insert.jsp 페이지를 만들어야 함
+	}
+	
+	
+}

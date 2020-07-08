@@ -1,0 +1,6 @@
+package com.spring.common;
+
+public class FullBeanNameGenerator implements org.springframework.beans.factory.support.BeanNameGenerator
+{
+
+}
