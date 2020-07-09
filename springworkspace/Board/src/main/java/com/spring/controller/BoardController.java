@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.model.TestVO;
 import com.spring.service.InterBoardService;
@@ -135,6 +138,7 @@ public class BoardController {
 		
 		int n = service.test_insert(paraMap);
 		
+		/*
 		String message = "";
 		
 		if(n>0) {
@@ -148,6 +152,136 @@ public class BoardController {
 		request.setAttribute("n", n);
 		
 		return "test_insert";
+		*/
+		
+		
+		if(n>0) {
+			return "redirect:/test_select.action"; // 전송하면 성공 메세지로 안가고 바로 select 페이지로 감 
+		}
+		else {
+			return "redirect:/test/test_form.action";
+		}
+	}
+	
+	
+	
+	@RequestMapping(value="/ajaxtest/ajaxtest_form.action", method= {RequestMethod.GET})
+	// 웹 브라우저에서 위의 url주소를 실행시키면 아래의 메소드가 실행됨
+	public String ajaxtest_form() {
+
+		return "test/ajaxtestForm";
+		// 		/WEB-INF/views/test/ajaxtestForm.jsp 페이지를 만들어야 함	
+	}
+	
+	
+	/*
+	@RequestMapping(value="/ajaxtest/insert.action", method= {RequestMethod.POST})
+	public String ajaxtestInsert(HttpServletRequest request) {
+		
+		String no = request.getParameter("no");
+		String name = request.getParameter("name");
+		// no와 name을 받아옴
+		
+		// map에 담음
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("no", no);
+		paraMap.put("name", name);
+		
+		// 의존객체인 service에 넘김 ( 느슨한 결합, 제어의 역전 )
+		int n = service.ajaxtest_insert(paraMap);
+		// n은 성공유무를 알기 위한 변수(1이면 성공)
+		
+		// 결과물인 n을 JSON 형식으로 만들어주기
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("n", n);
+		
+		String json = jsonObj.toString();
+		
+		request.setAttribute("json", json);
+		
+		return "jsonview";
+		// 		/WEB-INF/views/jsonview.jsp 파일을 생성해야 한다.
+		
+	}
+	*/
+	
+	@ResponseBody
+	@RequestMapping(value="/ajaxtest/insert.action", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String ajaxtestInsert(HttpServletRequest request) {
+		
+		String no = request.getParameter("no");
+		String name = request.getParameter("name");
+		// no와 name을 받아옴
+		
+		// map에 담음
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("no", no);
+		paraMap.put("name", name);
+		
+		// 의존객체인 service에 넘김 ( 느슨한 결합, 제어의 역전 )
+		int n = service.ajaxtest_insert(paraMap);
+		// n은 성공유무를 알기 위한 변수(1이면 성공)
+		
+		// 결과물인 n을 JSON 형식으로 만들어주기
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("n", n);
+		
+		return jsonObj.toString();
+		
+	}
+	
+	
+	/*
+	@RequestMapping(value="/ajaxtest/select.action")
+	public String ajaxtest_select(HttpServletRequest request) {
+		
+		List<TestVO> testvoList = service.ajaxtest_select();
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		for(TestVO vo : testvoList) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("no", vo.getNo());
+			jsonObj.put("name", vo.getName());
+			jsonObj.put("writeday", vo.getWriteday());
+			
+			jsonArr.put(jsonObj);
+		}
+		String json = jsonArr.toString();
+		request.setAttribute("json", json);
+		
+		return "jsonview";
+	}
+	*/
+	
+	/*
+    @ResponseBody 란?
+	  메소드에 @ResponseBody Annotation이 되어 있으면 return 되는 값은 View 단 페이지를 통해서 출력되는 것이 아니라 
+	 return 되어지는 값 그 자체를 웹브라우저에 바로 직접 쓰여지게 하는 것이다. 일반적으로 JSON 값을 Return 할때 많이 사용된다.  
+	
+	>>> 스프링에서 json 또는 gson을 사용한 ajax 구현시 데이터를 화면에 출력해 줄때 한글로 된 데이터가 '?'로 출력되어 한글이 깨지는 현상이 있다. 
+               이것을 해결하는 방법은 @RequestMapping 어노테이션의 속성 중 produces="text/plain;charset=UTF-8" 를 사용하면 
+               응답 페이지에 대한 UTF-8 인코딩이 가능하여 한글 깨짐을 방지 할 수 있다. <<< 
+   */
+	@ResponseBody
+	@RequestMapping(value="/ajaxtest/select.action", produces="text/plain;charset=UTF-8")
+														// 추가해줘야 JSON에서 한글 안깨짐
+	public String ajaxtest_select(HttpServletRequest request) {
+		
+		List<TestVO> testvoList = service.ajaxtest_select();
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		for(TestVO vo : testvoList) {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("no", vo.getNo());
+			jsonObj.put("name", vo.getName());
+			jsonObj.put("writeday", vo.getWriteday());
+			
+			jsonArr.put(jsonObj);
+		}
+		
+		return jsonArr.toString(); // 웹페이지에 출력 될 값 (@ResponseBody 추가만 해주면 이제 request ~ 안해도 됨)
 	}
 	
 }

@@ -1,9 +1,0 @@
-package com.spring.service;
-
-import com.spring.model.InterBoardDAO;
-
-public class BoardService implements InterBoardService {
-
-	
-
-}

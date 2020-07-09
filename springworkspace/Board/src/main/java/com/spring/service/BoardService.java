@@ -57,6 +57,25 @@ public class BoardService implements InterBoardService {
    }
 
 
+   // 
+	@Override
+	public int ajaxtest_insert(HashMap<String, String> paraMap) {
+		// service의 의존객체는 dao. 얘한테 paraMap 넘겨줌.
+		int n = dao.ajaxtest_insert(paraMap);
+		
+		return n;
+	}
+
+
+	@Override
+	public List<TestVO> ajaxtest_select() {
+		
+		List<TestVO> testvoList = dao.test_select();
+		
+		return testvoList;
+	}
+
+
 	
 
 }

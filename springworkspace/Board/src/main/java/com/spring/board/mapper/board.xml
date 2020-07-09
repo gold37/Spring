@@ -33,4 +33,11 @@
 		insert into spring_test1 (no, name, writeday) 
 		values(#{no}, #{name}, default)
 	</insert>
+	
+	
+	<insert id="ajaxtest_insert" parameterType="HashMap">
+		insert into spring_test1 (no, name, writeday) 
+		values(#{no}, #{name}, default)
+	</insert>
+	
 </mapper>

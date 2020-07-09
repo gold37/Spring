@@ -86,6 +86,13 @@ public class BoardDAO implements InterBoardDAO {
 
 	}
 
-	
+	@Override
+	public int ajaxtest_insert(HashMap<String, String> paraMap) {
+		// 의존 객체 sqlsession
+		int n = sqlsession.insert("board.ajaxtest_insert", paraMap);
+								// ▲ mapper에 있는 namespace 
+		return n;
+	}
+
 	
 }

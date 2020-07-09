@@ -12,6 +12,10 @@ public interface InterBoardService {
 	HashMap<String, List<TestVO>> test_select();
 
 	int test_insert(HashMap<String, String> paraMap);
+
+	int ajaxtest_insert(HashMap<String, String> paraMap);
+
+	List<TestVO> ajaxtest_select();
 	
 }
 

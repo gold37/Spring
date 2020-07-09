@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String ctxPath = request.getContextPath();
+	//		/board
+%>    
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" >
+	$(document).ready(function(){
+		
+		$("#btnSubmit").click(function(){
+			
+			$.ajax({
+				url:"/board/ajaxtest/insert.action", // 상대경로 또는 절대경로 적어주기. 여기에 데이터를 넣어줌	
+				data: {"no":$("#no").val()} // 보내기
+			});
+			
+			
+		});
+		
+	});
+</script>
+
+</head>
+<body>
+	<h2>AJAX 연습</h2>
+	<form>
+		번호 : <input type="text" id="no" /><br/>
+		성명 : <input type="text" id="name" /><br/>
+		<button type="button" id="btnSubmit">확인</button>
+		<button type="reset">취소</button> 
+		<!-- reset은 form속에 들어가 있어야 적용됨 -->
+	</form>
+
+</body>
+</html>
