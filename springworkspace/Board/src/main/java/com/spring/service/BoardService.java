@@ -1,4 +1,6 @@
 package com.spring.service;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -6,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.common.AES256;
+import com.spring.member.model.MemberVO;
 import com.spring.model.InterBoardDAO;
 import com.spring.model.TestVO;
 
@@ -21,7 +25,11 @@ public class BoardService implements InterBoardService {
 	// new해왔던 기존 방식과는 다름.
 	// Type에 따라 Spring 컨테이너가 알아서 bean으로 등록된 com.spring.model.BoardDAO의 bean을 dao에 주입 
 	// 그러므로 dao는 null이 아니다.
-
+	
+	// === #45. 양방향 암호화 알고리즘인 AES256을 사용하여 복호화하기 위한 클래스 (파라미터가 있는 생성자) 의존객체 주입하기(DI: Dependency Injection) === //
+	@Autowired
+	private AES256 aes;
+	
 	
 	@Override
 	public int test_insert() {
@@ -73,6 +81,72 @@ public class BoardService implements InterBoardService {
 		List<TestVO> testvoList = dao.test_select();
 		
 		return testvoList;
+	}
+
+
+	@Override
+	public List<TestVO> datatables_test() {
+
+		List<TestVO> testvoList = dao.test_select();
+		
+		return testvoList;
+	}
+
+
+	@Override
+	public List<TestVO> employees_test() {
+		
+		List<TestVO> empvoList = dao.employees_select();
+		
+		return empvoList;
+	
+	}
+
+
+	
+	// === #37. 메인 페이지용 이미지 파일 가져오기 === //
+	@Override
+	public List<String> getImgfilenameList() {
+		
+		List<String> imgfilenameList = dao.getImgfilenameList();
+		
+		return imgfilenameList;
+	}
+
+
+	// === #42. 로그인 처리하기  === //
+	@Override
+	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
+		
+		MemberVO loginuser = dao.getLoginMember(paraMap);
+		
+		// === #48. aes 의존객체를 사용하여 로그인 된 사용자(loginuser)의 이메일값을 복호화하도록 한다. === //
+		
+		
+		if(loginuser != null) {
+
+			if(loginuser.getLastlogindategap() >= 12) {
+				// 마지막으로 로그인 한 날짜가 현재일로 부터 1년(12개월)이 지났으면 해당 로그인 계정을 비활성화 시킨다.
+				loginuser.setIdleStatus(true); // 비활성화
+			}
+			else {
+				if(loginuser.getPwdchangegap() > 3) {
+					// 마지막으로 암호를 변경한 날짜가 3개월이 지났으면
+					loginuser.setRequirePwdChange(true);
+				}
+				// 마지막 로그인 한 날짜시간 변경(기록)하기
+				dao.setLastLoginDate(paraMap);
+				
+				try {
+					loginuser.setEmail(aes.decrypt(loginuser.getEmail())); // loginuser의 email을 복호화 하도록 한다.
+				} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+					e.printStackTrace();
+				} 
+				
+			}
+		}
+		
+		return loginuser;
 	}
 
 

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.common.Sha256;
+import com.spring.member.model.MemberVO;
 import com.spring.model.TestVO;
 import com.spring.service.InterBoardService;
 
@@ -282,6 +286,231 @@ public class BoardController {
 		}
 		
 		return jsonArr.toString(); // 웹페이지에 출력 될 값 (@ResponseBody 추가만 해주면 이제 request ~ 안해도 됨)
+	}
+	
+	
+	// == 데이터테이블즈(datatables) -- datatables 1.10.19 기반으로 작성  == // 
+	@RequestMapping(value="/datatables_test.action")
+	public String datatables_test(HttpServletRequest request) {
+		
+		List<TestVO> testvoList = service.datatables_test();
+		
+		request.setAttribute("testvoList", testvoList);
+				
+		return "test/datatables_test";
+        //	   /WEB-INF/views/test/datatables_test.jsp 페이지를 만들어야 한다.
+	}
+	
+	
+	// == return 타입을 String 대신 ModelAndView를 사용해보기
+	@RequestMapping(value="/datatables_test2.action")
+	public ModelAndView datatables_test2(ModelAndView mav) {
+		
+		List<TestVO> testvoList = service.datatables_test();
+		
+		mav.addObject("testvoList", testvoList); // 뷰 단으로 보낼 데이터 
+		// request.setAttribute("testvoList", testvoList); 와 같은 말
+		
+		mav.setViewName("test/datatables_test");// view 단의 파일이름 지정하기
+		//		  	 /WEB-INF/views/test/datatables_test.jsp 페이지를 만들어야 한다.
+		
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/tiles1/datatables_test.action")
+	public String datatables_test_tiles1(HttpServletRequest request) {
+		
+		List<TestVO> testvoList = service.datatables_test();
+		
+		request.setAttribute("testvoList", testvoList);
+		
+		return "test/datatables_test.tiles1";
+		//	   /WEB-INF/views/tiles1/test/datatables_test.jsp 페이지를 만들어야 한다.
+	}
+	
+	
+	@RequestMapping(value="/tiles2/datatables_test.action")
+	public String datatables_test_tiles2(HttpServletRequest request) {
+		
+		List<TestVO> testvoList = service.datatables_test();
+		
+		request.setAttribute("testvoList", testvoList);
+		
+		return "test/datatables_test.tiles2";
+		//	   /WEB-INF/views/tiles2/test/datatables_test.jsp 페이지를 만들어야 한다.
+	}
+
+	
+	
+	
+	@RequestMapping(value="/test/employees.action")
+	public ModelAndView employees_select(ModelAndView mav) {
+		
+		List<TestVO> empvoList = service.employees_test();
+		
+		mav.addObject("empvoList", empvoList);
+		
+		mav.setViewName("test/employees.tiles1");
+		//	   /WEB-INF/views/tiles1/test/employees.jsp 페이지를 만들어야 한다.
+		
+		return mav;
+	}
+	
+	
+
+	/*	또는 HashMap으로 해보기 ↓
+	@RequestMapping(value="/test/employees.action")
+	public ModelAndView employees_select(ModelAndView mav) {
+		
+		List<HashMap<String, String>> empvoList = service.employees_test();
+		
+		mav.addObject("empvoList", empvoList);
+		
+		mav.setViewName("test/employees.tiles1");
+		//	   /WEB-INF/views/tiles1/test/employees.jsp 페이지를 만들어야 한다.
+		
+		return mav;
+	}
+	*/
+	
+	
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// === #36. 메인 페이지 요청 === //
+	@RequestMapping(value="/index.action")
+	public ModelAndView index(ModelAndView mav) {
+		
+		List<String> imgfilenameList = service.getImgfilenameList();
+		
+		mav.addObject("imgfilenameList", imgfilenameList);
+		mav.setViewName("main/index.tiles1"); // imgfilenameList정보를 넘겨줄 뷰단
+		// 	/WEB-INF/views/tiles1/{1}/{2}.jsp 이러한 모양의 파일을 생성해야함(tiles-layout.xml에 정의돼있음)
+		
+		return mav;
+	}
+	
+	
+	// === #40. 로그인 폼 페이지 요청 === // 
+	@RequestMapping(value="/login.action")
+	public ModelAndView login(ModelAndView mav) {
+		
+		mav.setViewName("login/loginform.tiles1");
+		//	 	/WEB-INF/views/tiles1/login/loginform.jsp 파일을 생성한다.
+		
+		return mav;
+	}
+
+	
+	// === #41. 로그인 처리하기 === // 
+	@RequestMapping(value="/loginEnd.action", method= {RequestMethod.POST})
+	public ModelAndView loginEnd(HttpServletRequest request, ModelAndView mav) {
+		
+		String userid = request.getParameter("userid");
+		String pwd = request.getParameter("pwd");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호를 암호화해서 넣어줌
+		
+		MemberVO loginuser = service.getLoginMember(paraMap); // paraMap에 들어간 정보 DB에 보내기
+		
+		HttpSession session = request.getSession();
+		
+		if(loginuser == null) {
+			
+			String msg = "아이디 또는 암호가 틀립니다!";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");
+			// 	/WEB-INF/views/msg.jsp 파일을 생성한다.
+		}
+		else {
+			if(loginuser.isIdleStatus() == true) {
+				// 로그인을 한지 1년이 지나서 휴면상태에 빠진 경우
+				String msg = "로그인한지 1년이 지나 휴면계정입니다. 관리자에게 문의 바랍니다.";
+				String loc = "javascript:history.back()";
+				
+				mav.addObject("msg", msg);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");
+				// 	/WEB-INF/views/msg.jsp 파일을 생성한다.
+			}
+			else {
+				if(loginuser.isRequirePwdChange() == true) {
+					// 암호를 최근 3개월 동안 변경하지 않은 경우 (로그인은 돼야함)
+					session.setAttribute("loginuser", loginuser);
+					
+					String msg = "암호를 변경한지 3개월이 지났습니다. 보안을 위해 비밀번호를 변경해주세요.";
+					String loc = request.getContextPath()+"/myinfo.action";
+								// 	/board/myinfo.action
+					
+					mav.addObject("msg", msg);
+					mav.addObject("loc", loc);
+					
+					mav.setViewName("msg");
+				}
+				
+				else {
+					// 로그인, 비번 둘 다 아무 이상이 없는 경우
+					session.setAttribute("loginuser", loginuser);
+					
+					mav.setViewName("login/loginEnd.tiles1");
+					//	/WEB-INF/views/tiles1/login/loginEnd.jsp 파일을 생성한다.
+					
+				}
+			}
+			
+		}
+		
+		return mav;
+	}
+	
+	// === 나의 정보 수정 페이지 === //
+	@RequestMapping(value="/myinfo.action")
+	public String myinfo() {
+		return "login/myinfo.tiles1";
+		//		/WEB-INF/views/tiles1/login/myinfo.jsp 파일을 생성한다.
+	}
+	
+	
+	// === #50. 로그아웃 처리하기 === //
+	@RequestMapping(value="/logout.action")
+	public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {
+
+		HttpSession session = request.getSession();
+		session.invalidate(); // 로그인 돼있는 정보 없애기
+		
+		String msg = "로그아웃 되었습니다.";
+		String loc = request.getContextPath()+"/index.action";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		
+		mav.setViewName("msg");
+		
+		return mav;
+		
+	}
+	
+	
+	// === #51. 게시판 글쓰기 폼페이지 요청 === //
+	@RequestMapping(value="/add.action")
+	public ModelAndView add(ModelAndView mav) {
+		
+		mav.setViewName("board/add.tiles1");
+		//		/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
+		
+		
+		return mav;
 	}
 	
 }

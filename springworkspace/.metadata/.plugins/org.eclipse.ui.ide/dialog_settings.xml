@@ -105,9 +105,11 @@
 		<item value="org.springsource.sts.package:3.9.6.201809180749-RELEASE-e49"/>
 		<item value="org.springsource.sts:3.9.6.201809180749-RELEASE"/>
 	</list>
+	<section name="NewWizardAction">
+	</section>
 	<section name="org.springsource.ide.eclipse.commons.quicksearch.ui.QuickSearchDialog.DIALOG_SETTINGS">
 		<item value="true" key="CASE_SENSITIVE"/>
-		<item value="#34" key="LAST_QUERY"/>
+		<item value="#42" key="LAST_QUERY"/>
 		<list key="SASH_WEIGHTS">
 			<item value="833"/>
 			<item value="166"/>

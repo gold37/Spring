@@ -5,7 +5,283 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-07T00:02:52Z</updated>
+  <updated>2020-07-13T22:52:49Z</updated>
+  <entry>
+    <title>Introducing Java Functions for Spring Cloud Stream Applications - Part 0</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>David Turanski</name>
+    </author>
+    <id>tag:spring.io,2020-07-13:4128</id>
+    <updated>2020-07-13T22:52:49Z</updated>
+    <content type="html">&lt;div id="preamble"&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We are happy to announce the release of Spring Cloud Stream applications 2020.0.0-M2. This release is a complete overhaul of the legacy &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt;.
+Starting with this release, we are moving away from theme-oriented release train names (famous scientists in alphabetical order) to calendar based versioning.
+The current GA release is called &lt;em&gt;Einstein&lt;/em&gt;, and we are pleased to introduce &lt;em&gt;2020.0.0-M2&lt;/em&gt;.
+We are also moving away from the app starters.
+Having reorganized, repackaged, and (in some cases) rewritten the underlying code, we now have a new Git repository: &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;spring-cloud/stream-applications: Functions and Spring Cloud Stream Applications for data driven microservices&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="how-did-we-get-here"&gt;&lt;a class="anchor" href="#how-did-we-get-here"&gt;&lt;/a&gt;How Did We Get Here?&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The Spring team has maintained pre-packaged applications, built on &lt;a href="https://spring.io/projects/spring-cloud-stream"&gt;Spring Cloud Stream&lt;/a&gt;, since the inception of &lt;a href="https://spring.io/projects/spring-cloud-dataflow"&gt;Spring Cloud Data Flow&lt;/a&gt; in 2016.
+These are production-ready applications, built on the proven capabilities of Spring and Spring Integration to provide out-of-the-box integration with commonly used open source data stores, message brokers, online services, and communication protocols.
+In fact, we have been providing the underlying components, used by enterprise developers to build business-critical systems, for more than a decade now.
+The timeline below summarizes the evolution from &lt;a href="https://spring.io/projects/spring-integration"&gt;Spring Integration&lt;/a&gt; components to pre-packaged applications.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/stream-applications-history.png?raw=true" alt="Stream Applications Timeline"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;These applications give you a jump start when orchestrating data streaming pipelines with Data Flow or using them directly as Data microservices.
+As always, in keeping with the Spring philosophy, we do the heavy lifting for you, letting you focus on business logic.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;At the heart of it, a Spring Cloud Stream application is a Spring Boot application (uber jar) that includes a Spring Cloud Stream binder dependency.
+The binder exposes a service provider interface to abstract implementations that utilize underlying messaging middleware (such as Apache Kafka, RabbitMQ, Amazon Kinesis, Google Pub Sub, and Solace) for distributed communications, hiding the specific details of the middleware from the application.
+Therefore, the application has no knowledge of the underlying middleware it is using to communicate.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This architecture enabled us to implement the core functionality without a binder, as &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt;.
+A custom Maven plugin was used to generate Maven poms (one each for the Apache Kafka binder and the RabbitMQ binder) and a generic Spring Boot main class that imports the app starter configuration.
+The pom also includes &lt;a href="https://dataflow.spring.io/docs/feature-guides/streams/monitoring/"&gt;monitoring&lt;/a&gt; and security support.
+The pre-packaged stream applications work with either Apache Kafka or RabbitMQ and are published to public repositories as Spring Boot executable jars and Docker images.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In many respects, the pre-packaged stream applications can be compared with Kafka Connect.
+Although this is not a direct apples to apples comparison, the stream applications can be used in place of Kafka connect applications.
+Kafka Connect applications require Apache Kafka to produce and consume data, whereas the Spring Cloud Stream applications work with a wide variety of middleware technologies, including Kafka, as previously mentioned.
+Note that all of our pre-packaged applications are free and open source, whereas many of the Kafka connectors are commercially licensed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="what-has-changed"&gt;&lt;a class="anchor" href="#what-has-changed"&gt;&lt;/a&gt;What Has Changed?&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="java-functions"&gt;&lt;a class="anchor" href="#java-functions"&gt;&lt;/a&gt;Java Functions&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Continual advances in the Java and Spring ecosystem have driven us to rethink our approach.
+The most significant change is that we have implemented a layered architecture in which the core functionality, previously provided by the app starters, are now provided as Java functions, implementing the standard interfaces found in the &lt;em&gt;java.util.function&lt;/em&gt; package.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The functional components in this release can be exposed as standard Spring beans and then used for your data integration needs by directly embedding them in an application.
+By injecting these functions in a custom application, you immediately benefit from the features provided by underlying libraries. For example, Spring Integration adapters are used in many of these functions.
+You can invoke the function directly, use &lt;a href="https://spring.io/projects/spring-cloud-function"&gt;Spring Cloud Function&lt;/a&gt; to invoke it through a REST endpoint, or use it in a serverless environment.
+Unlike the app starters, the functional components have no dependency on Spring Cloud Stream.
+They are now, however, the core components of the stream applications.
+The following image shows the relationship between the components and the applications:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/stream-applications-layered-architecture.png?raw=true" alt="Stream Applications Layered Architecture"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="stream-applications"&gt;&lt;a class="anchor" href="#stream-applications"&gt;&lt;/a&gt;Stream Applications&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;By using Spring Cloud Stream, we can exploit the logical equivalence of the java.util.function types (Supplier, Function, Consumer) to the Spring Cloud Stream concepts (source, processor, and sink, respectively).
+As before, we use a new and improved &lt;a href="https://github.com/spring-cloud/spring-cloud-app-starters-maven-plugins/tree/master/spring-cloud-stream-app-maven-plugin"&gt;Maven plugin&lt;/a&gt; to generate the Spring Boot main class, application.properties file, and binder-specific Maven poms with built-in &lt;a href="https://dataflow.spring.io/docs/feature-guides/streams/monitoring/"&gt;monitoring&lt;/a&gt; and security support.
+With few exceptions, we can build the Spring Cloud Stream applications with no additional code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The new approach offers several advantages:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Spring Cloud Stream v3.x introduced a powerful &lt;a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/current/reference/html/spring-cloud-stream.html#spring_cloud_function"&gt;Functional programming model&lt;/a&gt; based on &lt;a href="https://spring.io/projects/spring-cloud-function"&gt;Spring Cloud Function&lt;/a&gt;.
+This approach is favored over the legacy annotation-based model (&lt;em&gt;@EnableBinding&lt;/em&gt;, &lt;em&gt;@StreamListener&lt;/em&gt;).
+Spring Cloud Stream can bind directly to the input(s) and output(s) of a Function &lt;em&gt;@Bean&lt;/em&gt;.
+With this model, neither the legacy Spring Cloud Stream annotations nor the Source, Processor, and Sink interfaces are needed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The figure below illustrates this concept by using simple functions packaged as Spring Cloud Stream applications.
+The binder implementation and external configuration properties enable the applications to communicate through a message broker, but the application code is not concerned with any of this.
+Spring Cloud Stream invokes the &lt;em&gt;helloTime&lt;/em&gt; Function in the ProcessorApplication whenever a message arrives on the &lt;em&gt;time&lt;/em&gt; topic and directs its output to the &lt;em&gt;hello&lt;/em&gt; topic.
+Likewise, the &lt;em&gt;printTime&lt;/em&gt; Consumer in the SinkApplication is triggered by a message arriving on the &lt;em&gt;hello&lt;/em&gt; topic.
+But what triggers the SourceApplication?
+As you may have guessed, Spring Cloud Stream auto-configures a poller, which invokes the &lt;em&gt;currentTime&lt;/em&gt; Supplier every second (by default).
+Of course, this is configurable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/spring-cloud-stream-example.png?raw=true" alt="Spring Cloud Stream Example"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The functional components are available to be packaged and deployed in a wide range of uses other than Spring Cloud Stream, particularly in FaaS environments.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The functional components are built with &lt;a href="https://projectreactor.io/"&gt;Project Reactor&lt;/a&gt;, where appropriate, to enable non-blocking reactive streaming.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The stream applications (or any Spring Boot application built with the functional components) can take advantage of Spring Cloud Function¡¯s declarative function composition features.
+This means that the pre-packaged stream applications can be configured to perform common transformation and filtering operations with no customization required.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The new &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;stream-applications&lt;/a&gt; Git repository is a &lt;a href="https://en.wikipedia.org/wiki/Monorepo"&gt;monorepo&lt;/a&gt;.
+Unlike &lt;em&gt;stream-cloud-app-starters&lt;/em&gt;, where each app has its own repository, the new &lt;em&gt;stream-applications&lt;/em&gt; repository contains everything (functions, applications, and common components) in a single repository.
+This simplifies dependency management and allows for atomic commits. The hope is that this change, along with other ongoing efforts, will make it easier for developers and help encourage community contributions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="what-does-this-release-contain"&gt;&lt;a class="anchor" href="#what-does-this-release-contain"&gt;&lt;/a&gt;What Does this Release Contain?&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The following is a partial list of the various functions and applications available in this release:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Suppliers and sources&lt;/strong&gt;: File, FTP, SFTP, AWS S3, HTTP, Geode, TCP, TIme, Twitter, Websocket, JDBC, JMS, RabbitMQ, MQTT.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Consumers and sinks&lt;/strong&gt;: Analytics, Cassandra, File, FTP, Geode, JDBC, Log, Mongodb, MQTT, Rabbit, Redis, AWS S3, SFTP, TCP, Twitter, Wavefront, Websocket.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Functions and processors&lt;/strong&gt;: Filter, Header Enricher, HTTP Request, Tensorflow (image recognition, object detection and semantic segmentation), SpEL, Splitter, Task Launch Request, Task Launcher, Twitter.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;See the &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/README.adoc"&gt;Stream Applications README&lt;/a&gt; for a complete list.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="what-does-this-mean-for-current-users"&gt;&lt;a class="anchor" href="#what-does-this-mean-for-current-users"&gt;&lt;/a&gt;What does this mean for current users?&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In many cases, the new applications provide the equivalent functionality as the previous releases.
+In some cases (such as Twitter), we have significantly enhanced the functionality.
+We also have merged and renamed some of the applications.
+In short, there are some breaking changes. Notably, many of the configuration property names have changed, where appropriate, to reflect an association with the functional components (for example, &lt;em&gt;s3.supplier.remoteDir&lt;/em&gt;).
+Also, these applications may not work with stream applications that are built with older releases of Spring Cloud Stream.
+For example, a source built with an older version of Spring Cloud Stream is not guaranteed to work with a sink from this release.
+If you are already using pre-packaged applications from a previous release, there is no need to upgrade immediately, unless you are compelled to take advantage of some of the new features.
+The &lt;em&gt;Einstein&lt;/em&gt; release train will go into maintenance mode, so it will include only bug fixes going forward.
+All new development will be applied to future releases.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="how-do-i-contribute-a-new-function-or-application"&gt;&lt;a class="anchor" href="#how-do-i-contribute-a-new-function-or-application"&gt;&lt;/a&gt;How do I contribute a new function or application?&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;If you cannot find what you are looking for in the existing catalog of functions and applications, please consider &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/docs/Contributing.adoc"&gt;contributing&lt;/a&gt;.
+This way, the entire open source community will benefit.
+In a subsequent post, we will walk through a real-world example of developing a function and stream application.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We encourage the community to get involved with this project.
+We have several open issues labelled &lt;a href="https://github.com/spring-cloud/stream-applications/labels/ideal-for-contribution"&gt;ideal for contribution&lt;/a&gt;.
+In addition to code contributions, we really appreciate documentation improvements, creating issues, and starring the repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="stay-tuned"&gt;&lt;a class="anchor" href="#stay-tuned"&gt;&lt;/a&gt;Stay tuned&amp;#8230;&amp;#8203;&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This blog is the first in a weekly series that will cover topics introduced here in a lot more detail.
+Look for more deep dives and focused topics in the coming weeks.
+We will take you through the entire landscape of components included in this repository and surrounding processes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>First milestone of Reactor 2020.0 (Codename Europium)</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/10/first-milestone-of-reactor-2020-0-codename-europium" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Simon Basl?</name>
+    </author>
+    <id>tag:spring.io,2020-07-07:4125</id>
+    <updated>2020-07-10T14:00:00Z</updated>
+    <content type="html">&lt;p&gt;Earlier this month, we released a first milestone of Reactor 2020.0.&lt;br/&gt;This cycle, codename &lt;code&gt;Europium&lt;/code&gt;, follows the Dysprosium one (which included reactor-core 3.3.x and reactor-netty 0.9.x).&lt;/p&gt;
+&lt;p&gt;It includes reactor-core &lt;code&gt;3.4.0&lt;/code&gt; and reactor-netty &lt;code&gt;1.0.0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In this blog post, we&amp;rsquo;ll cover a few highlights of the reactor-core milestone, and briefly mention what&amp;rsquo;s in store for M2.&lt;/p&gt;
+&lt;p&gt;For reactor-netty, we&amp;rsquo;ll link to a separate blog post here as soon as it is out.&lt;/p&gt;
+&lt;p&gt;Note also that there is a new versioning scheme in place, which has been adopted accross the Spring portfolio: see the &lt;a href="https://projectreactor.io/docs/core/snapshot/reference/#getting-started-understanding-bom"&gt;reference guide&lt;/a&gt; and &lt;a href="https://spring.io/blog/2020/04/30/updates-to-spring-versions"&gt;this blog post&lt;/a&gt;.&lt;/p&gt;&lt;h1&gt;&lt;a href="#changes-around-code-processor-code" class="anchor" name="changes-around-code-processor-code"&gt;&lt;/a&gt;Changes around &lt;code&gt;Processor&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;The main change in core is a long overdue effort around &lt;code&gt;Processor&lt;/code&gt; implementations in Reactor and how they are exposed.&lt;/p&gt;
+&lt;p&gt;This is the main focus of &lt;code&gt;reactor-core 3.4.0-M1&lt;/code&gt;, and the goal is to phase out usage of the concrete flavor of &lt;code&gt;FluxProcessor&lt;/code&gt; (and to some extent &lt;code&gt;MonoProcessor&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Processor&lt;/code&gt; is an interface from Reactive Streams, originally intended as a way to represent a &amp;ldquo;step&amp;rdquo; in a reactive pipeline that could be shared between libraries.But these days, operators are largely directly implemented as &lt;code&gt;Publisher/Subscriber&lt;/code&gt; pairs, so in Reactor processors end up covering different use cases (most often, multicasting from one &lt;code&gt;Publisher&lt;/code&gt; to multiple &lt;code&gt;Subscriber&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;So most often, users are looking at processors as a way to &amp;ldquo;manually create a &lt;code&gt;Flux&lt;/code&gt;&amp;rdquo;: rather than connecting a &lt;code&gt;Processor&lt;/code&gt; to a parent publisher (aka using it as a &lt;code&gt;Subscriber&lt;/code&gt;), they directly call its &lt;code&gt;onNext&lt;/code&gt;/&lt;code&gt;onComplete&lt;/code&gt;/&lt;code&gt;onError&lt;/code&gt; methods. This is unfortunately a problematic approach, because such calls MUST be made in a way that conforms to the Reactive Streams specification, meaning that they need to be externally synchronized.&lt;/p&gt;
+&lt;p&gt;Historically, this has been alleviated by the introduction of the &lt;code&gt;sink()&lt;/code&gt; method on &lt;code&gt;FluxProcessor&lt;/code&gt;. The idea was that if you want to use the &lt;code&gt;FluxProcessor&lt;/code&gt; in a manual way like this, you would need to instantiate the processor flavor you want, then call its &lt;code&gt;sink()&lt;/code&gt; method ONCE and use the resulting &lt;code&gt;FluxSink&lt;/code&gt; from there on to trigger signals to subscribers. Downstream, the &lt;code&gt;FluxProcessor&lt;/code&gt; itself is exposed (as a &lt;code&gt;Flux&lt;/code&gt; on which operators can be composed).&lt;/p&gt;
+&lt;p&gt;This is still problematic from a discoverability standpoint, because the &amp;ldquo;right way&amp;rdquo; of cattering to the most common use case is the hardest to come up with.&lt;/p&gt;
+&lt;p&gt;With 3.4.0, we intend to turn that around and put the &lt;code&gt;Sink&lt;/code&gt; usage pattern in the spotlight as the first class citizen, and make the &lt;code&gt;Processor&lt;/code&gt; usage pattern harder to accidentally discover or misuse.&lt;/p&gt;
+&lt;p&gt;This first milestone makes a first step towards that by:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;deprecating all concrete implementations of &lt;code&gt;FluxProcessor&lt;/code&gt;, which are now slated for removal in &lt;code&gt;3.5.0&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;exposing a &lt;code&gt;Sinks&lt;/code&gt; utility class that bears factory methods for sinks aimed to be manually triggered&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In M1 the flavors of processors are still there but the factory methods have been copied over the &lt;code&gt;Processors&lt;/code&gt; class, &lt;em&gt;but that is already being reworked in M2&lt;/em&gt;.&lt;br/&gt;We intend to move the choice of flavors on &lt;code&gt;Sinks&lt;/code&gt; instead in M2. There would then be a way to turn a &lt;code&gt;Sink&lt;/code&gt; into a &lt;code&gt;FluxProcessor&lt;/code&gt; from there on, removing the need for &lt;code&gt;Processors&lt;/code&gt; in M2.&lt;/p&gt;&lt;h1&gt;&lt;a href="#migrating-away-from-concrete-processors-in-m1" class="anchor" name="migrating-away-from-concrete-processors-in-m1"&gt;&lt;/a&gt;Migrating away from concrete processors in M1&lt;/h1&gt;
+&lt;p&gt;In &lt;code&gt;M1&lt;/code&gt;, all factory methods on concrete &lt;code&gt;xxxProcessor&lt;/code&gt; (eg. &lt;code&gt;UnicastProcessor.create()&lt;/code&gt;) have been moved to either &lt;code&gt;Processors&lt;/code&gt; for the base case or &lt;code&gt;Processors.more()&lt;/code&gt; for the overloads that allow finer tuning. The methods distinguish flavors by prefixes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;UnicastProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.unicast()&lt;/code&gt; and &lt;code&gt;Processors.more().unicast(...)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;EmitterProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.multicast()&lt;/code&gt; and &lt;code&gt;Processors.more().multicast(...)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;DirectProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.more().multicastNoBackpressure()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;ReplayProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.replayAll()&lt;/code&gt;/&lt;code&gt;replay(int)&lt;/code&gt;/&lt;code&gt;replayTimeout(Duration)&lt;/code&gt;/&lt;code&gt;replaySizeAndTimeout(int, Duration)&lt;/code&gt; and similar methods on &lt;code&gt;Processors.more()&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All these processors conceptually have the same input and output type &lt;code&gt;&amp;lt;T&amp;gt;&lt;/code&gt;, so they are &lt;code&gt;FluxProcessor&amp;lt;T,T&amp;gt;&lt;/code&gt;. A convenience interface &lt;code&gt;FluxIdentityProcessor&amp;lt;T&amp;gt;&lt;/code&gt; has been introduced in M1 but it doesn&amp;rsquo;t bring much other than reducing the number of generics, so it might be removed in M2.&lt;/p&gt;
+&lt;p&gt;But rather than using a &lt;code&gt;FluxProcessor&lt;/code&gt; from &lt;code&gt;Processors&lt;/code&gt;, we said one should favor using &lt;code&gt;Sinks&lt;/code&gt;. In this scenario, one would get a sink first and turn it into a &lt;code&gt;Flux&lt;/code&gt; or &lt;code&gt;Mono&lt;/code&gt; for the rest of the application to compose upon, like in the below example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;//you get the sink first and foremost&#xD;
+StandaloneFluxSink&amp;lt;Integer&amp;gt; sink = Sinks.multicast();&#xD;
+&#xD;
+//this is what the rest of the application sees and uses&#xD;
+Flux&amp;lt;Integer&amp;gt; flux = sink.asFlux();&#xD;
+flux.map(i -&amp;gt; i * 10).subscribe();&#xD;
+flux.filter(i -&amp;gt; i % 2 == 0).subscribe();&#xD;
+&#xD;
+//this is how you push data to the subscribers through the sink (thread safe)&#xD;
+sink.next(1);&#xD;
+sink.next(2);&#xD;
+sink.next(3);&#xD;
+sink.next(4);&#xD;
+sink.complete();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that the class currently offers less variants than &lt;code&gt;Processors&lt;/code&gt;, but this is being reconsidered for M2.&lt;/p&gt;&lt;h1&gt;&lt;a href="#deprecations-and-removals" class="anchor" name="deprecations-and-removals"&gt;&lt;/a&gt;Deprecations and Removals&lt;/h1&gt;
+&lt;p&gt;Several classes that were deprecated back in 3.3.0 have been &lt;strong&gt;removed&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;TopicProcessor&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;WorkQueueProcessor&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;code&gt;Schedulers.boundedElastic()&lt;/code&gt; has been out since 3.3.0 and we think we can now &lt;strong&gt;deprecate&lt;/strong&gt; its ancestor, &lt;code&gt;elastic()&lt;/code&gt;, rather than just recommend using boundedElastic over elastic.&lt;/p&gt;
+&lt;p&gt;Further down the road, in 3.5.0, the &lt;code&gt;elastic&lt;/code&gt; &lt;code&gt;Scheduler&lt;/code&gt; will be removed.&lt;/p&gt;&lt;h1&gt;&lt;a href="#reactor-netty-is-hitting-1-0" class="anchor" name="reactor-netty-is-hitting-1-0"&gt;&lt;/a&gt;Reactor-Netty is hitting 1.0&lt;/h1&gt;
+&lt;p&gt;There is much much to cover here, which we&amp;rsquo;ll do in a separate blog post.&lt;/p&gt;&lt;h1&gt;&lt;a href="#conclusion" class="anchor" name="conclusion"&gt;&lt;/a&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;Please try out the &lt;a href="https://repo.spring.io/milestone/io/projectreactor/reactor-core/3.4.0-M1/"&gt;M1&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re already making further changes to sinks and processors in M2, along with other themes like &lt;code&gt;Context&lt;/code&gt; operators, avoiding thrown exceptions in &lt;code&gt;subscribe&lt;/code&gt; and improving the story around metrics.&lt;/p&gt;
+&lt;p&gt;As always, feedback for both M1 and current M2 snapshots is very welcome.&lt;/p&gt;
+&lt;p&gt;In the meantime, happy reactive coding !&lt;br/&gt;The Reactor Team.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>A Bootiful Podcast: Spring Data JDBC lead on Spring Data, domain driven design and more</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/10/a-bootiful-podcast-spring-data-jdbc-lead-on-spring-data-domain-driven-design-and-more" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-07-10:4126</id>
+    <updated>2020-07-10T00:12:32Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! Welcome to another installment of a Bootiful Podcast! In this installment &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks about the week that was and talks to the amazing Spring Data JDBC cofounder &lt;a href="https://twitter.com/jensschauder"&gt;Jens Schauder (@jensschauder) &lt;/a&gt; about JPA, JDBC, and domain-driven design. &lt;/p&gt;
+&lt;iframe title="Spring Data JDBC co-founder on JDBC, JPA and domain driven design" src="https://www.podbean.com/media/player/3449z-e2b0f1?from=usersite&amp;vjs=1&amp;skin=1&amp;fonts=Helvetica&amp;auto=0&amp;download=1" height="315" width="100%" style="border: none;" scrolling="no" data-name="pb-iframe-player"&gt;&lt;/iframe&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>This Week in Spring - July 7th, 2020</title>
     <link rel="alternate" href="https://spring.io/blog/2020/07/07/this-week-in-spring-july-7th-2020" />
@@ -14,7 +290,7 @@
       <name>Josh Long</name>
     </author>
     <id>tag:spring.io,2020-07-06:4124</id>
-    <updated>2020-07-07T00:02:52Z</updated>
+    <updated>2020-07-07T00:02:00Z</updated>
     <content type="html">&lt;p&gt;Hi, Spring fans! What a crazy week it&amp;rsquo;s been! How are you? I hope you&amp;rsquo;re safe, healthy, happy. &lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll be speaking later today (Tuesday) at the &lt;a href="https://2020.accento.dev/"&gt;Accento Digital conference&lt;/a&gt; and at the &lt;a href="https://pages.jetbrains.com/technology-day-java-2020/tw-speakers"&gt;Jetbrains Java Day online&lt;/a&gt; event on the 10th (Friday). Both of these should be accessible from EMEA and APJ timezones. I look forward to seeing you there!&lt;/p&gt;
 &lt;p&gt;We&amp;rsquo;ve got a &lt;em&gt;ton&lt;/em&gt; of good stuff to get to this week so let&amp;rsquo;s get to it! &lt;/p&gt;
@@ -23,7 +299,7 @@
   &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=BKepFaIwCvo&amp;feature=youtu.be"&gt;A great screencast from Matt Raible: Angular Docker with a Big Hug from Spring Boot - YouTube&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://inside.java/2020/07/02/zgc-softmaxheapsize/"&gt;A nice post on ZGC and using &lt;code&gt;-XX:SoftMaxHeapSize&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://twitter.com/java/status/1275481212941856768"&gt;A nice talk about Java in containers by David Delabassee&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/saratorrey/status/1279076569428963329?s=12"&gt;An Axon podcast with Allard Buijze&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/SaraTorrey"&gt;Sara Torrey (@SaraTorrey)&lt;/a&gt; has an amazing podcast, &lt;em&gt;Exploring Axon&lt;/em&gt;, and in the most recent interview &lt;a href="https://twitter.com/saratorrey/status/1279076569428963329?s=12"&gt;she interviewed Axon creator Allard Buijze&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://inside.java/2020/06/24/erasure/"&gt;Background: how we got the generics we have&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://www.cloudfoundry.org/bi-weekly-round-up-technical-ecosystem-updates-from-cloud-foundry-6-30-20/"&gt;Bi-weekly Round-Up: Technical Ecosystem Updates from Cloud Foundry | 6.30.20&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://inside.java/2020/06/25/compact-forwarding/"&gt;Compact Forwarding Information&lt;/a&gt;&lt;/li&gt;
@@ -1133,165 +1409,6 @@ class Customer {&#xD;
 &lt;p&gt;Now you can compile the application, the same as you did the reactive one, swapping out the main-class. Give it a few minutes. Now you should have two different applications in the &lt;code&gt;target/native-image&lt;/code&gt; directory of each application. Run them. &lt;/p&gt;
 &lt;p&gt;On my machine, the &lt;code&gt;reactive&lt;/code&gt; application spins up in 0.106 seconds. The &lt;code&gt;jpa&lt;/code&gt; application starts up in 0.181. Fast startup and - the best part - at runtime, these applications will take &lt;em&gt;tens&lt;/em&gt; of megabytes, not &lt;em&gt;hundreds&lt;/em&gt; (or &lt;em&gt;thousands&lt;/em&gt;) as a typical JVM-based application might. &lt;/p&gt;&lt;h2&gt;&lt;a href="#the-next-steps" class="anchor" name="the-next-steps"&gt;&lt;/a&gt;The Next Steps&lt;/h2&gt;
 &lt;p&gt;I can&amp;rsquo;t wait until the Spring Graal 0.8.0 release which will, among other things, baseline on some of the many improvements in Spring Framework 5.3, and possibly include a facility to convert &lt;code&gt;@Configuration&lt;/code&gt;-centric Java configurations into Spring&amp;rsquo;s &amp;ldquo;functional configuration,&amp;rdquo; which requires no proxies or reflection and which is more resource-efficient. I looked at functional configuration in another Spring Tips installment &lt;a href="https://www.youtube.com/watch?v=Q_P28p7XsbQ&amp;t=1s"&gt;more than three years ago&lt;/a&gt;. &lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>This Week in Spring - June 16th, 2020</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/16/this-week-in-spring-june-16th-2020" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2020-06-16:4108</id>
-    <updated>2020-06-16T23:35:25Z</updated>
-    <content type="html">&lt;p&gt;Hi, Spring fans! Welcome to another jam-packed weekly roundup of &lt;em&gt;This Week in Spring&lt;/em&gt;. &lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;ve got a few upcoming speaking engagements you might be interested in. &lt;a href="https://twitter.com/pieterhumphrey/status/1272331813445185536?s=12"&gt;I&amp;rsquo;ll be speaking (virtually) at the San Francisco JUG on June 24th at 6:30 PM&lt;/a&gt;. Join me! &lt;/p&gt;
-&lt;p&gt;Can&amp;rsquo;t make it to the (virtual) SF JUG appearance? &lt;a href="https://twitter.com/odrotbohm/status/1272532914492846086?s=12"&gt;On June 30th, VMware Tanzu (where the Spring team lives) will be hosting one of my workshops, also on Reactive Spring. I&amp;rsquo;m going to cover &lt;em&gt;tons&lt;/em&gt; of stuff: R2DBC, Reactor, Spring WebFlux, Spring WebFn, reactive Spring Data for SQL and NoSQL, RSocket, reactive security, reactive service orchestration, and composition patterns, and more&lt;/a&gt;. This is going to be at an ideal time for EU timezones, so please &lt;a href="https://connect.tanzu.vmware.com/EMEA_FE_WS_Q221_Reactive_Spring_Virtual_Meetup_DE.html"&gt;register now&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://twitter.com/intellijidea/status/1272545509736017920?s=12"&gt;I&amp;rsquo;ll be presenting about &lt;em&gt;Bootiful Testing&lt;/em&gt; for the upcoming Jetbrains Technology Day for Java&lt;/a&gt; on July 10th, 2020 at 10 am-11 am CEST.&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;ll also be doing an &lt;a href="https://spring.io/blog/2020/06/12/upcoming-webinar-bootiful-observability-with-tanzu-wavefront-by-josh-long-and-sushant-dewan"&gt;upcoming webinar on Wavefront-powered observability&lt;/a&gt; with Tanzu Wavefront team member Sushant Dewan on June 24th at 10:00 AM PST. You don&amp;rsquo;t want to miss this!&lt;/p&gt;
-&lt;p&gt;Now then, there&amp;rsquo;s a &lt;em&gt;ton&lt;/em&gt; of interesting stuff to review, so let&amp;rsquo;s get to it!&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/12/spring-boot-2-3-1-available-now"&gt;Spring Boot 2.3.1 available now&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/11/a-bootiful-podcast-kubernetes-guru-paul-czarkowski"&gt;A Bootiful Podcast: Kubernetes guru Paul Czarkowski&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/11/spring-cloud-data-flow-2-6-0-m1-released"&gt;Spring Cloud Data Flow 2.6.0-M1 Released&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/11/spring-batch-4-2-4-available-now"&gt;Spring Batch 4.2.4 available now!&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/11/spring-boot-2-2-8-available-now"&gt;Spring Boot 2.2.8 available now&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/11/spring-boot-2-1-15-available-now"&gt;Spring Boot 2.1.15 available now&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/10/spring-cloud-app-broker-1-1-1-released"&gt;Spring Cloud App Broker 1.1.1 released&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/10/spring-data-neumann-sr1-moore-sr8-and-lovelace-sr18-available-now"&gt;Spring Data Neumann SR1, Moore SR8, and Lovelace SR18 available now&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/10/the-path-towards-spring-boot-native-applications"&gt;The path towards Spring Boot native applications&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/springcloud/status/1273021816114642950"&gt;Do not miss this upcoming Spring Cloud for Kubernetes workshop with Ryan Baxter and Dr. Dave Syer&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;This year, SpringOne is coming to &lt;a href="https://t.co/xX8RBAmxwb"&gt;you?no matter where you are&lt;/a&gt;. Join us the week of September 1 for an all-new virtual experience featuring the content and speakers you love at a special cost: NO COST.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/RabbitMQ/status/1272874367068909569"&gt;RabbitMQ 3.8.5&lt;/a&gt; is out with a bunch of bug fixes and complete Erlang 23 compatibility.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/sdeleuze/status/1272609551016230920?s=12"&gt;Spring GraalVM Native 0.7.1 is now available and is built against&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;These are oldie-but-goodies, but well worth a read if you haven&amp;rsquo;t. First up, Sergei Egorov&amp;rsquo;s &lt;a href="https://bsideup.github.io/posts/daily_reactive/context_loss_detection/"&gt;&lt;em&gt;Daily Reactive&lt;/em&gt;: Context loss detection in Project Reactor&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Then, this amazing post on &lt;a href="https://bsideup.github.io/posts/spring_boot_in_container/"&gt;end-to-end testing your Spring Boot 2.3.0 apps with Testcontainers&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;And then finally this post on &lt;a href="https://bsideup.github.io/posts/local_development_with_testcontainers/"&gt;&lt;em&gt;Local development with Testcontainers&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Here&amp;rsquo;s an interesting video from Spring team member Greg Turnquist where you can watch him code a feature &lt;a href="https://www.youtube.com/watch?v=B3m-sS5HXLY&amp;app=desktop"&gt;(Part 1)&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/david_syer/status/1272478501128601600?s=12"&gt;The good Dr. Dave Syer has a handy little script you can use if you want to migrate your Git repositories from using &lt;code&gt;master&lt;/code&gt; to some other name, like &lt;code&gt;main&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/errcraft/status/1270405828596494337?s=12"&gt;Netbeans 12 is out&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://blog.trifork.com/2020/05/26/i-used-springs-resttemplate-to-fetch-some-json-and-you-wont-believe-what-happened-next/"&gt;I used Spring¡¯s RestTemplate to fetch some JSON, and you won¡¯t believe what happened next! - Trifork Blog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://www.cloudfoundry.org/events/summit/"&gt;The Cloud Foundry Summit&lt;/a&gt; is just around the corner. Join us virtually on Wednesday, June 24 and Thursday, June 25 to see how Cloud Foundry is changing the world&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://inside.java/2020/06/14/sharat-on-25th-celebrations/"&gt;Sharat Chander on the Java Community and the Ongoing 25th Anniversary Celebrations&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="http://j.mp/3fdSa0M"&gt;JDK 15 has been forked from the mainline and is now in Ramp down Phase One&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;The next segment of the SpringOne Tour kicks off June 24-25! Register to tour the landscape of new #Kubernetes-centric tooling, &lt;a href="https://t.co/pCE7yHYXkb"&gt;including Tekton, Kustomize, and ArgoCD&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://medium.com/@lombos.monika/distributed-tracing-latency-analysis-for-microservices-4ae3b82f3537"&gt;Distributed Tracing &amp;amp; Latency Analysis for Microservices&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Microsoft&amp;rsquo;s Julien Dubois and I did a presentation, &lt;a href="https://www.infoq.com/presentations/azure-spring-cloud/"&gt;&lt;em&gt;Bootiful Azure Spring Cloud&lt;/em&gt;&lt;/a&gt;, which is now available online.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://github.com/confluentinc/examples/tree/latest/clients/cloud/java-springboot"&gt;Use Spring Boot to write an Apache Kafka client application to Confluent Cloud&lt;/a&gt;. With the promo code C50INTEG, you can easily get started with an additional $50 of free Confluent Cloud usage.&lt;/li&gt;
-  &lt;li&gt;Spring Cloud co-founder &lt;a href="https://www.youtube.com/watch?v=ljfarj4cje4&amp;feature=share"&gt;Spencer Gibb talks RSocketIO&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Boot for Apache Geode &amp; VMware GemFire 1.1.8.RELEASE and 1.2.8.RELEASE available!</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/16/spring-boot-for-apache-geode-vmware-gemfire-1-1-8-release-and-1-2-8-release-available" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>John Blum</name>
-    </author>
-    <id>tag:spring.io,2020-06-16:4107</id>
-    <updated>2020-06-16T23:01:56Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;On behalf of the Spring, Apache Geode and VMware GemFire communities, it is my pleasure to announce the release of &lt;em&gt;Spring Boot for  Apache Geode &amp;amp; VMware GemFire&lt;/em&gt; (SBDG) &lt;code&gt;1.1.8.RELEASE&lt;/code&gt; and &lt;code&gt;1.2.8.RELEASE&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;SBDG &lt;code&gt;1.1.8.RELEASE&lt;/code&gt; is based on Spring Boot &lt;code&gt;2.1.15.RELEASE&lt;/code&gt; and SBDG &lt;code&gt;1.2.8.RELEASE&lt;/code&gt; is based on Spring Boot &lt;code&gt;2.2.8.RELEASE&lt;/code&gt;.  Bits for both releases are &lt;a href="https://repo1.maven.org/maven2/org/springframework/geode/spring-geode-starter/"&gt;available&lt;/a&gt; in Maven Central.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;As a friendly reminder, please refer to the &lt;a href="https://github.com/spring-projects/spring-boot-data-geode/wiki/Spring-Boot-for-Apache-Geode-and-Pivotal-GemFire-Version-Compatibility-Matrix#version-compatibility-matrix"&gt;Version Compatibility Matrix&lt;/a&gt; to see how SBDG aligns with Spring, Apache Geode and VMware GemFire versions.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;SBDG &lt;code&gt;1.1.x&lt;/code&gt; is fixed on Spring Data Lovelace, which is in support until October 2020.  However, given SBDG &lt;code&gt;1.1.x&lt;/code&gt; is based on Spring Data Lovelace, which is based on Apache Geode 1.6.0 and VMware GemFire 9.5.4, both of which have reached their EOL, the SBDG &lt;code&gt;1.1.x&lt;/code&gt; release line will effectively only pick up dependency updates until October when SD Lovelace reaches EOL.  No new development is happening SBDG &lt;code&gt;1.1.x&lt;/code&gt;.  You are therefore encouraged to upgrade to SBDG &lt;code&gt;1.2.8.RELEASE&lt;/code&gt; or &lt;code&gt;1.3.0.RELEASE&lt;/code&gt; as soon as possible.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;You can start a new Spring Boot &lt;code&gt;2.2.8.RELEASE&lt;/code&gt; project using Apache Geode at &lt;a href="https://start.spring.io/#!platformVersion=2.2.8.RELEASE&amp;amp;dependencies=geode"&gt;start.spring.io&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;See the &lt;a href="https://github.com/spring-projects/spring-boot-data-geode/blob/1.2.8.RELEASE/spring-geode/src/main/resources/changelog.txt#L7-L29"&gt;changelog&lt;/a&gt; for more details.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="feedback"&gt;&lt;a class="anchor" href="#feedback"&gt;&lt;/a&gt;Feedback&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Feedback is welcomed and appreciated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="https://github.com/spring-projects/spring-boot-data-geode/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot-data-geode/pulls"&gt;PR&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-boot"&gt;StackOverflow&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Boot for Apache Geode &amp; VMware GemFire 1.3.0.RELEASE Available!</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/15/spring-boot-for-apache-geode-vmware-gemfire-1-3-0-release-available" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>John Blum</name>
-    </author>
-    <id>tag:spring.io,2020-06-15:4105</id>
-    <updated>2020-06-15T17:17:38Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;On behalf of the Spring, Apache Geode and VMware GemFire communities, it is my pleasure to announce the release of &lt;em&gt;Spring Boot for Apache Geode and VMware GemFire&lt;/em&gt; (SBDG) &lt;code&gt;1.3.0.RELEASE&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;This release builds on Spring Boot &lt;code&gt;2.3.0.RELEASE&lt;/code&gt; along with the latest Spring Framework (5.2.6), Spring Data (Neumann-GA/2.3.0) and Spring Session (Dragonfruit-GA/2.3.0) bits.  In addition, SBDG &lt;code&gt;1.3.0.RELEASE&lt;/code&gt; pulls in &lt;em&gt;Spring Test for Apache Geode &amp;amp; VMware GemFire&lt;/em&gt; (STDG) &lt;code&gt;0.0.16.RELEASE&lt;/code&gt; giving users more fine-grained control for resource and mock object cleanup.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;You can &lt;a href="https://start.spring.io/#!platformVersion=2.3.0.RELEASE&amp;amp;dependencies=geode"&gt;start&lt;/a&gt; a new Spring Boot project using Apache Geode from &lt;a href="https://start.spring.io"&gt;start.spring.io&lt;/a&gt; using &lt;em&gt;Spring Initializer&lt;/em&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="whats-new"&gt;&lt;a class="anchor" href="#whats-new"&gt;&lt;/a&gt;What&amp;#8217;s New&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The 1.3 GA focused on giving developers the means to load data into the cache during development.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;This puts Spring Boot for Apache Geode on par with Spring Boot&amp;#8217;s support for SQL database initialization. However, SBDG does not stop there!  Additionally, SBDG provides the capability to export data on application shutdown.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Both import and export capabilities are highly useful during development to test, debug and validate the functionality of your Spring Boot applications.  It is also useful for moving data between environments, such as QA back to DEV, for further testing when issues arise.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Learn more about &lt;a href="https://docs.spring.io/spring-boot-data-geode-build/1.3.x/reference/html5/#geode-data-working"&gt;Cache Data Import/Export&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;SBDG also includes several useful extensions to Apache Geode&amp;#8217;s API, which have now been formally &lt;a href="https://docs.spring.io/spring-boot-data-geode-build/1.3.x/reference/html5/#geode-api-extensions"&gt;documented&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Additionally, SBDG now includes &lt;a href="https://docs.spring.io/spring-boot-data-geode-build/1.3.x/reference/html5/#geode-docker"&gt;documentation&lt;/a&gt; for running and using Apache Geode in a Docker Container.  This compliments Spring Boot&amp;#8217;s support for containerization as of the 2.3 release line.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;While these are the main highlights from the 1.3 release, you are welcome to review the &lt;a href="https://github.com/spring-projects/spring-boot-data-geode/blob/1.3.0.RELEASE/spring-geode/src/main/resources/changelog.txt#L7-L37"&gt;changelog&lt;/a&gt; for full release details.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="whats-next"&gt;&lt;a class="anchor" href="#whats-next"&gt;&lt;/a&gt;What&amp;#8217;s Next&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Look for a &lt;code&gt;1.3.1.RELEASE&lt;/code&gt; shortly, tentatively scheduled for Weds, 6/24, as we make further refinements to the Cache Data Import/Export feature, such as the ability to specify resource locations on import and export.  This is useful in a managed, cloud environment (e.g. PCF) where a filesystem is not always readily available.  While JSON files can be included in your app JAR for imports, exporting data is a different story.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;While it is not specific to SBDG, the STDG project will include additional refinements to GemFire/Geode resource cleanup between test cases and test classes, enabled with a new annotation, &lt;code&gt;@EnableGemFireGarbageCollector&lt;/code&gt;. This feature will trigger a new STDG release that will be picked up in 1.3.1.  More details to follow.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="conclusion"&gt;&lt;a class="anchor" href="#conclusion"&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Feedback on this release is welcomed and appreciated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="https://github.com/spring-projects/spring-boot-data-geode/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot-data-geode/pulls"&gt;PR&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-data-gemfire"&gt;StackOverflow&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

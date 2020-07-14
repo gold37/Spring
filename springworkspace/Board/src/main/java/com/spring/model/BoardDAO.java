@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.spring.member.model.MemberVO;
+
 // === #32. DAO 선언 === //
 @Component
 @Repository // ---> 이 안에 @Component 기능이 포함돼있어서 하나만 적어줘도 됨
@@ -45,6 +47,10 @@ public class BoardDAO implements InterBoardDAO {
 	// new해왔던 기존 방식과는 다름.
 	// Type에 따라 Spring 컨테이너가 알아서 root-context.xml에 생성된 org.mybatis.spring.SqlSessionTemplate의 Bean을 sqlsession에 주입시킨다. 
 	// 그러므로 sqlsession은 null이 아니다.
+
+	@Resource 
+	private SqlSessionTemplate sqlsession3;
+	
 	
 	@Override
 	public int test_insert() {
@@ -94,5 +100,58 @@ public class BoardDAO implements InterBoardDAO {
 		return n;
 	}
 
+	
+	
+	@Override
+	public List<TestVO> employees_select() {
+		
+		List<TestVO> empvoList = sqlsession3.selectList("employees.employees_select"); // SQL문 호출함
+		
+		return empvoList;
+	}
+
+
+	/* 	또는 HashMap으로 해보기 ↓
+	@Override
+	public List<HashMap<String, String>> employees_select() {
+		
+		List<HashMap<String, String>> empvoList = sqlsession3.employees_select("employees.employees_select"); // SQL문 호출함
+		
+		return empvoList;
+	}
+
+	*/
+	
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////
+
+	// === #38. 메인 페이지용 이미지 파일 가져오기 === //
+	@Override
+	public List<String> getImgfilenameList() {
+
+		List<String> imgfilenameList = sqlsession.selectList("board.getImgfilenameList");
+															// namespace명.id값
+		return imgfilenameList;
+	}
+	
+	// === #46. 로그인 처리하기 === // 
+	@Override
+	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
+		
+		MemberVO loginuser = sqlsession.selectOne("board.getLoginMember", paraMap); // 한개만 얻어올땐 selectOne
+		
+		return loginuser;
+	}
+	
+	// 마지막 로그인 한 날짜시간 변경(기록)하기
+	@Override
+	public void setLastLoginDate(HashMap<String, String> paraMap) {
+		sqlsession.update("board.setLastLoginDate", paraMap);
+	}
+	
+	
+	
 	
 }

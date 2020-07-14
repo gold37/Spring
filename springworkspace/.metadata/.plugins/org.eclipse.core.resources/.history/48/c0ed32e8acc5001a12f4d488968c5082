@@ -1,0 +1,39 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<% String ctxPath = request.getContextPath(); %>
+    
+    
+<style type="text/css">
+
+
+</style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+	});
+
+</script>
+
+<div style="">
+	<h1>글쓰기</h1>
+	
+	<form name="addFrm">
+		<table id="table">
+			<tr>
+				<th>성명</th>
+				<td>
+					<input type="text" name="name" value="{sessionScope.loginuser.name}" class="short" readonly/>
+				</td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>
+					<input type="text" name="subject" value="{sessionScope.loginuser.name}" class="long" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

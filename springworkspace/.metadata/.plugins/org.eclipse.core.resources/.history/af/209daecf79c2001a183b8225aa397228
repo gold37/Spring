@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<select id="employees_select">
+	select employee_id, first_name || ' ' || last_name AS ename, salary
+	from employees;
+</select>

@@ -259,3 +259,13 @@
 0:0:0:0:0:0:0:1 - - [09/Jul/2020:12:35:18 +0900] "GET /board/ajaxtest/select.action HTTP/1.1" 200 1176
 0:0:0:0:0:0:0:1 - - [09/Jul/2020:12:35:18 +0900] "GET /board/ajaxtest/ajaxtest_form.action HTTP/1.1" 200 2550
 0:0:0:0:0:0:0:1 - - [09/Jul/2020:12:35:18 +0900] "GET /board/ajaxtest/select.action HTTP/1.1" 200 1176
+127.0.0.1 - - [09/Jul/2020:19:41:14 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:41:52 +0900] "GET /board/test_insert.action HTTP/1.1" 500 8206
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:13 +0900] "GET /board/test_select.action HTTP/1.1" 500 34593
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:13 +0900] "GET /favicon.ico HTTP/1.1" 404 818
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:23 +0900] "GET /board/test/test_select.action HTTP/1.1" 404 721
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:35 +0900] "GET /board/ajaxtest/select.action HTTP/1.1" 200 1241
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:50 +0900] "GET /board/ajaxtest/select.action HTTP/1.1" 200 1241
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:57 +0900] "GET /board/ajaxtest/ajaxtest_form.action HTTP/1.1" 200 2550
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:57 +0900] "GET /board/resources/js/jquery-3.3.1.min.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [09/Jul/2020:19:42:57 +0900] "GET /board/ajaxtest/select.action HTTP/1.1" 200 1241
