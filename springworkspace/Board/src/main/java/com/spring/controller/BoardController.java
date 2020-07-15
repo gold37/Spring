@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.board.model.BoardVO;
 import com.spring.common.Sha256;
 import com.spring.member.model.MemberVO;
 import com.spring.model.TestVO;
@@ -509,8 +510,71 @@ public class BoardController {
 		mav.setViewName("board/add.tiles1");
 		//		/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
 		
+		return mav;
+	}
+	
+	
+	// === #54. 게시판 글쓰기 완료 요청 === //
+	@RequestMapping(value="/addEnd.action", method= {RequestMethod.POST})
+	public String addEnd(BoardVO boardvo) {
+		
+		/*
+			== 확인용 ==
+		
+		System.out.println("1. 글쓴이 아이디 : "+boardvo.getFk_userid());
+		System.out.println("2. 글쓴이 이름 : "+boardvo.getName());
+		System.out.println("3. 제목 : "+boardvo.getSubject());
+		System.out.println("4. 내용 : "+boardvo.getContent());
+		System.out.println("5. 글 비밀번호 : "+boardvo.getPw());
+		 
+		 */
+		
+		int n = service.add(boardvo);
+		
+		if(n==1) {
+			return "redirect:/list.action";
+		}
+		else {
+			return "redirect:/add.action";
+		}
+	}
+	
+	// === #58. 글목록 보기 페이지 요청 === // 
+	@RequestMapping(value="/list.action")
+	public ModelAndView list(ModelAndView mav) {
+		
+		// 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기
+		List<BoardVO> boardList = service.getboardList();
+				
+		mav.addObject("boardList", boardList);
+		mav.setViewName("board/list.tiles1");
 		
 		return mav;
 	}
+	
+	// === #62. 글 한개를 보여주는 페이지 요청 === // 
+	@RequestMapping(value="/view.action")
+	public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
+		
+		// 조회하고자 하는 글 번호 받아오기
+		String seq = request.getParameter("seq");
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+
+		String userid = null;
+		
+		if(loginuser != null) {
+			userid = loginuser.getUserid(); // 로그인 한 user의 id를 담음 
+		}
+		
+		BoardVO boardvo = null;
+		
+		// 조회수 올리기 (로그인된 상태에서 내가 쓴 글이 아닌 글을 눌렀을때만 count)
+		boardvo = service.getView(seq, userid); // select(글 한개 가져오기) 와 update(조회수 올리기) 가 동시에 일어나야 함
+		
+		return mav;
+	}
+	
 	
 }

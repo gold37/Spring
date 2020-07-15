@@ -73,3 +73,35 @@ select idx, userid, name, email, gradelevel
 	, trunc( months_between(sysdate, lastLoginDate) ) AS lastlogindategap 
 from mymvc_shopping_member
 where status = 1 and userid = 'jwjw' and pwd = '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382';
+
+
+
+    ------- **** 게시판(답변글쓰기가 없고, 파일첨부도 없는) 글쓰기 **** -------
+desc mymvc_shopping_member;
+
+create table tblBoard
+(seq         number                not null    -- 글번호
+,fk_userid   varchar2(20)          not null    -- 사용자ID
+,name        varchar2(20)          not null    -- 글쓴이 
+,subject     Nvarchar2(200)        not null    -- 글제목
+,content     Nvarchar2(2000)       not null    -- 글내용   -- clob (최대 4GB까지 허용) 
+,pw          varchar2(20)          not null    -- 글암호
+,readCount   number default 0      not null    -- 글조회수
+,regDate     date default sysdate  not null    -- 글쓴시간
+,status      number(1) default 1   not null    -- 글삭제여부   1:사용가능한 글,  0:삭제된글
+,constraint PK_tblBoard_seq primary key(seq)
+,constraint FK_tblBoard_fk_userid foreign key(fk_userid) references mymvc_shopping_member(userid)
+,constraint CK_tblBoard_status check( status in(0,1) )
+);
+
+create sequence boardSeq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+
+select *
+from tblBoard
+order by seq desc;

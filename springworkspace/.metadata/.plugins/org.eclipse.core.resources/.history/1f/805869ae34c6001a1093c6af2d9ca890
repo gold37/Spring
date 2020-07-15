@@ -1,0 +1,92 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<% String ctxPath = request.getContextPath(); %>
+    
+    
+<style type="text/css">
+
+table, th, td, input, textarea {border: solid gray 1px;}
+	
+	#table {border-collapse: collapse;
+	 		width: 900px;
+	 		}
+	#table th, #table td{padding: 5px;}
+	#table th{width: 120px; background-color: #DDDDDD;}
+	#table td{width: 860px;}
+	.long {width: 470px;}
+	.short {width: 120px;}
+
+</style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		
+		
+		
+	}); // end of $(document).ready(function()) ---------------------
+	
+	
+	function goPrint(title) {
+		
+		var sw = screen.width; // 화면의 가로길이
+		var sh = screen.height; // 화면의 세로길이
+		
+		var popw = 800; // 팝업창 가로길이
+		var poph = 600; // 팝업창 세로길이
+		
+		var xpos = (sw-popw)/2; // 화면 중앙에 팝업창 띄우기
+		var ypos = (sh-popw)/2; // 화면 중앙에 팝업창 띄우기
+		
+		var popHeader = "<html><head><title>"+Title+"</title></head><body>";
+		var popContent = document.getElementById("printarea").innerHTML+"<br/>";
+		var popFooter = "</body></html>";
+		
+		var popWin = window.open("","print", "width="+popw+", height="+poph+", top="+ypos+", left="+xpos+", status=yes, scrollbars=yes"); // 윈도우 팝업창 띄우기
+		
+	} // end of function goPrint(title) ------------------
+
+</script>
+
+<div style="padding-left: 10px;">
+	<h1>글쓰기</h1>
+	
+	<div id="printarea">
+		<form name="addFrm">
+			<table id="table">
+				<tr>
+					<th>성명</th>
+					<td>
+						<input type="text" name="name" value="${sessionScope.loginuser.name}" class="short" readonly/>
+					</td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td>
+						<input type="text" name="subject" class="long" />
+					</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>
+						<textarea rows="10" cols="100" style="width: 95%; height: 412px;" name="content"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>글암호</th>
+					<td>
+						<input type="password" name="pw" class="short" />
+					</td>
+				</tr>
+			</table>
+			
+			<div style="margin: 20px;">
+				<button type="button" id="btnWrite">쓰기</button>
+				<button type="button" onclick="javascript:history.back()">취소</button>
+				<button type="button" onclick="goPrint()">인쇄</button>
+			</div>
+		</form>
+	</div>
+</div>

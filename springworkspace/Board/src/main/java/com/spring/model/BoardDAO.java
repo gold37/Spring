@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.spring.board.model.BoardVO;
 import com.spring.member.model.MemberVO;
 
 // === #32. DAO 선언 === //
@@ -150,7 +151,41 @@ public class BoardDAO implements InterBoardDAO {
 	public void setLastLoginDate(HashMap<String, String> paraMap) {
 		sqlsession.update("board.setLastLoginDate", paraMap);
 	}
+
 	
+	// === #56. 글쓰기 (파일첨부가 없는 글쓰기) === //
+	@Override
+	public int add(BoardVO boardvo) {
+
+		int n = sqlsession.insert("board.add", boardvo);
+		
+		return n;
+	}
+
+	
+	// === #60. 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 === // 
+	@Override
+	public List<BoardVO> getboardList() {
+
+		List<BoardVO> boardList = sqlsession.selectList("board.getboardList");
+		
+		return boardList;
+	}
+
+	// === #64. 글 한개 보여주기 === //
+	@Override
+	public BoardVO getView(String seq) {
+		
+		BoardVO boardvo = sqlsession.selectOne("board.getView", seq);
+		
+		return boardvo;
+	}
+
+	// === #65. 글 조회수 1 증가하기 === //
+	@Override
+	public void setAddReadCount(String seq) {
+		sqlsession.update("board.setAddReadCount", seq);
+	}
 	
 	
 	

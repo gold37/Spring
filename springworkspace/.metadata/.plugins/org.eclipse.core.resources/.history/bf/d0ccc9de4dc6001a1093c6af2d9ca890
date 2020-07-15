@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+<% String ctxPath = request.getContextPath(); %>
+
+
+<div style="width: 80%; margin: 0 auto;">
+	   <table id="exampleTbl" style="width: 100%;">
+	      <thead>
+		      <tr>
+		         <th>글번호</th>
+		         <th>제목</th>
+		         <th>성명</th>
+		         <th>날짜</th>
+		         <th>조회수</th>
+		      </tr>
+	      </thead>
+	      <tbody>
+		      <c:forEach var="boardvo" items="${boardList}" varStatus="status">
+		         <tr>
+		            <td>${status.count}</td>
+		            <td>${boardvo.subject}</td>
+		            <td>${boardvo.name}</td>
+		            <td>${boardvo.regDate}</td>
+		            <td>${boardvo.readCount}</td>
+		         </tr>
+		      </c:forEach>
+	      </tbody>
+	   </table>
+   </div>

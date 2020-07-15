@@ -5,20 +5,141 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-13T22:52:49Z</updated>
+  <updated>2020-07-14T20:56:32Z</updated>
+  <entry>
+    <title>This Week in Spring - July 14th, 2020</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/14/this-week-in-spring-july-14th-2020" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-07-14:4130</id>
+    <updated>2020-07-14T20:56:32Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! How&amp;rsquo;re things? Good? Good. I just finished (virtually) presenting for the always-lovely London Java Community this morning. We spoke about Kotlin and Spring and things. It was good. Thank you so much for having me LJC! I also kicked off the epic JetBrains Java Day Online event last Friday. That was a ton of fun! Thank you Jetbrains. I finally, &lt;em&gt;finally&lt;/em&gt;, put some elbow grease into automating a listing of some my activity and so now whenever I publish a new &lt;a href="http://bit.ly/spring-tips-playlist"&gt;&lt;em&gt;Spring Tips&lt;/em&gt;&lt;/a&gt; video, a new &lt;a href="http://bootifulpodcast.fm"&gt;&lt;em&gt;A Bootiful Podcast&lt;/em&gt;&lt;/a&gt; podcast, or commit to a new public appearance, &lt;a href="http://joshlong.com/feed.html"&gt;I&amp;rsquo;ll have information here on my public activity feed page&lt;/a&gt;. The appearances that are there right now don&amp;rsquo;t represent all my upcoming appearances or even all my public appearances which you are free to attend, they only the ones I&amp;rsquo;ve polished off for presentation on this site. Give me a little while to go through the calendar and get more stuff there. There are a ton of things happening and I always do such a poor job of marketing them. Hopefully, this will help.&lt;/p&gt;
+&lt;p&gt;Speaking of abundance, there are a ton of things to get to in this week&amp;rsquo;s roundup so let&amp;rsquo;s get to it:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/07/10/a-bootiful-podcast-spring-data-jdbc-lead-on-spring-data-domain-driven-design-and-more"&gt;A Bootiful Podcast: Spring Data JDBC lead Jens Schauder on Spring Data, domain-driven design and more&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/07/14/building-web-applications-with-spring-boot-and-vaadin"&gt;Building web applications with Spring Boot and Vaadin&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/springcentral/status/1282871251665551365"&gt;Did you know that SpringOne is virtual, and free, &lt;em&gt;this year&lt;/em&gt;? What¡¯re you waiting for? Get ta registerin¡¯!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/mariogray/status/1282895754999164928?s=12"&gt;Don¡¯t miss tomorrow¡¯s Datastax Accelerate watch party&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/VMwareTanzu/status/1281276936623456256"&gt;Find out how Pivotal Labs can help during fully remote work&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/07/10/first-milestone-of-reactor-2020-0-codename-europium"&gt;First milestone of Reactor 2020.0 (Codename Europium)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.infoq.com/news/2020/07/google-cloud-vmware-engine-ga/?itm_source=infoq&amp;itm_medium=popular_widget&amp;itm_campaign=popular_content_list&amp;itm_content="&gt;Google Announces Its Cloud VMware Engine Is Now Generally Available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/springcentral/status/1282765628714160130"&gt;Have you considered getting Spring training and becoming certified?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0"&gt;Introducing Java Functions for Spring Cloud Stream Applications - Part 0&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/ljcjug/status/1282559060202659841?s=12"&gt;I¡¯ll be speaking (virtually) at the London Java Community on Tuesday today!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.marcobehler.com/interviews/spring-interview-oliver-drotbohm"&gt;Marco Behler has another great interview, this time with Oliver Drotbohm&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://inside.java/2020/07/13/jep388-candidate/"&gt;New candidate JEP: 388: Windows/AArch64 Port. This is &lt;em&gt;super&lt;/em&gt; cool in that it&amp;rsquo;s the first JEP from Microsoft! What a wonderful time to be alive!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/springcentral/status/1280893197233905664"&gt;Sign up now to hear from me on July 22-23 at the SpringOne Tour event on microservices. We&amp;rsquo;ll be covering &lt;em&gt;so much stuff&lt;/em&gt; friends. I&amp;rsquo;m looking forward to seeing you there! (And, by the way, if you have things you want to see covered, I&amp;rsquo;m doing an AMA-style session as well. :))&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/therealdanvega/status/1280680125940539392?s=12"&gt;Tech Elevator is now training on Spring Boot&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/lemsipabuse/status/1282634358709530625?s=12"&gt;Thanks for having me!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blogs.vmware.com/opensource/2020/07/09/the-past-present-and-future-of-cloud-foundry-part-2/"&gt;The Past, Present and Future of Cloud Foundry ? Part 2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/rabbitmq/cluster-operator"&gt;The RabbitMQ Cluster Kubernetes Operator is now open source&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/07/14/the-spring-team-wants-to-hear-from-you"&gt;The Spring team wants to hear from you!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/SpringData/status/1280861630616739840"&gt;The team that&amp;rsquo;s been working on building a reactive Neo4J integration has just reached their first milestone: they&amp;rsquo;ve successfully integrated into Spring Data Neo4j. Next up: Spring Boot starters! Congrats to the Spring Data and Neo4j teams!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blogs.vmware.com/opensource/2020/07/14/zedstore-compressed-columnar-storage-for-postgres/"&gt;This is not strictly speaking a JVM or Spring-adjacent post but it&amp;rsquo;s super interesting. In it, Soumyadeep Deep introduces Zedstore, a Compressed Columnar Storage for Postgres, developed jointly by, among others, VMware. This has some interesting opportunities for things like Greenplum.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/SpringData/status/1281508972202262528"&gt;Thorben Janssen has a great video on Spring Data JPA Named Queries&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/VMwareTanzu/status/1283079565242400770"&gt;Three reasons you&amp;rsquo;ll deliver valuable software faster if you write tests first.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/springcloud/status/1283094108681244676"&gt;We&amp;rsquo;d love the community&amp;rsquo;s help as we redesign Spring Cloud Stream around functions.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/VMwareTanzu/status/1282717534710636544"&gt;Which SpringOne track are you most excited about?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>The Spring team wants to hear from you!</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/14/the-spring-team-wants-to-hear-from-you" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Ben Wilcock</name>
+    </author>
+    <id>tag:spring.io,2020-07-14:4129</id>
+    <updated>2020-07-14T14:42:31Z</updated>
+    <content type="html">&lt;p&gt;The ¡°State of Spring 2020¡± report will be published soon, based on the views and experiences of Spring Boot development experts across the globe. In exchange for 15 minutes of your time to complete the survey, you¡¯ll be among the first to receive the survey report and the insights included in it. Please feel free to share this email with your Spring development colleagues. The survey will close at the end of July.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://dimensionalresearch.co1.qualtrics.com/jfe/form/SV_b18rQR0rXsFFQcB"&gt;Take the survey now&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Thanks for sharing your thoughts and experiences with us!&lt;br/&gt;The Spring Team&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Building web applications with Spring Boot and Vaadin</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/14/building-web-applications-with-spring-boot-and-vaadin" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>St?phane Nicoll</name>
+    </author>
+    <id>tag:spring.io,2020-07-13:4127</id>
+    <updated>2020-07-14T13:59:12Z</updated>
+    <content type="html">&lt;blockquote&gt;
+  &lt;p&gt;This post is a guest post by community member &lt;a href="https://twitter.com/marcushellberg"&gt;Marcus Hellberg (@marcushellberg)&lt;/a&gt;. Marcus is the head of the Community team at Vaadin. He likes helping developers discover and learn modern web technologies by creating online content and speaking with developers at events. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Building web apps can be a daunting task. There are many moving parts: you need to define the structure in HTML and then use CSS to make it look the way you want. For frontend apps, you also need to write the app logic in JavaScript and connect it to your backend over REST. And of course, you also need to implement the backend logic and REST services. &lt;/p&gt;
+&lt;p&gt;None of these things are that hard in and of themselves, but building something that both looks good and works well requires mastering several languages and often means spending a lot of time on setup and other tasks that don&amp;rsquo;t add end-user value. &lt;/p&gt;
+&lt;p&gt;Why not consider Vaadin as an alternative? It is far less task intensive and offers many additional benefits.&lt;/p&gt;&lt;h2&gt;&lt;a href="#vaadin-a-modern-web-application-framework-for-java" class="anchor" name="vaadin-a-modern-web-application-framework-for-java"&gt;&lt;/a&gt;Vaadin: a modern web application framework for Java&lt;/h2&gt;
+&lt;p&gt;Vaadin is a full-stack framework for the JVM that has a different approach to building web apps. It comes with:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;An extensive set of customizable UI components with a Java API.&lt;/li&gt;
+  &lt;li&gt;Automatic browser communication.&lt;/li&gt;
+  &lt;li&gt;Powerful data binding and end-to-end type safety.&lt;/li&gt;
+  &lt;li&gt;Built-in support for Spring technologies.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s take a look at a concrete example. Below, we create a view by mapping a &lt;code&gt;VerticalLayout&lt;/code&gt; component to the &lt;code&gt;contacts&lt;/code&gt; path. We use Spring to inject a service class into the constructor for backend access. We then instantiate a Vaadin Grid component and pass in a list of &lt;code&gt;Contact&lt;/code&gt; objects to the grid. Finally, we add an &lt;code&gt;H1&lt;/code&gt; header and the grid to our view to display them. &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Route(&amp;quot;contacts&amp;quot;) // localhost:8080/contacts&#xD;
+public class ContactsView extends VerticalLayout {&#xD;
+&#xD;
+ // Autowire a Spring @Service&#xD;
+ public VaadinView(ContactService service) {&#xD;
+&#xD;
+   // Instantiate Vaadin data grid component&#xD;
+   Grid&amp;lt;Contact&amp;gt; grid = new Grid&amp;lt;&amp;gt;(Contact.class);&#xD;
+&#xD;
+   // Pass in a list of Contacts to show in the grid&#xD;
+   grid.setItems(service.findAll());&#xD;
+  &#xD;
+   // Define columns&#xD;
+   grid.addColumn(Contact::getFirstName).setHeader(&amp;quot;First Name&amp;quot;);&#xD;
+   grid.addColumn(Contact::getLastName).setHeader(&amp;quot;Last Name&amp;quot;);&#xD;
+   grid.addColumn(Contact::getEmail).setHeader(&amp;quot;Email&amp;quot;);&#xD;
+   grid.addColumn(contact -&amp;gt; contact.getCompany().getName()).setHeader(&amp;quot;Company&amp;quot;);&#xD;
+&#xD;
+   // Add components to the layout to show them&#xD;
+   add(&#xD;
+       new H1(&amp;quot;All contacts&amp;quot;),&#xD;
+       grid&#xD;
+   );&#xD;
+ }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the example above, &lt;code&gt;@Route&lt;/code&gt; is a specialized &lt;code&gt;@Component&lt;/code&gt; that makes sure &lt;code&gt;ContractsView&lt;/code&gt; is a regular Spring bean in the context.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/snicoll/20200714/contacts.png" alt="A Vaadin Grid showing contacts from a Spring @Service" /&gt;&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s worth noting here is what we didn&amp;rsquo;t do: we didn&amp;rsquo;t write an HTML template, CSS, JavaScript, or REST endpoints. We used the Spring backend we had and connected it to our UI, all in Java. &lt;/p&gt;&lt;h2&gt;&lt;a href="#easier-vaadin-development-with-spring-boot" class="anchor" name="easier-vaadin-development-with-spring-boot"&gt;&lt;/a&gt;Easier Vaadin development with Spring Boot&lt;/h2&gt;
+&lt;p&gt;Spring Boot is the most popular backend for Vaadin applications. Both Vaadin and Spring Boot are built with the developer in mind. They&amp;rsquo;re easy enough to learn quickly, but robust enough to run in production. &lt;/p&gt;
+&lt;p&gt;Vaadin views are Spring-managed by default, which means you can autowire services and access your database and other server resources. You can use Spring Security to handle authentication and restrict access to parts of your application. &lt;/p&gt;&lt;h2&gt;&lt;a href="#learn-web-app-development-with-spring-boot-and-vaadin" class="anchor" name="learn-web-app-development-with-spring-boot-and-vaadin"&gt;&lt;/a&gt;Learn web app development with Spring Boot and Vaadin&lt;/h2&gt;
+&lt;p&gt;Vaadin recently published &lt;a href="https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin"&gt;a comprehensive tutorial series on Spring Boot and Vaadin&lt;/a&gt;. It&amp;rsquo;s suitable for anyone who has some Java knowledge and wants to learn to build web applications. &lt;/p&gt;
+&lt;p&gt;The text and video tutorial cover the full application-development lifecycle:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Setting up a development environment.&lt;/li&gt;
+  &lt;li&gt;Creating a new Spring Boot project with Vaadin support.&lt;/li&gt;
+  &lt;li&gt;Using Spring Data to access a database.&lt;/li&gt;
+  &lt;li&gt;Vaadin views, layouts, forms and data binding.&lt;/li&gt;
+  &lt;li&gt;Making the app installable and defining an offline fallback page.&lt;/li&gt;
+  &lt;li&gt;Unit and browser testing.&lt;/li&gt;
+  &lt;li&gt;Cloud deployment.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[&lt;a href="https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin"&gt;Read the Spring Boot and Vaadin tutorial&lt;/a&gt;]&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Introducing Java Functions for Spring Cloud Stream Applications - Part 0</title>
     <link rel="alternate" href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0" />
-    <category term="engineering" label="Engineering" />
+    <category term="releases" label="Releases" />
     <author>
       <name>David Turanski</name>
     </author>
     <id>tag:spring.io,2020-07-13:4128</id>
-    <updated>2020-07-13T22:52:49Z</updated>
+    <updated>2020-07-13T22:52:00Z</updated>
     <content type="html">&lt;div id="preamble"&gt;
 &lt;div class="sectionbody"&gt;
 &lt;div class="paragraph"&gt;
-&lt;p&gt;We are happy to announce the release of Spring Cloud Stream applications 2020.0.0-M2. This release is a complete overhaul of the legacy &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt;.
+&lt;p&gt;We are happy to announce the release of &lt;a href="https://github.com/spring-cloud/stream-applications/releases/tag/v2020.0.0-M2"&gt;Spring Cloud Stream applications 2020.0.0-M2&lt;/a&gt;. This release is a complete overhaul of the legacy &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt;.
 Starting with this release, we are moving away from theme-oriented release train names (famous scientists in alphabetical order) to calendar based versioning.
 The current GA release is called &lt;em&gt;Einstein&lt;/em&gt;, and we are pleased to introduce &lt;em&gt;2020.0.0-M2&lt;/em&gt;.
 We are also moving away from the app starters.
@@ -270,14 +391,14 @@ sink.complete();
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
   <entry>
-    <title>A Bootiful Podcast: Spring Data JDBC lead on Spring Data, domain driven design and more</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/10/a-bootiful-podcast-spring-data-jdbc-lead-on-spring-data-domain-driven-design-and-more" />
+    <title>A Bootiful Podcast: Spring Data JDBC lead Jens Schauder on Spring Data, domain driven design and more</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/10/a-bootiful-podcast-spring-data-jdbc-lead-jens-schauder-on-spring-data-domain-driven-design-and-more" />
     <category term="engineering" label="Engineering" />
     <author>
       <name>Josh Long</name>
     </author>
     <id>tag:spring.io,2020-07-10:4126</id>
-    <updated>2020-07-10T00:12:32Z</updated>
+    <updated>2020-07-10T00:12:00Z</updated>
     <content type="html">&lt;p&gt;Hi, Spring fans! Welcome to another installment of a Bootiful Podcast! In this installment &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks about the week that was and talks to the amazing Spring Data JDBC cofounder &lt;a href="https://twitter.com/jensschauder"&gt;Jens Schauder (@jensschauder) &lt;/a&gt; about JPA, JDBC, and domain-driven design. &lt;/p&gt;
 &lt;iframe title="Spring Data JDBC co-founder on JDBC, JPA and domain driven design" src="https://www.podbean.com/media/player/3449z-e2b0f1?from=usersite&amp;vjs=1&amp;skin=1&amp;fonts=Helvetica&amp;auto=0&amp;download=1" height="315" width="100%" style="border: none;" scrolling="no" data-name="pb-iframe-player"&gt;&lt;/iframe&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
@@ -894,521 +1015,6 @@ Artem&lt;/p&gt;
   &lt;li&gt;&lt;a href="https://spdx.org/licenses/"&gt;SPDX&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://github.com/spdx/spdx-maven-plugin"&gt;A Maven plugin supporting SPDX&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>What's new in Spring Boot 2.3</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/18/what-s-new-in-spring-boot-2-3" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Phil Webb</name>
-    </author>
-    <id>tag:spring.io,2020-06-18:4110</id>
-    <updated>2020-06-18T16:17:49Z</updated>
-    <content type="html">&lt;p&gt;Speaker: &lt;a href="http://twitter.com/phillip_webb"&gt;Phil Webb (@phillip_webb)&lt;/a&gt;&lt;/p&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/WL7U-yGfUXA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;&lt;h2&gt;&lt;a href="#timecodes" class="anchor" name="timecodes"&gt;&lt;/a&gt;Timecodes&lt;/h2&gt;
-&lt;p&gt;Use the timecodes below if you want to jump to a specific part of the presentation:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=27"&gt;00:27&lt;/a&gt; - Intro&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=119"&gt;01:59&lt;/a&gt; - Creating the Demo&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=241"&gt;04:01&lt;/a&gt; - Building Docker Images with the Spring Boot Plugin&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=561"&gt;09:21&lt;/a&gt; - Building Docker Images with a Dockerfile&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=1000"&gt;16:40&lt;/a&gt; - Customizing Layers&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=1298"&gt;21:38&lt;/a&gt; - Graceful Shutdown&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=1519"&gt;25:19&lt;/a&gt; - Kubernetes Probes&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=1855"&gt;30:55&lt;/a&gt; - Configuration Properties End-to-End Traceability&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://youtu.be/WL7U-yGfUXA?t=1980"&gt;33:00&lt;/a&gt; - Wrap-up and Upgrade Gotchas&lt;/li&gt;
-&lt;/ul&gt;&lt;h2&gt;&lt;a href="#links" class="anchor" name="links"&gt;&lt;/a&gt;Links&lt;/h2&gt;
-&lt;p&gt;The following links are referenced in the presentation:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Building OCI Images [&lt;a href="https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#build-image"&gt;Maven&lt;/a&gt;|&lt;a href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/#build-image"&gt;Gradle&lt;/a&gt;]&lt;/li&gt;
-  &lt;li&gt;Packaging Layered Jars [&lt;a href="https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#repackage-layers"&gt;Maven&lt;/a&gt;|&lt;a href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/#packaging-layered-jars"&gt;Gradle&lt;/a&gt;]&lt;/li&gt;
-  &lt;li&gt;Customizing Layers [&lt;a href="https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#repackage-layers-configuration"&gt;Maven&lt;/a&gt;|&lt;a href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/#packaging-layers-configuration"&gt;Gradle&lt;/a&gt;]&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#writing-the-dockerfile"&gt;Writing a Dockerfile&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.3-Release-Notes"&gt;Release Notes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-boot/blob/master/CONTRIBUTING.adoc"&gt;Contributing Instructions&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Getting Started With RSocket: Spring Security</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/17/getting-started-with-rsocket-spring-security" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Ben Wilcock</name>
-    </author>
-    <id>tag:spring.io,2020-06-16:4106</id>
-    <updated>2020-06-17T15:00:00Z</updated>
-    <content type="html">&lt;p&gt;&lt;strong&gt;Reading time: about 6 minutes&lt;/strong&gt;&lt;br/&gt;&lt;strong&gt;Coding time: about 20 minutes&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;If you&amp;rsquo;ve been following &lt;a href="https://spring.io/team/benwilcock"&gt;my series on RSocket&lt;/a&gt;, you&amp;rsquo;ve already learned how to build client-server applications with Spring Boot. In today&amp;rsquo;s exercise, you&amp;rsquo;re going to learn how to add security to your RSocket applications. &lt;/p&gt;
-&lt;p&gt;The task of securing RSocket applications is greatly simplified when you use Spring Security. &lt;a href="https://spring.io/projects/spring-security"&gt;Spring Security&lt;/a&gt; is a must-have module for any production application. It allows you to easily plugin many different authentication providers and restricts each user&amp;rsquo;s access to your application based on their identity and their role. &lt;/p&gt;
-&lt;p&gt;As you will see, the code required to secure your application is pretty straightforward. But because security is such a &amp;ldquo;cross-cutting&amp;rdquo; concern, the changes do touch a few different parts of the code. It&amp;rsquo;s not difficult to make these changes yourself, but as ever, the full code sample is available on &lt;a href="https://github.com/benwilcock/spring-rsocket-demo"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; At the time of writing, RSocket¡¯s security extensions are still a work in progress. You can follow their progress &lt;a href="https://github.com/rsocket/rsocket/blob/master/Extensions/Security/Authentication.md"&gt;here&lt;/a&gt;. In this exercise, we¡¯ll be using &lt;a href="https://github.com/rsocket/rsocket/blob/master/Extensions/Security/Simple.md"&gt;Simple Authentication&lt;/a&gt; which carries the warning: ¡°Simple Authentication transmits the username and password in cleartext. Additionally, it does not protect the authenticity or confidentiality of the payload that is transmitted along with it. This means that the Transport that is used should provide both authenticity and confidentiality to protect both the username and password and corresponding payload.¡±&lt;/p&gt;
-&lt;/blockquote&gt;&lt;h2&gt;&lt;a href="#step-1-add-the-spring-security-dependencies" class="anchor" name="step-1-add-the-spring-security-dependencies"&gt;&lt;/a&gt;Step 1: Add The Spring Security Dependencies&lt;/h2&gt;
-&lt;p&gt;In the &lt;code&gt;POM.xml&lt;/code&gt; files for the &lt;code&gt;rsocket-client&lt;/code&gt; and &lt;code&gt;rsocket-server&lt;/code&gt; projects, add the following security dependencies:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint xml"&gt;       &amp;lt;dependency&amp;gt;&#xD;
-            &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;&#xD;
-            &amp;lt;artifactId&amp;gt;spring-boot-starter-security&amp;lt;/artifactId&amp;gt;&#xD;
-        &amp;lt;/dependency&amp;gt;&#xD;
-        &amp;lt;dependency&amp;gt;&#xD;
-            &amp;lt;groupId&amp;gt;org.springframework.security&amp;lt;/groupId&amp;gt;&#xD;
-            &amp;lt;artifactId&amp;gt;spring-security-rsocket&amp;lt;/artifactId&amp;gt;&#xD;
-        &amp;lt;/dependency&amp;gt;&#xD;
-        &amp;lt;dependency&amp;gt;&#xD;
-            &amp;lt;groupId&amp;gt;org.springframework.security&amp;lt;/groupId&amp;gt;&#xD;
-            &amp;lt;artifactId&amp;gt;spring-security-messaging&amp;lt;/artifactId&amp;gt;&#xD;
-        &amp;lt;/dependency&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Together, these dependencies will integrate Spring Security into your RSocket applications. Including the &lt;code&gt;spring-boot-starter-security&lt;/code&gt; package means that much of the configuration happens automatically.&lt;/p&gt;&lt;h2&gt;&lt;a href="#step-2-secure-your-rsocket-server" class="anchor" name="step-2-secure-your-rsocket-server"&gt;&lt;/a&gt;Step 2: Secure Your RSocket Server&lt;/h2&gt;
-&lt;p&gt;Securing your RSocket responders is best done in two stages. First, add a security configuration class, and second, secure your RSocket responder methods.&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Note: These changes will temporarily break the integration test you added in the &lt;a href="https://spring.io/blog/2020/05/25/getting-started-with-rsocket-testing-spring-boot-responders"&gt;last tutorial&lt;/a&gt;. Don&amp;rsquo;t worry; I&amp;rsquo;ll show you how to fix it again later.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;h3&gt;&lt;a href="#2-1-configure-spring-security" class="anchor" name="2-1-configure-spring-security"&gt;&lt;/a&gt;2.1 Configure Spring Security&lt;/h3&gt;
-&lt;p&gt;To customize the configuration of Spring Security, in your &lt;code&gt;rsocket-server&lt;/code&gt; project, add a new class called &lt;code&gt;RSocketSecurityConfig.java&lt;/code&gt; containing the code below. &lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Note: The import statements are missing. Ask your IDE to add them for you when prompted.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Configuration // (1)&#xD;
-@EnableRSocketSecurity // (2)&#xD;
-@EnableReactiveMethodSecurity // (3)&#xD;
-public class RSocketSecurityConfig {&#xD;
-&#xD;
-    @Bean // (4)&#xD;
-    RSocketMessageHandler messageHandler(RSocketStrategies strategies) {&#xD;
-&#xD;
-        RSocketMessageHandler handler = new RSocketMessageHandler();&#xD;
-        handler.getArgumentResolverConfigurer().addCustomResolver(new AuthenticationPrincipalArgumentResolver());&#xD;
-        handler.setRSocketStrategies(strategies);&#xD;
-        return handler;&#xD;
-    }&#xD;
-&#xD;
-    @Bean // (5)&#xD;
-    MapReactiveUserDetailsService authentication() {&#xD;
-        //This is NOT intended for production use (it is intended for getting started experience only)&#xD;
-        UserDetails user = User.withDefaultPasswordEncoder()&#xD;
-                .username(&amp;quot;user&amp;quot;)&#xD;
-                .password(&amp;quot;pass&amp;quot;)&#xD;
-                .roles(&amp;quot;USER&amp;quot;)&#xD;
-                .build();&#xD;
-&#xD;
-        UserDetails admin = User.withDefaultPasswordEncoder()&#xD;
-                .username(&amp;quot;test&amp;quot;)&#xD;
-                .password(&amp;quot;pass&amp;quot;)&#xD;
-                .roles(&amp;quot;NONE&amp;quot;)&#xD;
-                .build();&#xD;
-&#xD;
-        return new MapReactiveUserDetailsService(user, admin);&#xD;
-    }&#xD;
-&#xD;
-    @Bean // (6)&#xD;
-    PayloadSocketAcceptorInterceptor authorization(RSocketSecurity security) {&#xD;
-        security.authorizePayload(authorize -&amp;gt;&#xD;
-                authorize&#xD;
-                        .anyExchange().authenticated() // all connections, exchanges.&#xD;
-        ).simpleAuthentication(Customizer.withDefaults());&#xD;
-        return security.build();&#xD;
-    }&#xD;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Specifying &lt;code&gt;@Configuration&lt;/code&gt; (1) tells Spring Boot that this is a configuration class. The &lt;code&gt;@EnableRSocketSecurity&lt;/code&gt; annotation (2) activates Spring&amp;rsquo;s security features for RSocket. Setting &lt;code&gt;@EnableReactiveMethodSecurity&lt;/code&gt; (3) allows you to secure your reactive methods.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;RSocketMessageHandler&lt;/code&gt; bean configured at (4) automatically converts user credentials into a &lt;code&gt;UserDetails&lt;/code&gt; object. The &lt;code&gt;MapReactiveUserDetailsService&lt;/code&gt; bean set at (5) provides Spring with a hardcoded database of users. Providing the user database manually in this way isn&amp;rsquo;t very realistic, but it will suffice for this demo. You can read up on &lt;a href="https://docs.spring.io/spring-security/site/docs/5.3.2.RELEASE/reference/html5/#modules"&gt;how this is done with other identity providers later&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Finally, the &lt;code&gt;PayloadSocketAcceptorInterceptor&lt;/code&gt; bean at (6) specifies what users can do with the application. In this case, users must authenticate before being connected or granted access to any server-side features.&lt;/p&gt;&lt;h3&gt;&lt;a href="#2-2-secure-your-rsocket-methods" class="anchor" name="2-2-secure-your-rsocket-methods"&gt;&lt;/a&gt;2.2 Secure Your RSocket Methods&lt;/h3&gt;
-&lt;p&gt;The user&amp;rsquo;s role governs the methods accessible to them. This &amp;ldquo;role-based access control&amp;rdquo; is configured in this case using Spring Security&amp;rsquo;s &lt;code&gt;@PreAuthorize&lt;/code&gt; annotation. The following code shows an example of this annotation in action ? securing the &amp;ldquo;fire-and-forget&amp;rdquo; message-mapping in the RSocketController class:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;    @PreAuthorize(&amp;quot;hasRole(&amp;#39;USER&amp;#39;)&amp;quot;) // (1)&#xD;
-    @MessageMapping(&amp;quot;fire-and-forget&amp;quot;)&#xD;
-    public Mono&amp;lt;Void&amp;gt; fireAndForget(final Message request, @AuthenticationPrincipal UserDetails user) { // (2)&#xD;
-        log.info(&amp;quot;Received fire-and-forget request: {}&amp;quot;, request);&#xD;
-        log.info(&amp;quot;Fire-And-Forget initiated by &amp;#39;{}&amp;#39; in the role &amp;#39;{}&amp;#39;&amp;quot;, user.getUsername(), user.getAuthorities());&#xD;
-        return Mono.empty();&#xD;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;@PreAuthorize(&amp;quot;hasRole(&amp;#39;USER&amp;#39;)&amp;quot;)&lt;/code&gt; annotation (1) ensures that only users with the authority ¡®ROLE_USER¡¯ are allowed access to this method. In section 2.1 above, you created a user with this role.&lt;/p&gt;
-&lt;p&gt;If you&amp;rsquo;re particularly eagle-eyed, you&amp;rsquo;ll have noticed two other changes in the &lt;code&gt;fireAndForget()&lt;/code&gt; method&amp;rsquo;s signature. The first is that the method parameters now include &lt;code&gt;@AuthenticationPrincipal UserDetails user&lt;/code&gt; (2). Spring provides this &lt;code&gt;user&lt;/code&gt; object automatically. Second, the return parameter is now &lt;code&gt;Mono&amp;lt;Void&amp;gt;&lt;/code&gt; rather than a regular &amp;lsquo;void.&amp;rsquo; This change is required because &lt;code&gt;@EnableReactiveMethodSecurity&lt;/code&gt; demands that the return values are from &lt;a href="https://projectreactor.io/docs/core/release/reference/#core-features"&gt;project Reactor&lt;/a&gt; (i.e. Flux or Mono).&lt;/p&gt;&lt;h2&gt;&lt;a href="#step-3-add-security-to-your-client" class="anchor" name="step-3-add-security-to-your-client"&gt;&lt;/a&gt;Step 3: Add Security To Your Client&lt;/h2&gt;
-&lt;p&gt;In the code sample, the client has undergone several code changes. Most of them are not related to security. The majority of the changes simply make the client more comfortable to use when working with a secured server-side RSocket responder. In this section, you&amp;rsquo;ll cover only the security changes. See the &lt;a href="https://github.com/benwilcock/spring-rsocket-demo"&gt;code sample&lt;/a&gt; for the additional code.&lt;/p&gt;
-&lt;p&gt;The security changes made to the client-side are all related to how it connects to the RSocket server. The connection code has been moved out of the class constructor and into a new &lt;code&gt;login()&lt;/code&gt; method. This login method expects the user to provide their username and password as they login. These credentials become metadata for the RSocket connection. The code for the login command is below:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;private static final MimeType SIMPLE_AUTH = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString()); // (1)&#xD;
-&#xD;
-@ShellMethod(&amp;quot;Login with your username and password.&amp;quot;)&#xD;
-    public void login(String username, String password) {&#xD;
-        SocketAcceptor responder = RSocketMessageHandler.responder(rsocketStrategies, new ClientHandler());&#xD;
-&#xD;
-        UsernamePasswordMetadata user = new UsernamePasswordMetadata(username, password); // (2)&#xD;
-&#xD;
-        this.rsocketRequester = rsocketRequesterBuilder&#xD;
-                .setupRoute(&amp;quot;shell-client&amp;quot;)&#xD;
-                .setupData(CLIENT_ID)&#xD;
-                .setupMetadata(user, SIMPLE_AUTH) // (3)&#xD;
-                .rsocketStrategies(builder -&amp;gt;&#xD;
-                        builder.encoder(new SimpleAuthenticationEncoder())) // (4)&#xD;
-                .rsocketConnector(connector -&amp;gt; connector.acceptor(responder))&#xD;
-                .connectTcp(&amp;quot;localhost&amp;quot;, 7000)&#xD;
-                .block();&#xD;
-&#xD;
- // ...connection handling code omitted. See the sample for details.&#xD;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This code looks very similar to the old constructor code. The most relevant lines in terms of adding security are as follows:&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;SIMPLE_AUTH&lt;/code&gt; static variable (1) declares how your user object should be encoded when passed as connection metadata. A new &lt;code&gt;UsernamePasswordMetadata&lt;/code&gt; is defined (2), which contains the credentials provided by the user as they login. When connecting (3), the &lt;code&gt;setupMetadata()&lt;/code&gt; method passes the &lt;code&gt;user&lt;/code&gt; object and the encoding mimetype defined at point (1). A new &lt;code&gt;SimpleAuthenticationEncoder&lt;/code&gt; (4) is placed in the &lt;code&gt;RSocketStrategies&lt;/code&gt; used for this connection. This object takes care of encoding the UsernamePasswordMetadata (2) into the correct mimetype (1).&lt;/p&gt;
-&lt;p&gt;Further changes in the sample code allow the user to &lt;code&gt;logout&lt;/code&gt;. This means the user can switch between identities without having to restart the client every time. &lt;/p&gt;&lt;h2&gt;&lt;a href="#step-4-test-the-security-works" class="anchor" name="step-4-test-the-security-works"&gt;&lt;/a&gt;Step 4: Test The Security Works&lt;/h2&gt;
-&lt;p&gt;The moment you added Spring Security&amp;rsquo;s dependencies and your security configuration class, your code became more secure. At the same time, your integration test stopped working because it doesn&amp;rsquo;t respect the new security settings.&lt;/p&gt;
-&lt;p&gt;To fix the &lt;code&gt;RSocketClientToServerITest.java&lt;/code&gt; integration test, modify the &lt;code&gt;setupOnce()&lt;/code&gt; method so that a user object added to the connection metadata. The code required looks very similar to that you just saw in the client&amp;rsquo;s login method:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;@BeforeAll&#xD;
-    public static void setupOnce(@Autowired RSocketRequester.Builder builder,&#xD;
-                                 @LocalRSocketServerPort Integer port,&#xD;
-                                 @Autowired RSocketStrategies strategies) {&#xD;
-&#xD;
-        SocketAcceptor responder = RSocketMessageHandler.responder(strategies, new ClientHandler());&#xD;
-        credentials = new UsernamePasswordMetadata(&amp;quot;user&amp;quot;, &amp;quot;pass&amp;quot;);&#xD;
-        mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.getString());&#xD;
-&#xD;
-        requester = builder&#xD;
-                .setupRoute(&amp;quot;shell-client&amp;quot;)&#xD;
-                .setupData(UUID.randomUUID().toString())&#xD;
-                .setupMetadata(credentials, mimeType)&#xD;
-                .rsocketStrategies(b -&amp;gt;&#xD;
-                        b.encoder(new SimpleAuthenticationEncoder()))&#xD;
-                .rsocketConnector(connector -&amp;gt; connector.acceptor(responder))&#xD;
-                .connectTcp(&amp;quot;localhost&amp;quot;, port)&#xD;
-                .block();&#xD;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;With the credentials now added to the connection, the test functions correctly. To verify this, at the terminal, navigate to your &lt;code&gt;rsocket-server&lt;/code&gt; folder and run the Maven &lt;code&gt;verify&lt;/code&gt; command. This action will run the revised integration test.&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint bash"&gt;./mvnw clean verify
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Congratulations. Your integration test now runs and passes once again!&lt;/p&gt;&lt;h2&gt;&lt;a href="#there-rsquo-s-more" class="anchor" name="there-rsquo-s-more"&gt;&lt;/a&gt;There&amp;rsquo;s More&lt;/h2&gt;
-&lt;p&gt;I&amp;rsquo;ve included two further integration tests in the &lt;code&gt;rsocket-server&lt;/code&gt; sample code. The first, &lt;code&gt;RSocketClientToSecuredServerITest.java&lt;/code&gt; uses the &lt;code&gt;test&lt;/code&gt; user credentials from the &lt;code&gt;RSocketSecurityConfig&lt;/code&gt; class to confirm that the server-side methods are not accessible to users who don&amp;rsquo;t have the &lt;code&gt;USER&lt;/code&gt; role. The test method code looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;    @Test&#xD;
-    public void testFireAndForget() {&#xD;
-        // Send a fire-and-forget message&#xD;
-        Mono&amp;lt;Void&amp;gt; result = requester&#xD;
-                .route(&amp;quot;fire-and-forget&amp;quot;)&#xD;
-                .data(new Message(&amp;quot;TEST&amp;quot;, &amp;quot;Fire-And-Forget&amp;quot;))&#xD;
-                .retrieveMono(Void.class);&#xD;
-&#xD;
-        // Assert that the user &amp;#39;test&amp;#39; is DENIED access to the method.&#xD;
-        StepVerifier&#xD;
-                .create(result)&#xD;
-                .verifyErrorMessage(&amp;quot;Denied&amp;quot;); // (1)&#xD;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The test asserts that the result of the fire and forget call should be an exception stating that the user is &amp;ldquo;Denied&amp;rdquo; access (1).&lt;/p&gt;
-&lt;p&gt;The other new test asserts that users with fake credentials can&amp;rsquo;t obtain an RSocket connection. The code for this test is in the file &lt;code&gt;RSocketClientDeniedConnectionToSecuredServerITest.java&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;And finally, feel free to try the updated &lt;code&gt;rsocket-client&lt;/code&gt; at the command line. You can login using the various credentials and try accessing the server-side methods for yourself. &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint bash"&gt;cd rsocket-client&#xD;
-./mvnw clean package spring-boot:run&#xD;
-&#xD;
-# To get help with all the available commands&#xD;
-shell:&amp;gt; help&#xD;
-&#xD;
-# To access to all features.&#xD;
-shell:&amp;gt; login user pass &#xD;
-&#xD;
-# To access no features.&#xD;
-shell:&amp;gt; login test pass&#xD;
-&#xD;
-# To exit the client&#xD;
-shell:&amp;gt; exit
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That&amp;rsquo;s it for this tour of RSocket and Spring Security. I hope you found it useful. You can also see how Josh Long handles the same topic in &lt;a href="https://youtu.be/ER-mbWp2xYg"&gt;this Spring Tips video&lt;/a&gt;. As usual, feel free to like, share, and leave a comment below. For future news and updates, why not &lt;a href="https://twitter.com/benbravo73"&gt;follow me on Twitter&lt;/a&gt;?&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Tips: Spring and GraalVM (pt. 2)</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/16/spring-tips-spring-and-graalvm-pt-2" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2020-06-17:4109</id>
-    <updated>2020-06-16T23:50:00Z</updated>
-    <content type="html">&lt;p&gt;speaker: &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt;&lt;/p&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/aTNLtU5YYtg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
-&lt;p&gt;Hi Spring fans! Welcome to a very special, interregnum episode of Spring Tips where we revisit Spring and GraalVM native images. I wanted to get this video out in light of the recent &lt;a href="https://spring.io/blog/2020/06/10/the-path-towards-spring-boot-native-applications"&gt;Spring Graal 0.7.1&lt;/a&gt; release which &lt;em&gt;drastically&lt;/em&gt; simplifies things even compared to the last time we looked at Spring and Graal &lt;em&gt;waaay&lt;/em&gt; &lt;a href="https://spring.io/blog/2020/04/16/spring-tips-the-graalvm-native-image-builder-feature"&gt;back in April 2020&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;TL;DR: GraalVm is a JIT replacement that you can use with a stock-standard JVM, and that&amp;rsquo;s worth looking into in its own right. GraalVM &lt;em&gt;also&lt;/em&gt; offers a separate feature supporting native image compilation. This &lt;code&gt;native-image&lt;/code&gt; builder takes bytecode and turns it into an architecture-specific binary that sheds the JVM and embeds something called SubstrateVM. Native images are &lt;em&gt;fast&lt;/em&gt; to startup and they take &lt;em&gt;way&lt;/em&gt; less memory at runtime. These qualities make it desirable in a containerized, cloud-centric environment. &lt;/p&gt;
-&lt;p&gt;In the April installment, I had to write out heaps of hand-crafted artisanal configuration. In this latest edition, it&amp;rsquo;s possible to get a huge swath of applications working without variable configuration. In the video, I demonstrated how to get a Spring Data JPA (with Hibernate) and Apache Tomcat working. I also demonstrated how to get a reactive application working. Let&amp;rsquo;s look at the reactive application first and then we&amp;rsquo;ll look at the JPA example. The steps we&amp;rsquo;ll take in the first example are common to most applications. &lt;/p&gt;
-&lt;p&gt;We&amp;rsquo;re going to use GraalVM and Java 8 for this project. I&amp;rsquo;m using SDKManager to install various versions of Java: &lt;code&gt;sdk install java 20.1.0.r8-grl&lt;/code&gt;. Then, you can optionally make it the default: &lt;code&gt;sdk default java 20.1.0.r8-grl&lt;/code&gt;. You&amp;rsquo;ll also need to install the native image builder into your GraalVM installation. Use &lt;code&gt;gu install native-image&lt;/code&gt;. Now we can build the application. &lt;/p&gt;&lt;h2&gt;&lt;a href="#a-reactive-example" class="anchor" name="a-reactive-example"&gt;&lt;/a&gt;A Reactive Example&lt;/h2&gt;
-&lt;p&gt;First, go to &lt;a href="http://start.Spring.io"&gt;the Spring Initializr&lt;/a&gt; and generate a new project with &lt;code&gt;R2DBC&lt;/code&gt;, &lt;code&gt;Lombok&lt;/code&gt;, &lt;code&gt;H2&lt;/code&gt;, &lt;code&gt;Reactive Web&lt;/code&gt; and use Java 8. &lt;/p&gt;
-&lt;p&gt;You&amp;rsquo;ve seen the Java code before:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;package com.example.reactive;&#xD;
-&#xD;
-import lombok.AllArgsConstructor;&#xD;
-import lombok.Data;&#xD;
-import lombok.NoArgsConstructor;&#xD;
-import lombok.RequiredArgsConstructor;&#xD;
-import org.springframework.boot.SpringApplication;&#xD;
-import org.springframework.boot.autoconfigure.SpringBootApplication;&#xD;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;&#xD;
-import org.springframework.boot.context.event.ApplicationReadyEvent;&#xD;
-import org.springframework.context.ApplicationListener;&#xD;
-import org.springframework.data.annotation.Id;&#xD;
-import org.springframework.data.r2dbc.core.DatabaseClient;&#xD;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;&#xD;
-import org.springframework.stereotype.Component;&#xD;
-import org.springframework.web.bind.annotation.GetMapping;&#xD;
-import org.springframework.web.bind.annotation.RestController;&#xD;
-import reactor.core.publisher.Flux;&#xD;
-&#xD;
-@SpringBootApplication(&#xD;
-        exclude = SpringDataWebAutoConfiguration.class,&#xD;
-        proxyBeanMethods = false&#xD;
-)&#xD;
-public class ReactiveApplication {&#xD;
-&#xD;
-    public static void main(String[] args) {&#xD;
-        SpringApplication.run(ReactiveApplication.class, args);&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-&#xD;
-&#xD;
-@RestController&#xD;
-@RequiredArgsConstructor&#xD;
-class CustomerRestController {&#xD;
-&#xD;
-    private final CustomerRepository customerRepository;&#xD;
-&#xD;
-    @GetMapping(&amp;quot;/customers&amp;quot;)&#xD;
-    Flux&amp;lt;Customer&amp;gt; customers() {&#xD;
-        return this.customerRepository.findAll();&#xD;
-    }&#xD;
-}&#xD;
-&#xD;
-@Component&#xD;
-@RequiredArgsConstructor&#xD;
-class Initializer implements ApplicationListener&amp;lt;ApplicationReadyEvent&amp;gt; {&#xD;
-&#xD;
-    private final CustomerRepository customerRepository;&#xD;
-&#xD;
-    private final DatabaseClient databaseClient;&#xD;
-&#xD;
-    @Override&#xD;
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {&#xD;
-        Flux&amp;lt;Customer&amp;gt; save = Flux.just(&amp;quot;Madhura&amp;quot;, &amp;quot;Dr. Syer&amp;quot;)&#xD;
-                .map(name -&amp;gt; new Customer(null, name))&#xD;
-                .flatMap(this.customerRepository::save);&#xD;
-&#xD;
-        String sql = &amp;quot;create table CUSTOMER(id serial primary key, name varchar(255))&amp;quot;;&#xD;
-&#xD;
-        this.databaseClient&#xD;
-                .execute(sql)&#xD;
-                .fetch()&#xD;
-                .rowsUpdated()&#xD;
-                .thenMany(save)&#xD;
-                .thenMany(this.customerRepository.findAll())&#xD;
-                .subscribe(System.out::println);&#xD;
-    }&#xD;
-}&#xD;
-&#xD;
-interface CustomerRepository extends ReactiveCrudRepository&amp;lt;Customer, Integer&amp;gt; {&#xD;
-&#xD;
-}&#xD;
-&#xD;
-@Data&#xD;
-@AllArgsConstructor&#xD;
-@NoArgsConstructor&#xD;
-class Customer {&#xD;
-&#xD;
-    @Id&#xD;
-    private Integer id;&#xD;
-    private String name;&#xD;
-&#xD;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The only thing worth noting, as it pertains to Graal and native images anyway, is that we&amp;rsquo;ve disabled the creation of proxies for &lt;code&gt;@Configuration&lt;/code&gt; class (using &lt;code&gt;proxyBeanMethods = false&lt;/code&gt;) and excluded the &lt;code&gt;SpringDataWebAutoConfiguration.class&lt;/code&gt; Java autoconfiguration. Hopefully, that last bit will be irrelevant in the near-term future. &lt;/p&gt;
-&lt;p&gt;That&amp;rsquo;s the application. Start it and you&amp;rsquo;ll see it works. We need to change the build a smidge to accommodate Graal as well. You&amp;rsquo;ll need the snapshot and milestone Spring artifact repositories in your build. &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint xml"&gt;    &amp;lt;repositories&amp;gt;&#xD;
-        &amp;lt;repository&amp;gt;&#xD;
-            &amp;lt;id&amp;gt;spring-milestones&amp;lt;/id&amp;gt;&#xD;
-            &amp;lt;name&amp;gt;Spring Milestones&amp;lt;/name&amp;gt;&#xD;
-            &amp;lt;url&amp;gt;https://repo.spring.io/milestone&amp;lt;/url&amp;gt;&#xD;
-        &amp;lt;/repository&amp;gt;&#xD;
-        &amp;lt;repository&amp;gt;&#xD;
-            &amp;lt;id&amp;gt;spring-snapshots&amp;lt;/id&amp;gt;&#xD;
-            &amp;lt;name&amp;gt;Spring Snapshots&amp;lt;/name&amp;gt;&#xD;
-            &amp;lt;url&amp;gt;https://repo.spring.io/snapshot&amp;lt;/url&amp;gt;&#xD;
-            &amp;lt;snapshots&amp;gt;&#xD;
-                &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&#xD;
-            &amp;lt;/snapshots&amp;gt;&#xD;
-        &amp;lt;/repository&amp;gt;&#xD;
-    &amp;lt;/repositories&amp;gt;&#xD;
-    &amp;lt;pluginRepositories&amp;gt;&#xD;
-        &amp;lt;pluginRepository&amp;gt;&#xD;
-            &amp;lt;id&amp;gt;spring-milestones&amp;lt;/id&amp;gt;&#xD;
-            &amp;lt;name&amp;gt;Spring Milestones&amp;lt;/name&amp;gt;&#xD;
-            &amp;lt;url&amp;gt;https://repo.spring.io/milestone&amp;lt;/url&amp;gt;&#xD;
-        &amp;lt;/pluginRepository&amp;gt;&#xD;
-        &amp;lt;pluginRepository&amp;gt;&#xD;
-            &amp;lt;id&amp;gt;spring-snapshots&amp;lt;/id&amp;gt;&#xD;
-            &amp;lt;name&amp;gt;Spring Snapshots&amp;lt;/name&amp;gt;&#xD;
-            &amp;lt;url&amp;gt;https://repo.spring.io/snapshot&amp;lt;/url&amp;gt;&#xD;
-            &amp;lt;snapshots&amp;gt;&#xD;
-                &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&#xD;
-            &amp;lt;/snapshots&amp;gt;&#xD;
-        &amp;lt;/pluginRepository&amp;gt;&#xD;
-    &amp;lt;/pluginRepositories&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then, add these three Maven dependencies. &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint xml"&gt;    &amp;lt;dependency&amp;gt;&#xD;
-        &amp;lt;groupId&amp;gt;org.springframework.experimental&amp;lt;/groupId&amp;gt;&#xD;
-        &amp;lt;artifactId&amp;gt;spring-graalvm-native&amp;lt;/artifactId&amp;gt;&#xD;
-        &amp;lt;version&amp;gt;0.7.1&amp;lt;/version&amp;gt;&#xD;
-    &amp;lt;/dependency&amp;gt;&#xD;
-    &amp;lt;dependency&amp;gt;&#xD;
-        &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;&#xD;
-        &amp;lt;artifactId&amp;gt;spring-boot-configuration-processor&amp;lt;/artifactId&amp;gt;&#xD;
-        &amp;lt;optional&amp;gt;true&amp;lt;/optional&amp;gt;&#xD;
-    &amp;lt;/dependency&amp;gt;&#xD;
-    &amp;lt;dependency&amp;gt;&#xD;
-        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;&#xD;
-        &amp;lt;artifactId&amp;gt;spring-context-indexer&amp;lt;/artifactId&amp;gt;&#xD;
-    &amp;lt;/dependency&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That&amp;rsquo;s it! In the code for this repository, &lt;a href="https://github.com/spring-tips/spring-and-graal-part-2/tree/master/mongodb"&gt;I&amp;rsquo;ve also got a Spring Data MongoDB demonstration as well&lt;/a&gt;. It is a trivial Spring Data MongoDB application that uses Spring MVC. This example requires the exact same dependencies and attributes as the reactive one I&amp;rsquo;ve just shown you. &lt;/p&gt;
-&lt;p&gt;Now we&amp;rsquo;ll need to compile it. First, run the normal &lt;code&gt;mvn clean package&lt;/code&gt;. Then, we&amp;rsquo;ll need to pass the &lt;code&gt;.jar&lt;/code&gt; into the Graal &lt;code&gt;native-image&lt;/code&gt; builder. I have a script, &lt;code&gt;compile.sh&lt;/code&gt;, that I reuse for all three examples. Here it is.&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint shell"&gt;#!/usr/bin/env bash&#xD;
-&#xD;
-ARTIFACT=${1}&#xD;
-MAINCLASS=${2}&#xD;
-VERSION=${3}&#xD;
-&#xD;
-JAR=&amp;quot;${ARTIFACT}-${VERSION}.jar&amp;quot;&#xD;
-&#xD;
-rm -rf target&#xD;
-mkdir -p target/native-image&#xD;
-mvn -ntp package  &#xD;
-rm -f $ARTIFACT&#xD;
-cd target/native-image&#xD;
-jar -xvf ../$JAR  &#xD;
-cp -R META-INF BOOT-INF/classes&#xD;
-&#xD;
-LIBPATH=`find BOOT-INF/lib | tr &amp;#39;\n&amp;#39; &amp;#39;:&amp;#39;`&#xD;
-CP=BOOT-INF/classes:$LIBPATH&#xD;
-GRAALVM_VERSION=`native-image --version`&#xD;
-&#xD;
-time native-image \&#xD;
-  --verbose \&#xD;
-  -H:EnableURLProtocols=http \&#xD;
-  -H:+RemoveSaturatedTypeFlows \&#xD;
-  -H:Name=$ARTIFACT \&#xD;
-  -Dspring.native.verbose=true \&#xD;
-  -Dspring.native.remove-jmx-support=true \&#xD;
-  -Dspring.native.remove-spel-support=true \&#xD;
-  -Dspring.native.remove-yaml-support=true \&#xD;
-  -cp $CP $MAINCLASS  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;When you use this script, you need to provide three things: the build artifact, the main-class name, and the version. So, for this application, we can run it like this in the same directory: &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint shell"&gt;./compile.sh reactive com.example.reactive.ReactiveApplication 0.0.1-SNAPSHOT
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And then go make a cup of coffee. A quick one. Because this will take at least three minutes. &lt;/p&gt;&lt;h2&gt;&lt;a href="#jpa" class="anchor" name="jpa"&gt;&lt;/a&gt;JPA&lt;/h2&gt;
-&lt;p&gt;Done? Good. Let&amp;rsquo;s build another example, this time using Spring Data JPA (Hibernate) and Spring MVC (with Apache Tomcat). &lt;/p&gt;
-&lt;p&gt;Go to the Spring Initializr, generate another project. This time, specify &lt;code&gt;JPA&lt;/code&gt;, &lt;code&gt;H2&lt;/code&gt;, &lt;code&gt;Web&lt;/code&gt; and then click &lt;code&gt;Generate&lt;/code&gt;. Here&amp;rsquo;s the code. &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;package com.example.jpa;&#xD;
-&#xD;
-import lombok.AllArgsConstructor;&#xD;
-import lombok.Data;&#xD;
-import lombok.NoArgsConstructor;&#xD;
-import lombok.RequiredArgsConstructor;&#xD;
-import org.springframework.boot.SpringApplication;&#xD;
-import org.springframework.boot.autoconfigure.SpringBootApplication;&#xD;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;&#xD;
-import org.springframework.boot.context.event.ApplicationReadyEvent;&#xD;
-import org.springframework.context.ApplicationListener;&#xD;
-import org.springframework.context.annotation.Bean;&#xD;
-import org.springframework.data.jpa.repository.JpaRepository;&#xD;
-import org.springframework.stereotype.Component;&#xD;
-import org.springframework.web.bind.annotation.GetMapping;&#xD;
-import org.springframework.web.bind.annotation.RestController;&#xD;
-&#xD;
-import javax.persistence.Entity;&#xD;
-import javax.persistence.GeneratedValue;&#xD;
-import javax.persistence.Id;&#xD;
-import java.util.Collection;&#xD;
-import java.util.stream.Stream;&#xD;
-&#xD;
-@SpringBootApplication(&#xD;
-        exclude = SpringDataWebAutoConfiguration.class,&#xD;
-        proxyBeanMethods = false&#xD;
-)&#xD;
-public class JpaApplication {&#xD;
-&#xD;
-    public static void main(String[] args) {&#xD;
-        SpringApplication.run(JpaApplication.class, args);&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-&#xD;
-&#xD;
-@RestController&#xD;
-@RequiredArgsConstructor&#xD;
-class CustomerRestController {&#xD;
-&#xD;
-    private final CustomerRepository customerRepository;&#xD;
-&#xD;
-    @GetMapping(&amp;quot;/customers&amp;quot;)&#xD;
-    Collection&amp;lt;Customer&amp;gt; customers() {&#xD;
-        return this.customerRepository.findAll();&#xD;
-    }&#xD;
-}&#xD;
-&#xD;
-@Component&#xD;
-@RequiredArgsConstructor&#xD;
-class Initializer implements ApplicationListener&amp;lt;ApplicationReadyEvent&amp;gt; {&#xD;
-&#xD;
-    private final CustomerRepository customerRepository;&#xD;
-&#xD;
-    @Override&#xD;
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {&#xD;
-        Stream.of(&amp;quot;Madhura&amp;quot;, &amp;quot;Dr. Syer&amp;quot;)&#xD;
-                .map(name -&amp;gt; new Customer(null, name))&#xD;
-                .map(this.customerRepository::save)&#xD;
-                .forEach(System.out::println);&#xD;
-    }&#xD;
-}&#xD;
-&#xD;
-interface CustomerRepository extends JpaRepository&amp;lt;Customer, Integer&amp;gt; {&#xD;
-&#xD;
-}&#xD;
-&#xD;
-@Entity&#xD;
-@Data&#xD;
-@AllArgsConstructor&#xD;
-@NoArgsConstructor&#xD;
-class Customer {&#xD;
-&#xD;
-    @Id&#xD;
-    @GeneratedValue&#xD;
-    private Integer id;&#xD;
-    private String name;&#xD;
-&#xD;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now, this application uses JPA (and Hibernate). Hibernate, like Spring, can do a lot of dynamic things at runtime. Graal &lt;em&gt;hates&lt;/em&gt; that. So we need to get Hibernate to enhance the entities in our application at build time. Add the following Maven plugin to your build. &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint xml"&gt;&amp;lt;plugin&amp;gt;&#xD;
-    &amp;lt;groupId&amp;gt;org.hibernate.orm.tooling&amp;lt;/groupId&amp;gt;&#xD;
-    &amp;lt;artifactId&amp;gt;hibernate-enhance-maven-plugin&amp;lt;/artifactId&amp;gt;&#xD;
-    &amp;lt;version&amp;gt;${hibernate.version}&amp;lt;/version&amp;gt;&#xD;
-    &amp;lt;executions&amp;gt;&#xD;
-        &amp;lt;execution&amp;gt;&#xD;
-            &amp;lt;configuration&amp;gt;&#xD;
-                &amp;lt;failOnError&amp;gt;true&amp;lt;/failOnError&amp;gt;&#xD;
-                &amp;lt;enableLazyInitialization&amp;gt;true&amp;lt;/enableLazyInitialization&amp;gt;&#xD;
-                &amp;lt;enableDirtyTracking&amp;gt;true&amp;lt;/enableDirtyTracking&amp;gt;&#xD;
-                &amp;lt;enableExtendedEnhancement&amp;gt;false&amp;lt;/enableExtendedEnhancement&amp;gt;&#xD;
-            &amp;lt;/configuration&amp;gt;&#xD;
-            &amp;lt;goals&amp;gt;&#xD;
-                &amp;lt;goal&amp;gt;enhance&amp;lt;/goal&amp;gt;&#xD;
-            &amp;lt;/goals&amp;gt;&#xD;
-        &amp;lt;/execution&amp;gt;&#xD;
-    &amp;lt;/executions&amp;gt;&#xD;
-&amp;lt;/plugin&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The last thing we&amp;rsquo;ll need to do is to tell Hibernate, at runtime, to &lt;em&gt;not&lt;/em&gt; do any enhancement. Create a file, &lt;code&gt;src/main/resources/hibernate.properties&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint properties"&gt;hibernate.bytecode.provider=none
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you can compile the application, the same as you did the reactive one, swapping out the main-class. Give it a few minutes. Now you should have two different applications in the &lt;code&gt;target/native-image&lt;/code&gt; directory of each application. Run them. &lt;/p&gt;
-&lt;p&gt;On my machine, the &lt;code&gt;reactive&lt;/code&gt; application spins up in 0.106 seconds. The &lt;code&gt;jpa&lt;/code&gt; application starts up in 0.181. Fast startup and - the best part - at runtime, these applications will take &lt;em&gt;tens&lt;/em&gt; of megabytes, not &lt;em&gt;hundreds&lt;/em&gt; (or &lt;em&gt;thousands&lt;/em&gt;) as a typical JVM-based application might. &lt;/p&gt;&lt;h2&gt;&lt;a href="#the-next-steps" class="anchor" name="the-next-steps"&gt;&lt;/a&gt;The Next Steps&lt;/h2&gt;
-&lt;p&gt;I can&amp;rsquo;t wait until the Spring Graal 0.8.0 release which will, among other things, baseline on some of the many improvements in Spring Framework 5.3, and possibly include a facility to convert &lt;code&gt;@Configuration&lt;/code&gt;-centric Java configurations into Spring&amp;rsquo;s &amp;ldquo;functional configuration,&amp;rdquo; which requires no proxies or reflection and which is more resource-efficient. I looked at functional configuration in another Spring Tips installment &lt;a href="https://www.youtube.com/watch?v=Q_P28p7XsbQ&amp;t=1s"&gt;more than three years ago&lt;/a&gt;. &lt;/p&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

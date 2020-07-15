@@ -1,0 +1,9 @@
+package com.spring.board.model;
+
+public class BoardVO {
+
+	// === #52. VO 생성하기 === //
+	//		먼저, 오라클에서 tblBoard 테이블을 생성해야한다.
+	
+	
+}

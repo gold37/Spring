@@ -99,4 +99,25 @@
 	 </update>
 	 
 	 
+	 <!-- === #57. 글쓰기 (파일첨부가 없는 글쓰기) === -->
+	 <insert id="add" parameterType="com.spring.board.model.BoardVO">
+	 	insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
+	 	values(boardSeq.nextval, #{fk_userid}, #{name}, #{subject}, #{content}, #{pw}, default, default, default)
+	 							<!-- ▲ BoardVO에서 get다음 들어가는 이름 -->
+	 </insert>
+	 
+	 
+	 <!-- === #61. 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 === -->
+	 <select id="getboardList" resultType="com.spring.board.model.BoardVO" >
+	 	select seq, fk_userid, subject, name, regDate, readCount
+	 	from tblBoard
+	 	where status = 1
+	 	order by seq desc
+	 </select>
+	 
+	 
+	 <!-- === #66. (댓글쓰기 없는 게시판에서) 글 1개 보여주기 === -->
+	 	 
+	 
+	 
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.board.model.BoardVO;
 import com.spring.common.AES256;
 import com.spring.member.model.MemberVO;
 import com.spring.model.InterBoardDAO;
@@ -147,6 +148,47 @@ public class BoardService implements InterBoardService {
 		}
 		
 		return loginuser;
+	}
+
+
+	
+	// === #55. 글쓰기 (파일첨부가 없는 글쓰기) === //
+	@Override
+	public int add(BoardVO boardvo) {
+
+		// db에 보내주기
+		int n = dao.add(boardvo);
+		
+		return n;
+	}
+
+
+	// === #59. 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 === // 
+	@Override
+	public List<BoardVO> getboardList() {
+
+		List<BoardVO> boardList = dao.getboardList();
+		
+		return boardList;
+	}
+
+	// === #63. 글 조회수 증가와함께 글 한개 조회하기 === //
+	// 먼저, 로그인을 한 상태에서 다른 사람의 글을 조회했을때 (조회수 1증가)
+	@Override
+	public BoardVO getView(String seq, String userid) {
+						// userid는 로그인을 한 상태라면 로그인한 사용자의 id이고, 아니면 null
+		BoardVO boardvo = dao.getView(seq);
+		
+		if(boardvo != null &&
+		   !boardvo.getFk_userid().equals(userid)) {
+			// 글 조회수 증가는 다른 사람의 글을 읽을때만 증가하도록 해야한다.
+			// 로그인하지 않은 상태에서는 글 조회수 증가는 없다.
+			
+			dao.setAddReadCount(seq); // 글 조회수 1 증가하기
+			boardvo = dao.getView(seq);
+		}
+		
+		return null;
 	}
 
 
