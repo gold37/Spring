@@ -1,9 +1,0 @@
-package com.spring.model2;
-
-import java.util.List;
-
-public interface InterBoardDAO {
-
-	
-	
-}

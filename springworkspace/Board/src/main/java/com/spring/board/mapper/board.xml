@@ -117,7 +117,44 @@
 	 
 	 
 	 <!-- === #66. (댓글쓰기 없는 게시판에서) 글 1개 보여주기 === -->
-	 	 
+	 <select id="getView" parameterType="String" resultType="com.spring.board.model.BoardVO" >
+		select  previousseq, previoussubject, 
+		        seq, fk_userid, name, subject, content, readCount, regDate, 
+		        nextseq, nextsubject
+		from 
+		(
+		    select lag(seq, 1) over(order by seq desc)  as previousseq
+		            , lag(subject, 1) over(order by seq desc) as previoussubject 
+		            , seq, fk_userid, name, subject, content, readCount
+		            , to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+		           
+		            , lead(seq, 1) over(order by seq desc) as nextseq
+		            , lead(subject, 1) over(order by seq desc) as nextsubject 
+		    from tblBoard
+		    where status = 1
+		) V
+		where V.seq = #{seq}
+	 </select>	 
 	 
+	 <!-- === #67. 글조회수 1증가 하기 === -->
+	 <update id="setAddReadCount" parameterType="String">
+	 	update tblBoard set readCount = readCount + 1 
+	 	where seq = #{seq}
+	 </update>
+	 
+	 
+	 <!-- === #75. 글 한개 수정하기 === -->
+	 <update id="updateBoard" parameterType="com.spring.board.model.BoardVO" >
+	 	update tblBoard set subject = #{subject}
+	 					   ,content = #{content}
+	 					   ,regDate = sysdate
+	 	where seq = #{seq} and pw = #{pw}
+	 </update>
+	 
+	 <!-- === #78. 글 삭제하기 === -->
+	 <update id="deleteBoard" parameterType="HashMap" >
+	 	update tblBoard set status = 0
+	 	where seq = #{seq} and pw = #{pw}
+	 </update>
 	 
 </mapper>

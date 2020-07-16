@@ -146,7 +146,6 @@ public class BoardService implements InterBoardService {
 				
 			}
 		}
-		
 		return loginuser;
 	}
 
@@ -172,14 +171,18 @@ public class BoardService implements InterBoardService {
 		return boardList;
 	}
 
+	
 	// === #63. 글 조회수 증가와함께 글 한개 조회하기 === //
 	// 먼저, 로그인을 한 상태에서 다른 사람의 글을 조회했을때 (조회수 1증가)
 	@Override
 	public BoardVO getView(String seq, String userid) {
 						// userid는 로그인을 한 상태라면 로그인한 사용자의 id이고, 아니면 null
+		
+	//	System.out.println("------------- userid : "+ userid);
+		
 		BoardVO boardvo = dao.getView(seq);
 		
-		if(boardvo != null &&
+		if(boardvo != null && userid != null &&
 		   !boardvo.getFk_userid().equals(userid)) {
 			// 글 조회수 증가는 다른 사람의 글을 읽을때만 증가하도록 해야한다.
 			// 로그인하지 않은 상태에서는 글 조회수 증가는 없다.
@@ -188,10 +191,37 @@ public class BoardService implements InterBoardService {
 			boardvo = dao.getView(seq);
 		}
 		
-		return null;
+		return boardvo;
 	}
 
 
-	
+	// === #70. 글조회수 증가는 없고 단순히 글 한개 조회만을 해주는 것 === //
+	@Override
+	public BoardVO getViewWithNoAddCount(String seq) {
+		
+		BoardVO boardvo = dao.getView(seq);
+		
+		return boardvo;
+	}
+
+
+	// === #73. 글 한개 수정하기 === //
+	@Override
+	public int edit(BoardVO boardvo) {
+		
+		int n = dao.updateBoard(boardvo);
+		
+		return n;
+	}
+
+
+	// === #78. 글 삭제하기 === //
+	@Override
+	public int delete(HashMap<String, String> paraMap) {
+		int n = dao.deleteBoard(paraMap);
+		return n;
+	}
+
+
 
 }

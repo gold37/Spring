@@ -105,3 +105,30 @@ nocache;
 select *
 from tblBoard
 order by seq desc;
+
+
+---- *** lag() , lead() *** --- ex) 게시판에서 이전글 보기, 다음글 보기를 작성하고자 할 때 사용한다.
+  
+-- lag  ==> 어떤행의 바로앞의 몇번째 행을 가리키는 것.
+-- lead ==> 어떤행의 바로뒤의 몇번째 행을 가리키는 것.
+
+select  previousseq, previoussubject, 
+        seq, fk_userid, name, subject, content, readCount, regDate, 
+        nextseq, nextsubject
+from 
+(
+    select lag(seq, 1) over(order by seq desc)  as previousseq
+        -- 한 칸 앞에       글 번호의 내림차순으로 정렬
+            , lag(subject, 1) over(order by seq desc) as previoussubject --앞에 사람
+           -- 한 칸 앞의 제목 보기
+            , seq, fk_userid, name, subject, content, readCount
+            , to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+           
+            , lead(seq, 1) over(order by seq desc) as nextseq
+            , lead(subject, 1) over(order by seq desc) as nextsubject --뒤에 사람
+    from tblBoard
+    where status = 1
+) V
+where V.seq = 2;
+
+

@@ -1,0 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<% String ctxPath = request.getContextPath(); %>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		
+		// 확인 버튼 클릭시
+		$("#btnDelete").click(function(){
+			
+			// 글 암호 유효성 검사
+			var pwVal = $("#pw").val().trim();
+			if(pwVal == "") {
+				alert("글 암호를 입력하세요");
+				return;
+			}
+		
+			// 폼(form) 전송(submit)하기
+			var frm = document.editFrm;
+			frm.method = "POST";
+			frm.action = "<%= ctxPath%>/deleteEnd.action";
+			frm.submit();
+			
+		});
+		
+	}); // end of $(document).ready(function()) ---------------------
+	
+	
+</script>
+<form>
+	<div>
+		암호: <input type="password">
+		<button type="button" id="btnDelete">확인</button>
+	</div>
+</form>

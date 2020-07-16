@@ -34,4 +34,8 @@ public interface InterBoardDAO {
 	BoardVO getView(String seq); // 글 한개를 보여주기
 	void setAddReadCount(String seq); // 글 조회수 1 증가하기
 	
+	int updateBoard(BoardVO boardvo); // 글 한개 수정하기
+	
+	int deleteBoard(HashMap<String, String> paraMap); // 글 삭제하기
+	
 }

@@ -37,8 +37,13 @@ public interface InterBoardService {
 	BoardVO getView(String seq, String userid); // 글 조회수 증가와함께 글 한개 조회하기
 												// 조회수 증가는 다른 사람의 글을 읽을때만 증가한다.
 												// 로그인하지 않은 상태에서는 조회수 증가가 일어나지 않는다. 
-					
-	
+
+	BoardVO getViewWithNoAddCount(String seq); // 글조회수 증가는 없고 단순히 글 한개 조회만을 해주는 것
+
+	int edit(BoardVO boardvo); // 글 한개 수정하기
+
+	int delete(HashMap<String, String> paraMap); // 글 삭제하기
+
 }
 
 

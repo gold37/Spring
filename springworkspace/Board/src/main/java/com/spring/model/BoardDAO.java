@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -174,7 +173,7 @@ public class BoardDAO implements InterBoardDAO {
 
 	// === #64. 글 한개 보여주기 === //
 	@Override
-	public BoardVO getView(String seq) {
+	public BoardVO getView(String seq) { // getView는 글 1개만 읽어옴
 		
 		BoardVO boardvo = sqlsession.selectOne("board.getView", seq);
 		
@@ -186,7 +185,24 @@ public class BoardDAO implements InterBoardDAO {
 	public void setAddReadCount(String seq) {
 		sqlsession.update("board.setAddReadCount", seq);
 	}
-	
-	
-	
+
+	// === #74. 글 한개 수정하기 === // 
+	@Override
+	public int updateBoard(BoardVO boardvo) {
+
+		int n = sqlsession.update("board.updateBoard", boardvo);
+		
+		return n;
+	}
+
+
+	// === #79. 글 삭제하기 === // 
+	@Override
+	public int deleteBoard(HashMap<String, String> paraMap) {
+		int n = sqlsession.delete("board.deleteBoard", paraMap);
+		
+		return n;
+	}
+
+		
 }
