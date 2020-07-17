@@ -3,13 +3,11 @@
 <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
 <fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionTemplate"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
-<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.spring.model.TestVO"/>
 <fullyQualifiedTypeName name="javax.annotation.Resource"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.config.BeanDefinition"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.support.BeanDefinitionRegistry"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
@@ -23,4 +21,9 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
 <fullyQualifiedTypeName name="com.spring.common.AES256"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
+<fullyQualifiedTypeName name="java.lang.SuppressWarnings"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="com.spring.service.InterBoardService"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="com.spring.board.model.CommentVO"/>
 </qualifiedTypeNameHistroy>

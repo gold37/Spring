@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.board.model.BoardVO;
+import com.spring.board.model.CommentVO;
 import com.spring.common.Sha256;
 import com.spring.member.model.MemberVO;
 import com.spring.model.TestVO;
@@ -464,6 +466,15 @@ public class BoardController {
 					// 로그인, 비번 둘 다 아무 이상이 없는 경우
 					session.setAttribute("loginuser", loginuser);
 					
+					if(session.getAttribute("gobackURL") != null) {
+						// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다면 
+						
+						String gobackURL = (String) session.getAttribute("gobackURL");
+						mav.addObject("gobackURL", gobackURL); // request 영역에 저장시키는 것
+						
+						session.removeAttribute("gobackURL"); // ☆★ session에 썼던 거 꼭 없애줘야함. 안그러면 예전거를 계속 기억함.
+					}
+					
 					mav.setViewName("login/loginEnd.tiles1");
 					//	/WEB-INF/views/tiles1/login/loginEnd.jsp 파일을 생성한다.
 					
@@ -505,7 +516,7 @@ public class BoardController {
 	
 	// === #51. 게시판 글쓰기 폼페이지 요청 === //
 	@RequestMapping(value="/add.action")
-	public ModelAndView requiredLogin_add(ModelAndView mav) {
+	public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		mav.setViewName("board/add.tiles1");
 		//		/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
@@ -516,7 +527,7 @@ public class BoardController {
 	
 	// === #54. 게시판 글쓰기 완료 요청 === //
 	@RequestMapping(value="/addEnd.action", method= {RequestMethod.POST})
-	public String addEnd(BoardVO boardvo) {
+	public String pointPlus_addEnd(HashMap<String, String> paraMap, BoardVO boardvo) {
 		
 		/*
 			== 확인용 ==
@@ -531,10 +542,14 @@ public class BoardController {
 		
 		int n = service.add(boardvo);
 		
+		paraMap.put("userid", boardvo.getFk_userid()); // after Advice용 (글을 작성하면 100 포인트를 주기 위해서 글쓴이가 누군지 알아옴)
+		
 		if(n==1) {
+			paraMap.put("pointPlus", "100"); // 글을 쓰면 100 포인트 주겠음. String 형이라 "" 붙여줘야됨.
 			return "redirect:/list.action";
 		}
 		else {
+			paraMap.put("pointPlus", "0"); // 글 작성 실패하면 0 포인트
 			return "redirect:/add.action";
 		}
 	}
@@ -624,7 +639,7 @@ public class BoardController {
 	
 	// === #71. 글 수정 페이지 요청 === // 
 	@RequestMapping(value="/edit.action")
-	public ModelAndView requiredLogin_edit(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
 		String seq = request.getParameter("seq"); // 수정해야할 글 번호 가져옴
 		
@@ -675,7 +690,7 @@ public class BoardController {
 	
 	// === #76. 글삭제 요청하기 === //
 	@RequestMapping(value="/delete.action")
-	public ModelAndView delete(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView requiredLogin_delete(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
 		String seq = request.getParameter("seq"); // 삭제해야 할 글 번호를 받아온다.
 		
@@ -728,6 +743,61 @@ public class BoardController {
 		
 		return mav;
 	}
+	
+   // === #84. 댓글쓰기(Ajax 로 처리) ===
+   @ResponseBody
+   @RequestMapping(value="/addComment.action", method= {RequestMethod.POST})      
+   public String pointPlus_addComment(HashMap<String, String> paraMap, CommentVO commentvo) {
+	   
+	   paraMap.put("userid", commentvo.getFk_userid());
+	   // === after Advice용 (댓글을 작성하면 포인트 50 을 주기위해서 글쓴이가 누구인지 알아온다.) === 
+	   
+	   int n = service.addComment(commentvo);
+	   // 댓글쓰기(insert) 및 
+	   // 원게시물(tblBoard 테이블)에 댓글의 갯수 증가(update 1씩 증가)하기  
+	
+	   if(n==1) {
+		   paraMap.put("pointPlus", "50");
+		   // === after Advice용 (댓글을 작성하면 포인트 50 을 준다.) === 
+	   }
+	   else {
+		   paraMap.put("pointPlus", "0");
+			// === after Advice용 (댓글을 작성이 실패되면 포인트 0 을 준다.) === 
+	   }
+	   
+	   JSONObject jsonObj = new JSONObject();
+	   jsonObj.put("n", n);
+	   
+	   return jsonObj.toString();
+   }
+	   
+	   
+   // === #90. 원게시물에 딸린 댓글들을 조회해오기(Ajax 로 처리) ===
+   @ResponseBody
+   @RequestMapping(value="/readComment.action", produces="text/plain;charset=UTF-8")      
+   public String readComment(HttpServletRequest request) {
+	   
+	   String parentSeq = request.getParameter("parentSeq"); 
+	   
+	   List<CommentVO> commentList = service.getCommentList(parentSeq);
+	   
+	   JSONArray jsonArr = new JSONArray();
+	   
+	   if(commentList != null) {
+		   for(CommentVO cmtvo : commentList) {
+		       JSONObject jsonObj = new JSONObject();
+		       jsonObj.put("content", cmtvo.getContent());
+		       jsonObj.put("name", cmtvo.getName());
+	   		   jsonObj.put("regDate", cmtvo.getRegDate());
+		    		
+		       jsonArr.put(jsonObj);
+		    }
+	   }
+	    
+	   return jsonArr.toString();
+   } 
+	   
+	
 	
 	
 }

@@ -41,9 +41,9 @@
 			data-toggle="dropdown" href="#">게시판 <span class="caret"></span></a>
 			<ul class="dropdown-menu">
 				<li><a href="<%=ctxPath%>/list.action">목록보기</a></li>
-				<c:if test="${sessionScope.loginuser != null}" >
+				<%-- <c:if test="${sessionScope.loginuser != null}" > --%>
 					<li><a href="<%=ctxPath%>/add.action">글쓰기</a></li>
-				</c:if>
+				<%-- </c:if> --%>
 				<li><a href="#">Submenu 1-3</a></li>
 			</ul></li>
 		<li class="dropdown"><a class="dropdown-toggle"

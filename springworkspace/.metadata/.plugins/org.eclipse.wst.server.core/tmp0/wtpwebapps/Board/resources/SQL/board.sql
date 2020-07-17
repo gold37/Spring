@@ -127,6 +127,8 @@ from
             , lead(seq, 1) over(order by seq desc) as nextseq
             , lead(subject, 1) over(order by seq desc) as nextsubject --뒤에 사람
     from tblBoard
-    where status = 1;
+    where status = 1
 ) V
 where V.seq = 2;
+
+
