@@ -42,9 +42,14 @@ public interface InterBoardDAO {
 	void pointPlus(HashMap<String, String> paraMap); // AOP 에서 사용하는 것으로 회원에게 포인트를 주기 위한 것
 	
 	int addComment(CommentVO commentvo); // 댓글쓰기(tblComment 테이블에 insert) 
+	
 	int updateCommentCount(String parentSeq); // tblBoard 테이블에 commentCount 컬럼의 값을 1증가(update)
 	
 	List<CommentVO> getCommentList(String parentSeq); // 원게시물에 딸린 댓글들을 조회해오는 것
+	
+	void deleteComment(HashMap<String, String> paraMap); // 딸린 댓글 삭제(딸린 댓글이 없을수도 있지만 실행)
+	
+	List<BoardVO> boardListSearch(HashMap<String, String> paraMap); // 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기  
 	
 	
 }

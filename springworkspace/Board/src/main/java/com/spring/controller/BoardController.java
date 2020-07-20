@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -558,11 +559,31 @@ public class BoardController {
 	@RequestMapping(value="/list.action")
 	public ModelAndView list(HttpServletRequest request, ModelAndView mav) {
 		
-		// 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기
-		List<BoardVO> boardList = service.getboardList();
+		List<BoardVO> boardList = null;
 		
+		// == 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 ==
+	//	boardList = service.boardListNoSearch();
 		
-		/////////////////////////////////////////////////////////////////				
+		// == #100. 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 ==
+		String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		
+		if(searchWord == null || searchWord.trim().isEmpty()) {
+			// 검색어가 없을때
+			searchWord = ""; 
+		}
+		
+		HashMap<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("searchType", searchType);
+		paraMap.put("searchWord", searchWord);
+		
+		boardList = service.boardListSearch(paraMap);
+		
+		if(!"".equals(searchWord)) {
+			mav.addObject("paraMap", paraMap);
+		}
+		
+		//////////////////////////////////////////////////////
 		// === #69. 글조회수(readCount)증가 (DML문 update)는
 		//          반드시 목록보기에 와서 해당 글제목을 클릭했을 경우에만 증가되고,
 		//          웹브라우저에서 새로고침(F5)을 했을 경우에는 증가가 되지 않도록 해야 한다.
@@ -570,17 +591,16 @@ public class BoardController {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
-		
 		/*
 		   session 에  "readCountPermission" 키값으로 저장된 value값은 "yes" 이다.
 		   session 에  "readCountPermission" 키값에 해당하는 value값 "yes"를 얻으려면 
 		      반드시 웹브라우저에서 주소창에 "/list.action" 이라고 입력해야만 얻어올 수 있다. 
 		*/
-		/////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
 		
-		mav.addObject("boardList", boardList);
+		mav.addObject("boardList",boardList);
 		mav.setViewName("board/list.tiles1");
-
+		
 		return mav;
 	}
 	
@@ -728,7 +748,14 @@ public class BoardController {
 		paraMap.put("seq", seq);
 		paraMap.put("pw", pw);
 
-		int n = service.delete(paraMap);
+		int n = 0;
+		
+		try {
+			n = service.delete(paraMap);
+		} catch (Throwable e) {
+			
+			e.printStackTrace();
+		}
 
 		if(n==0) {
 			mav.addObject("msg", "암호가 일치하지않아 삭제가 불가합니다.");
@@ -749,28 +776,67 @@ public class BoardController {
    @RequestMapping(value="/addComment.action", method= {RequestMethod.POST})      
    public String pointPlus_addComment(HashMap<String, String> paraMap, CommentVO commentvo) {
 	   
-	   paraMap.put("userid", commentvo.getFk_userid());
-	   // === after Advice용 (댓글을 작성하면 포인트 50 을 주기위해서 글쓴이가 누구인지 알아온다.) === 
+	   String jsonStr = "";
 	   
-	   int n = service.addComment(commentvo);
-	   // 댓글쓰기(insert) 및 
-	   // 원게시물(tblBoard 테이블)에 댓글의 갯수 증가(update 1씩 증가)하기  
-	
-	   if(n==1) {
-		   paraMap.put("pointPlus", "50");
-		   // === after Advice용 (댓글을 작성하면 포인트 50 을 준다.) === 
+	   try {
+		   
+		   paraMap.put("userid", commentvo.getFk_userid());
+		   // === after Advice용 (댓글을 작성하면 포인트 50 을 주기위해서 글쓴이가 누구인지 알아온다.) === 
+		   
+		   int n = service.addComment(commentvo);
+		   // 댓글쓰기(insert) 및 
+		   // 원게시물(tblBoard 테이블)에 댓글의 갯수 증가(update 1씩 증가)하기  
+		
+		   if(n==1) {
+			   paraMap.put("pointPlus", "50");
+			   // === after Advice용 (댓글을 작성하면 포인트 50 을 준다.) === 
+		   }
+		   else {
+			   paraMap.put("pointPlus", "0");
+				// === after Advice용 (댓글을 작성이 실패되면 포인트 0 을 준다.) === 
+		   }
+		   
+		   JSONObject jsonObj = new JSONObject();
+		   jsonObj.put("n", n);
+		   
+		   jsonStr = jsonObj.toString();
+	   
+	   } catch (Throwable e) {
+
+		   e.printStackTrace();
 	   }
-	   else {
-		   paraMap.put("pointPlus", "0");
-			// === after Advice용 (댓글을 작성이 실패되면 포인트 0 을 준다.) === 
-	   }
 	   
-	   JSONObject jsonObj = new JSONObject();
-	   jsonObj.put("n", n);
+	   return jsonStr;
 	   
-	   return jsonObj.toString();
    }
+
+   
+   /*
+	    @ExceptionHandler 에 대해서.....
+	    ==> 어떤 컨트롤러내에서 발생하는 익셉션이 있을시 익셉션 처리를 해주려고 한다면
+	        @ExceptionHandler 어노테이션을 적용한 메소드를 구현해주면 된다
+	         
+	       컨트롤러내에서 @ExceptionHandler 어노테이션을 적용한 메소드가 존재하면, 
+	       스프링은 익셉션 발생시 @ExceptionHandler 어노테이션을 적용한 메소드가 처리해준다.
+	       따라서, 컨트롤러에 발생한 익셉션을 직접 처리하고 싶다면 @ExceptionHandler 어노테이션을 적용한 메소드를 구현해주면 된다.
+   
+   @ExceptionHandler(java.sql.SQLSyntaxErrorException.class)
+   public String handleSQLSyntaxErrorException(java.sql.SQLSyntaxErrorException e, HttpServletRequest request) {
 	   
+	   System.out.println("----- 오류 코드 : " + e.getErrorCode());
+	   // ----- 오류 코드 : 904
+	   
+	   String msg = "SQL구문 오류 발생";
+	   String loc = "javascript:history.back()";
+	   
+	   request.setAttribute("msg", msg);
+	   request.setAttribute("loc", loc);
+	   
+	   return "msg";
+   }
+    
+    */
+   
 	   
    // === #90. 원게시물에 딸린 댓글들을 조회해오기(Ajax 로 처리) ===
    @ResponseBody

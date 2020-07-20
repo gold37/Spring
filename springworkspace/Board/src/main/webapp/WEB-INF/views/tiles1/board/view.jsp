@@ -39,8 +39,80 @@ a {text-decoration: none !important;}
 						$(this).removeClass("moveColor");
 					});
 		
-	});
+		
+		goReadComment(); // 댓글 읽어오기 
+		
+	}); // end of $(document).ready(function(){})----------------
 	
+	
+	
+	// === 댓글쓰기 === //
+	function goAddWrite() {
+		var frm = document.addWriteFrm;
+		var contentVal = frm.content.value.trim();
+		if(contentVal=="") {
+			alert("댓글 내용을 입력하세요!!");
+			return;
+		}
+		
+		var form_data = $("form[name=addWriteFrm]").serialize();
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/addComment.action",
+			data:form_data,
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				if(json.n == 1) {
+					goReadComment(); // 댓글 읽어오기 
+				}
+				else {
+					alert("댓글쓰기 실패!!");
+				}
+				
+				frm.content.value = "";
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+	}// end of function goAddWrite()----------------------
+	
+	
+	// === 댓글 읽어오기  === //
+	function goReadComment() {
+		$.ajax({
+			url:"<%= request.getContextPath()%>/readComment.action",
+			data:{"parentSeq":"${boardvo.seq}"},
+			dataType:"JSON",
+			success:function(json){
+				var html = "";
+				if(json.length > 0) {
+					$.each(json, function(index, item){
+						html += "<tr>";
+						html += "<td style='text-align: center;'>"+(index+1)+"</td>";
+						html += "<td>"+item.content+"</td>";
+						html += "<td style='text-align: center;'>"+item.name+"</td>";
+						html += "<td style='text-align: center;'>"+item.regDate+"</td>";
+						html += "</tr>";
+					});
+				}
+				else {
+					html += "<tr>";
+					html += "<td colspan='4' style='text-align: center;'>댓글이 없습니다.</td>";
+					html += "</tr>";
+				}
+				
+				$("#commentDisplay").html(html);
+				frm.content.value = "";
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});	
+		
+	}// end of function goReadComment()--------------------
 	
 </script>
 

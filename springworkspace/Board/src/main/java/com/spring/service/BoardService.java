@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.board.model.BoardVO;
 import com.spring.board.model.CommentVO;
@@ -217,12 +220,28 @@ public class BoardService implements InterBoardService {
 
 
 	// === #78. 글 삭제하기 === //
+	/*
 	@Override
 	public int delete(HashMap<String, String> paraMap) {
 		int n = dao.deleteBoard(paraMap);
 		return n;
 	}
-
+	*/
+	
+	// 먼저, #78번을 주석처리 한 다음 아래와 같이 한다.
+	// === #96. 1개 글 삭제하기 (딸린 댓글이 있는 경우 댓글도 동시에 삭제). 트랜잭션처리해야 함 === //
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int delete(HashMap<String, String> paraMap) throws Throwable {
+		
+		int n = 0;
+		
+		dao.deleteComment(paraMap); // 딸린 댓글 삭제(딸린 댓글이 없을수도 있지만 실행)
+		n = dao.deleteBoard(paraMap); // 1개 글을 삭제
+		
+		return n;
+	}
+	
 	
 	// === AOP 에서 사용하는 것으로 회원에게 포인트를 주기 위한 것 === // 
 	@Override
@@ -232,8 +251,15 @@ public class BoardService implements InterBoardService {
 	}
 
 	// === #85. 댓글쓰기 ===
+	
+	// tblComment 테이블에 insert 된 다음에 
+	// tblBoard 테이블에 commentCount 컬럼이 1증가(update) 하도록 요청한다.
+	// 즉, 2개이상의 DML 처리를 해야하므로 Transaction 처리를 해야 한다.
+	// >>>>> 트랜잭션처리를 해야할 메소드에 @Transactional 어노테이션을 설정하면 된다. 
+	// rollbackFor={Throwable.class} 은 롤백을 해야할 범위를 말하는데 Throwable.class 은 error 및 exception 을 포함한 최상위 루트이다. 즉, 해당 메소드 실행시 발생하는 모든 error 및 exception 에 대해서 롤백을 하겠다는 말이다.
 	@Override
-	public int addComment(CommentVO commentvo) {
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int addComment(CommentVO commentvo) throws Throwable {
 		
 		int result = 0;
 		int n = 0;
@@ -252,6 +278,14 @@ public class BoardService implements InterBoardService {
 	public List<CommentVO> getCommentList(String parentSeq) {
 		List<CommentVO> commentList = dao.getCommentList(parentSeq);
 		return commentList;
+	}
+
+
+	// == #101. 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 ==
+	@Override
+	public List<BoardVO> boardListSearch(HashMap<String, String> paraMap) {
+		List<BoardVO> boardList = dao.boardListSearch(paraMap);
+		return boardList;
 	}
 
 }

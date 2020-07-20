@@ -107,9 +107,19 @@
 	 </insert>
 	 
 	 
-	 <!-- === #61. 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 === -->
+	 <!-- === #61. 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 === 
 	 <select id="getboardList" resultType="com.spring.board.model.BoardVO" >
 	 	select seq, fk_userid, subject, name, regDate, readCount
+	 	from tblBoard
+	 	where status = 1
+	 	order by seq desc
+	 </select>
+	 -->
+	 
+	 <!-- 먼저 #61번을 주석처리 하고 아래의 작업을 한다. -->
+	 <!-- === #95. 전체 글 목록을 보여줄때 딸린 갯수도 보여준다. === -->
+	 <select id="getboardList" resultType="com.spring.board.model.BoardVO" >
+	 	select seq, fk_userid, subject, name, regDate, readCount, commentCount
 	 	from tblBoard
 	 	where status = 1
 	 	order by seq desc
@@ -166,7 +176,7 @@
 	 
 	 
 	<!--  === #88. 댓글쓰기(tblComment 테이블에 insert) === -->
-	 <insert id="addComment" parameterType="com.spring.board.model.CommentVO">
+	<insert id="addComment" parameterType="com.spring.board.model.CommentVO">
     	insert into tblComment(seq, fk_userid, name, content, regDate, parentSeq, status)
         values(commentSeq.nextval, #{fk_userid}, #{name}, #{content}, default, #{parentSeq}, default)
     </insert>
@@ -181,8 +191,28 @@
     <select id="getCommentList" parameterType="String" resultType="com.spring.board.model.CommentVO"> 
      	select name, content, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate 
      	from tblComment
-     	where parentSeq = #{parentSeq}
+     	where status = 1 and parentSeq = #{parentSeq}
      	order by seq desc
      </select>
+     
+     <!-- === #98. 딸린 댓글 삭제(딸린 댓글이 없을수도 있지만 실행) -->
+	 <update id="deleteComment" parameterType="HashMap">
+	 	update tblComment set status = 0
+	 	where parentSeq = #{seq}
+	 </update>
+	 
+	 
+	<!-- === #103. 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 === -->
+	 <select id="boardListSearch" parameterType="HashMap" resultType="com.spring.board.model.BoardVO">
+		 select seq, fk_userid, name, subject,  
+		        readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+		        commentCount
+		 from tblBoard
+		 where status = 1  <!-- 삭제가 안된 글 -->
+		 <if test='searchWord != ""'>
+		     and ${searchType} like '%'|| #{searchWord} ||'%'
+		 </if>
+		 order by seq desc
+	 </select>
 	 
 </mapper>

@@ -26,4 +26,8 @@
 <fullyQualifiedTypeName name="com.spring.service.InterBoardService"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="com.spring.board.model.CommentVO"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
+<fullyQualifiedTypeName name="org.springframework.transaction.annotation.Propagation"/>
+<fullyQualifiedTypeName name="org.springframework.transaction.annotation.Isolation"/>
 </qualifiedTypeNameHistroy>

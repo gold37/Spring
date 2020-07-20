@@ -43,13 +43,16 @@ public interface InterBoardService {
 
 	int edit(BoardVO boardvo); // 글 한개 수정하기
 
-	int delete(HashMap<String, String> paraMap); // 글 삭제하기
+	int delete(HashMap<String, String> paraMap) throws Throwable; // 글 삭제하기
 
 	void pointPlus(HashMap<String, String> paraMap); // AOP 에서 사용하는 것으로 회원에게 포인트를 주기 위한 것
 
-	int addComment(CommentVO commentvo); // 댓글쓰기 
+	int addComment(CommentVO commentvo) throws Throwable; // 댓글쓰기 
 
 	List<CommentVO> getCommentList(String parentSeq); // 원게시물에 딸린 댓글들을 조회해오는 것
+
+	List<BoardVO> boardListSearch(HashMap<String, String> paraMap); // 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 
+
 
 }
 

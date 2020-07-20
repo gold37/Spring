@@ -234,6 +234,24 @@ public class BoardDAO implements InterBoardDAO {
 		return commentList;
 	}
 
+	// ==== #97. 딸린 댓글 삭제(딸린 댓글이 없을수도 있지만 실행) === //
+	@Override
+	public void deleteComment(HashMap<String, String> paraMap) {
+		
+		sqlsession.update("board.deleteComment", paraMap);
+		
+	}
+
+	// == #102. 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 ==
+	@Override
+	public List<BoardVO> boardListSearch(HashMap<String, String> paraMap) {
+		List<BoardVO> boardList = sqlsession.selectList("board.boardListSearch", paraMap);
+														/* namespace.id명 */
+		return boardList;
+	}
+	
+	
+
 
 		
 }

@@ -204,7 +204,30 @@ select *
 from tblComment
 order by seq desc;
 
+
 insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
 values(boardSeq.nextval, 'jwjw', '지원지원', '죠니 입니다.', '안녕하세요? 곽지원입니다.', '1234', default, default, default);
 
 commit;
+
+----------------------------------------------------------------------------------------------------------------------
+select *
+from tblComment
+order by seq desc;
+
+select commentcount 
+from tblBoard
+where seq = '1';
+
+--update tblBoard set commentcount = (select count(*) from tblComment where parentseq = 1 )
+--where seq = 1;
+--commit;
+
+delete from tblComment where seq = 4;
+
+select *
+from tblBoard;
+
+select *
+from tblBoard
+where subject like '%죠%';
