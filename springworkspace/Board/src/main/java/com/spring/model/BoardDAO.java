@@ -242,14 +242,21 @@ public class BoardDAO implements InterBoardDAO {
 		
 	}
 
-	// == #102. 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 ==
+	// === #102. 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 === //
 	@Override
 	public List<BoardVO> boardListSearch(HashMap<String, String> paraMap) {
 		List<BoardVO> boardList = sqlsession.selectList("board.boardListSearch", paraMap);
 														/* namespace.id명 */
 		return boardList;
 	}
+
 	
+	// === #108. 검색어 입력시 자동글 완성하기 5 === //
+	@Override
+	public List<String> wordSearchShow(HashMap<String, String> paraMap) {
+		List<String> wordList = sqlsession.selectList("board.wordSearchShow", paraMap);
+		return wordList;
+	}
 	
 
 

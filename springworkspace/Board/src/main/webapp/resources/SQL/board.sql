@@ -231,3 +231,43 @@ from tblBoard;
 select *
 from tblBoard
 where subject like '%죠%';
+
+select distinct subject
+from tblBoard
+where status = 1 and lower(subject) like '%' || lower('W') || '%';
+-- lower써줘야 대소문자 구분없이 나옴
+
+select distinct name
+from tblBoard
+where status = 1 and lower(name) like '%' || lower('지') || '%';
+
+
+--------------------------------------------------------------------------
+
+create table spring_testReservation
+(fk_userid  varchar2(20)    not null    -- 사용자ID
+,email      varchar2(200)   not null    -- 이메일
+,vistdate   date not null               -- 방문일자
+);
+
+select *
+from spring_testReservation;
+
+select *
+from mymvc_shopping_member;
+
+insert into spring_testReservation(fk_userid, email, vistdate)
+values('jwjw', 'gs/ch+Ao+KXpNg33IXBS26//FRNGSyrq/8P76tHymFs=', to_date('2020-07-23 10:00:00', 'yyyy-mm-dd hh24:mi:ss'));
+
+commit;
+
+select to_date(to_char(vistdate, 'yyyy-mm-dd'), 'yyyy-mm-dd') - to_char(sysdate, 'yyyy-mm-dd')
+from spring_testReservation;
+
+select fk_userid, email, to_char(vistdate, 'yyyy-mm-dd hh24:mi:ss') as vistdate
+from spring_testReservation
+where to_date(to_char(vistdate, 'yyyy-mm-dd'), 'yyyy-mm-dd') - to_date(to_char(sysdate, 'yyyy-mm-dd'), 'yyyy-mm-dd') = 2;
+
+------------------------------------
+    회원명     이메일      예약방문일자
+------------------------------------

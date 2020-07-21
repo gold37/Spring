@@ -53,7 +53,10 @@ public interface InterBoardService {
 
 	List<BoardVO> boardListSearch(HashMap<String, String> paraMap); // 페이징 처리를 안한 검색어가 있는 전체 글목록 보여주기 
 
+	List<String> wordSearchShow(HashMap<String, String> paraMap); // 검색어 입력시 자동글 완성하기
 
+	void scheduleTest1(); // 스프링 스케줄러 연습 1
+	// 타이머는 파라미터에 값이 절대 없어야한다 !! 그래서 return타입 void
 }
 
 

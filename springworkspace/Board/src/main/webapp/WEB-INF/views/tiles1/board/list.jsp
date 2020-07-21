@@ -44,6 +44,94 @@
 			$("#searchWord").val("${paraMap.searchWord}");
 		}
 		
+		
+		<%-- === #105. 검색어 입력시 자동글 완성하기 2 === --%>
+		$("#displayList").hide(); // 관련 검색어 창 뜨는거 일단 숨기기
+		
+		$("#searchWord").keyup(function(){
+			
+			var wordLength = $(this).val().length; // 검색어의 길이 알아오기
+			
+			if(wordLength == 0) {
+				$("#displayList").hide();
+			}
+			else {
+				$.ajax({
+					url:"<%= request.getContextPath()%>/wordSearchShow.action",
+					type:"GET",
+					data:{searchType:$("#searchType").val(),
+						/* ▲ getParameter해옴	▲ id의 value값 */
+						  searchWord:$("#searchWord").val()},
+					dataType:"JSON",
+					success:function(json) {
+						
+						<%-- === #110. 검색어 입력시 자동글 완성하기 7 === --%>
+						
+						if(json.length > 0) {
+							// 검색된 데이터가 있는 경우
+							var html = "";
+							
+							$.each(json, function(entryIndex, item){
+								var word = item.word;
+								
+								var index = word.toLowerCase().indexOf($("#searchWord").val().toLowerCase());
+								/* 			글자.다 소문자로 바꿔주기.몇번째 위치하는지 알아오기(찾고자하는 글자) */
+								
+							//	console.log("index:" + index); // 검색어와 연관된 자동글 인덱스 값 콘솔창에 찍어보기
+							
+								var len = $("#searchWord").val().length;
+								
+								var result = "";
+							
+							//	console.log(word.substr(0, index)); // 연관된 글 검색어 앞까지의 문장 찍어보기
+								
+							//	console.log(word.substr(index)); // 입력한 단어부터 끝까지
+							
+							//	console.log(word.substr(index, len)); // 내가 쓴 글씨만 찍기
+							
+							//	console.log(word.substr(index+len)); // 검색어 뒤부터 끝까지 찍기
+							
+							    result += "<span style='color:blue;'>"+word.substr(0,index)+"</span><span style='color:red;'>"+word.substr(index,len)+"</span><span style='color:blue;'>"+word.substr(index+len)+"</span>"; 
+								
+							    html += "<span style='cursor:pointer;' class='result'>"+result+"</span><br/>"; // 다음줄로
+							});
+							
+							$("#displayList").html(html); // 보여주기
+							
+							$("#displayList").show(); // 검색어가 있을때만 관련 검색어 창 보여줌
+						}
+						else {
+							// 검색된 데이터가 없는 경우
+							$("#displayList").hide();
+						}
+						
+					},
+				    error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+					
+					/* 
+					http://localhost:9090/board/wordSearchShow.action?searchType=name&searchWord='지'
+					이 경로로 들어가면 [{"word":"무지개"},{"word":"지원지원"}] 가 나오는걸 확인할 수 있음
+					 */		
+					
+				});
+				
+				$("#displayList").show();	
+			}
+			
+		}); // end of $("#searchWord").keyup(function(){})--------------
+		
+		<%-- === #111. 검색어 입력시 자동글 완성하기 8 === --%>
+		$(document).on("click", ".result", function(){
+			var word = $(this).text(); // 여러개 관련 검색어 중 하나 선택하면 그 문장만 잡아옴
+		//	alert(word); 
+			$("#searchWord").val(word); // 관련 검색어 선택하면 검색창에 올라오게함
+			$("#displayList").hide(); // 그리고 남은 관련 검색어들 숨김
+			goSearch();
+		});
+		
+		
 	 });// end of $(document).ready(function(){})-------------------
  
 	 
@@ -111,5 +199,12 @@
 		<input type="text" name="searchWord" id="searchWord" size="40" autocomplete="off" /> 
 		<button type="button" onclick="goSearch()">검색</button>
 	</form>
+	
+	
+	<%-- === #104. 검색어 입력시 자동글 완성하기 1 === --%>
+	<div id="displayList" style="border: solid 1px gray; width: 318px; height: 100px; margin-left: 70px; margin-top: -1px; overflow: auto;">
+																										<!-- 위로 올리기 ▲ 		▲ div에 글 넘쳐나면 스크롤바 생김 -->
+	</div>
+	
 	
 </div>		

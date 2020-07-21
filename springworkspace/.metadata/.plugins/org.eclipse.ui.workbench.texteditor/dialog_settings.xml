@@ -6,12 +6,15 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="ReadComment" key="selection"/>
+		<item value="cur" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="loginChk"/>
+			<item value="cur"/>
+			<item value="displayList"/>
 			<item value="readComment"/>
 			<item value="삭제"/>
 			<item value="onclick"/>
@@ -24,9 +27,6 @@
 			<item value="51"/>
 			<item value="del.action"/>
 			<item value="del"/>
-			<item value="@ResponseBody"/>
-			<item value="func_viewInfo"/>
-			<item value=" "/>
 		</list>
 		<list key="replacehistory">
 		</list>

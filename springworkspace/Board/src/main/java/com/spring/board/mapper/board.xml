@@ -215,4 +215,12 @@
 		 order by seq desc
 	 </select>
 	 
+	 <!-- === #109. 검색어 입력시 자동글 완성하기 6 === -->
+	 <select id="wordSearchShow" parameterType="HashMap" resultType="String">
+	 	select distinct ${searchType}
+		from tblBoard
+		where status = 1 and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+	 </select>
+	 
+	 
 </mapper>

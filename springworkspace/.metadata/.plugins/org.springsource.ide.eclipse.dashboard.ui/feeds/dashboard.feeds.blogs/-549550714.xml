@@ -5,7 +5,320 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-17T05:08:25Z</updated>
+  <updated>2020-07-20T13:22:00Z</updated>
+  <entry>
+    <title>Introducing Java Functions for Spring Cloud Stream Applications - Part 1</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/20/introducing-java-functions-for-spring-cloud-stream-applications-part-1" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>David Turanski</name>
+    </author>
+    <id>tag:spring.io,2020-07-17:4133</id>
+    <updated>2020-07-20T13:22:00Z</updated>
+    <content type="html">&lt;div class="sect1"&gt;
+&lt;h2 id="introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;&lt;a class="anchor" href="#introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;&lt;/a&gt;Introducing Java Functions for Spring Cloud Stream Applications - Part 1&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Last week we posted &lt;a href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0"&gt;Introducing Java Functions for Spring Cloud Stream Applications - Part 0&lt;/a&gt; &lt;br&gt;
+to announce the release of Spring Cloud Stream applications 2020.0.0-M2.&lt;br&gt;
+Here, we explore &lt;a href="https://en.wikipedia.org/wiki/Function_composition_(computer_science)"&gt;function composition&lt;/a&gt;, one of the more powerful features enabled by the function oriented architecture presented in Part 0. If you haven&amp;#8217;t had a chance to read &lt;a href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0"&gt;Part 0&lt;/a&gt;, now would be a great time!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="function-composition"&gt;&lt;a class="anchor" href="#function-composition"&gt;&lt;/a&gt;Function Composition&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Function composition has a solid theoretical foundation in mathematics and computer science.&lt;br&gt;
+In practical terms, it is a way to join a sequence of functions to create a more complex function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Let¡¯s look at a simple example using Java functions. We have two functions, &lt;code&gt;reverse&lt;/code&gt; and &lt;code&gt;upper&lt;/code&gt;.&lt;br&gt;
+Each accepts a String as input and produces a String as output. We can compose them using the  built-in &lt;code&gt;andThen&lt;/code&gt; method.  The composite function is itself a &lt;code&gt;Function&amp;lt;String, String&amp;gt;&lt;/code&gt;.&lt;br&gt;
+If you run this,  it will print &lt;code&gt;ESREVER&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;Function&amp;lt;String, String&amp;gt; reverse = s -&amp;gt; new StringBuilder(s).reverse().toString();
+Function&amp;lt;String, String&amp;gt; upper = String::toUpperCase;
+Function&amp;lt;String, String&amp;gt; reverseUpper = reverse.andThen(upper);
+System.out.println(reverseUpper.apply("reverse"));&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="admonitionblock tip"&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class="icon"&gt;
+&lt;div class="title"&gt;Tip&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class="content"&gt;
+in addition to &lt;code&gt;andThen&lt;/code&gt;, &lt;a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html"&gt;java.util.Function&lt;/a&gt; includes &lt;code&gt;compose&lt;/code&gt; which first applies the argument (&lt;code&gt;b&lt;/code&gt;) and then applies &lt;code&gt;a&lt;/code&gt; to the result. &lt;br&gt;
+Thus, &lt;code&gt;a.compose(b).apply(s)&lt;/code&gt; is equivalent to &lt;code&gt;a.apply(b.apply(s))&lt;/code&gt;.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="function-composition-in-spring-cloud-function"&gt;&lt;a class="anchor" href="#function-composition-in-spring-cloud-function"&gt;&lt;/a&gt;Function Composition in Spring Cloud Function&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Spring Cloud Function includes some great features to take &lt;a href="https://cloud.spring.io/spring-cloud-function/reference/html/spring-cloud-function.html#_programming_model"&gt;composing functions&lt;/a&gt; to another level.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect3"&gt;
+&lt;h4 id="declarative-composition"&gt;&lt;a class="anchor" href="#declarative-composition"&gt;&lt;/a&gt;Declarative Composition&lt;/h4&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;If we define our functions from the above example as Spring beans,&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;@Bean
+Function&amp;lt;String, String&amp;gt; reverse() {
+    return s -&amp;gt; new StringBuilder(s).reverse().toString();
+}
+
+@Bean
+Function&amp;lt;String, String&amp;gt; upper() {
+    return String::toUpperCase;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;we can compose these functions using the &lt;code&gt;spring.cloud.function.definition&lt;/code&gt; property &lt;code&gt;spring.cloud.function.definition=upper|reverse&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here &lt;code&gt;|&lt;/code&gt; is a composition operator which results in an auto-configured bean implementing the composite function, along with related resources to let you seamlessly invoke the composite function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect3"&gt;
+&lt;h4 id="composition-with-supplier-and-consumer"&gt;&lt;a class="anchor" href="#composition-with-supplier-and-consumer"&gt;&lt;/a&gt;Composition With Supplier and Consumer&lt;/h4&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Spring Cloud Function extends native Java Function composition to support composition with Supplier and Consumer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This follows from concepts which are implicitly true:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A Function composed with a Consumer is a Consumer&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A Supplier composed with a Function is a Supplier&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A Supplier composed with a Consumer is a valid processing model (with no inputs or outputs, this form of composition does not map to a functional interface, but is analogous to &lt;a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html"&gt;Runnable&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As we shall see, Spring Cloud Stream Applications employ these concepts to great effect.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect3"&gt;
+&lt;h4 id="type-conversion"&gt;&lt;a class="anchor" href="#type-conversion"&gt;&lt;/a&gt;Type Conversion&lt;/h4&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;When using function composition, we have to consider compatible argument types.&lt;br&gt;
+Using native Java composition, we can do compose a Function&amp;lt;Integer,String&amp;gt; with a Function&amp;lt;String, Integer&amp;gt; into a Function&amp;lt;Integer, Integer&amp;gt; :&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;Function&amp;lt;Integer, String&amp;gt; intToStr = String::valueOf;
+Function&amp;lt;String, Integer&amp;gt; doubleit = i -&amp;gt; Integer.parseInt(i) * 2;
+Function&amp;lt;Integer, Integer&amp;gt; composite = intToStr.andThen(doubleit);
+composite.apply(10);&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;When running a Spring application, Spring Cloud Function uses Spring&amp;#8217;s standard type conversion support to coerce function arguments as needed.&lt;br&gt;
+Given the following Function bean definitions, the function definition intToStr|doubleit works as expected, converting the String to an Integer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;@Bean
+Function&amp;lt;Integer, Integer&amp;gt; doubleit() {
+    return i -&amp;gt; i * 2;
+}
+
+@Bean
+Function&amp;lt;Integer, String&amp;gt; intToStr() {
+return String::valueOf;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In addition to converting primitives, Spring functions can convert between Message and POJO, JSON String and POJO, and more.&lt;br&gt;
+For example, the following functions can be composed in either order:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;@Bean
+Function&amp;lt;Integer, Integer&amp;gt; doubleit() {
+    return i -&amp;gt; i * 2;
+}
+
+@Bean
+Function&amp;lt;Integer, Message&amp;lt;String&amp;gt;&amp;gt; convertIntMessage() {
+    return i -&amp;gt; MessageBuilder.withPayload(String.valueOf(i)).build();&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="function-composition-in-spring-cloud-stream"&gt;&lt;a class="anchor" href="#function-composition-in-spring-cloud-stream"&gt;&lt;/a&gt;Function Composition in Spring Cloud Stream&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Spring Cloud Stream 3.x builds on Spring Cloud Function to fully support a &lt;a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/3.0.6.RELEASE/reference/html/spring-cloud-stream.html#_functional_binding_names"&gt;functional programming model&lt;/a&gt;. The fundamental premise of Spring Cloud Stream is that it enables a function to execute in a distributed environment. The binder binds the input(s) and output(s) of a function packaged in a Spring Boot application, to configured message broker destinations so that the output produced by one function is consumed as the input of another remotely running function.  We can think of a data streaming pipeline as just a distributed composition of functional components.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;To illustrate this, a typical Spring Cloud Stream pipeline like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;source | processor1 | processor2 | processor3 | sink&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;is logically equivalent to&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;supplier | function1 | function2 | function3 | sink&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This idea leads to some interesting architectural choices since we can use function composition to combine some or all of these components into a single application.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;For example we can implement the sequence of three processors as a single application, let¡¯s call it &lt;code&gt;composed-processor&lt;/code&gt;, packaging &lt;code&gt;function1&lt;/code&gt;, &lt;code&gt;function2&lt;/code&gt;, and &lt;code&gt;function3&lt;/code&gt;,and composed by &lt;code&gt;spring.cloud.function.definition=function1|function2|function3&lt;/code&gt;.  Now the pipeline can be deployed as:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;source | composed-processor | sink&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Even simpler,  we can create a &lt;code&gt;composed-source&lt;/code&gt; to do all the processing within the source:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;composed-source | sink&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As always, there is no right answer here. There are always trade-offs to consider:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Function composition results in less deployments. This reduces cost, latency, operational complexity, and so on.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Individual deployments are loosely coupled and can scale independently.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The message broker provides guaranteed delivery. When a simple stateless application goes down and is restarted, it can continue where it left off, processing the pending  results of the previous processing step.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A single application that performs complex processing is harder to reason about and keeps intermediate processing results in memory, or possibly in an interim data store. When a stateful application fails, it can lead to inconsistent state, making recovery harder.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;If these trade-offs look familiar, it¡¯s because they are pretty much the same as any microservice vs monolith debate. In the end, do what works best for you.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect3"&gt;
+&lt;h4 id="function-composition-with-prepackaged-source-applications"&gt;&lt;a class="anchor" href="#function-composition-with-prepackaged-source-applications"&gt;&lt;/a&gt;Function Composition with Prepackaged Source Applications&lt;/h4&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In some cases, function composition is a no-brainer.  From the start, we have provided pre-packaged processors to perform simple transformations, or filtering using &lt;a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions"&gt;SpEL&lt;/a&gt;. The legacy architecture required a separate processor when using the prepackaged sources or sinks. A common complaint from users was ¡°why do I need to deploy a separate application just to evaluate a SpEL expression?¡±  To address this, we initially introduced a form of support for &lt;a href="https://spring.io/blog/2019/01/09/composed-function-support-in-spring-cloud-data-flow"&gt;function composition&lt;/a&gt; in an earlier release. To use this feature with the prepackaged applications required forking them to modify the code or the build dependencies to provide the functions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The current release provides function composition out of the box for all of the prepackaged sources. Specifically, a source can now be &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/docs/FunctionComposition.adoc"&gt;composed with prepackaged functions&lt;/a&gt; to perform any of the following locally:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;execute SpEL transformations&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;enrich message headers&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;filter events&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;produce task launch requests&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As an example, we can compose the &lt;code&gt;time&lt;/code&gt; source with a header enricher and filter with configuration properties and run it as a standalone Spring boot application:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;java -jar target/time-source-rabbit-3.0.0-SNAPSHOT.jar
+--spring.cloud.stream.bindings.output.destination=even       --spring.cloud.function.definition=timeSupplier|headerEnricherFunction|filterFunction
+--header.enricher.headers=seconds=T(java.lang.Integer).valueOf(payload .substring(payload.length() - 2))
+--filter.function.expression=headers[seconds]%2==0&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This will publish the time, such as &lt;code&gt;`07/16/20 16:43:48&lt;/code&gt;,  every other second whenever the number of seconds is even, to the configured destination &lt;code&gt;even&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here we are using a prepackaged time source for RabbitMQ, binding the output to a topic exchange named &lt;code&gt;even&lt;/code&gt;. The binder will create the exchange if it does not exist.  The function definition extends the supplier to extract the seconds, convert it to an integer and store it in the &lt;code&gt;seconds&lt;/code&gt; message header and then filter on the value of the header. Only even values pass the filter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect3"&gt;
+&lt;h4 id="task-launch-requests"&gt;&lt;a class="anchor" href="#task-launch-requests"&gt;&lt;/a&gt;Task Launch Requests&lt;/h4&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In 2018, we introduced a reference architecture for running &lt;a href="https://tanzu.vmware.com/content/blog/need-24x7-etl-then-move-to-cloud-native-file-ingest-with-spring-cloud-data-flow"&gt; file ingest&lt;/a&gt; with Spring Cloud Data Flow and Spring Batch. To do this, we forked the &lt;code&gt;sftp&lt;/code&gt; source as &lt;code&gt;sftp-dataflow&lt;/code&gt;, specifically to implement a prepackaged source that produces task launch requests. The task launch request is a simple value object, rendered as JSON, and consumed by the &lt;a href="https://github.com/spring-cloud/stream-applications/tree/master/applications/sink/tasklauncher-sink"&gt;tasklauncher-sink&lt;/a&gt;. The sink acts as a client to Data Flow to launch a &lt;a href="https://dataflow.spring.io/docs/batch-developer-guides/"&gt; batch application&lt;/a&gt; per the request.  We initially chose sftp since it is the most commonly used protocol for file processing. However, we realized that the same pattern can be applied to any source.  We now can do this with function composition. Along with the standard &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/applications/source/sftp-source/src/test/java/org/springframework/cloud/stream/app/source/sftp/SftpSourceTests.java#L64"&gt;sftp source&lt;/a&gt; , we can trigger a task launch from &lt;code&gt;ftp&lt;/code&gt;, &lt;code&gt;file&lt;/code&gt;, &lt;code&gt;s3&lt;/code&gt;, and so one. Even the time source can be used to launch a task at regular intervals.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This somewhat contrived example produces task launch requests:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;java -jar target/time-source-rabbit-3.0.0-SNAPSHOT.jar
+--spring.cloud.stream.bindings.output.destination=time-test
+--spring.cloud.stream.function.definition=timeSupplier|spelFunction|headerEnricherFunction|taskLaunchRequestFunction
+--spel.function.expression=payload.length()
+--header.enricher.headers=task-id=payload*2
+--task.launch.request.task-name-expression="'task-'+headers['task-id']&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The payload, as JSON, is &lt;code&gt;{"args":[],"deploymentProps":{},"name":"task-34"}&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect3"&gt;
+&lt;h4 id="function-composition-with-user-written-code"&gt;&lt;a class="anchor" href="#function-composition-with-user-written-code"&gt;&lt;/a&gt;Function composition with user written code&lt;/h4&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In reality, when users develop a Spring Cloud Stream pipeline, they are likely to select a  source and sink from our prepackaged &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;Spring Cloud Stream Applications&lt;/a&gt;.  Processors are typically user-written code, implementing specific business logic. If you are writing a processor, or want to extend a source or sink, any of the &lt;a href="https://github.com/spring-cloud/stream-applications/tree/master/functions"&gt;functions&lt;/a&gt; are available to you. Since we publish the functions as separate artifacts, you can simply include them in your dependencies. You can either use declarative composition, as shown above, or you can inject them into your code and  invoke them programmatically.  Of course, you can easily integrate your own functions as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="how-do-i-contribute-a-new-function-or-application"&gt;&lt;a class="anchor" href="#how-do-i-contribute-a-new-function-or-application"&gt;&lt;/a&gt;How do I contribute a new function or application?&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;If you cannot find what you are looking for in the existing catalog of functions and applications, please consider contributing. This way, the entire open source community will benefit. In a subsequent post, we will walk through a real-world example of developing a function and stream application.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We encourage the community to get involved with this project. In addition to code contributions, we really appreciate documentation improvements and creating issues.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="stay-tuned"&gt;&lt;a class="anchor" href="#stay-tuned"&gt;&lt;/a&gt;Stay tuned&amp;#8230;&amp;#8203;&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This blog is the second in a series that will cover many related topics.  Look for more deep dives and focused topics in the coming weeks. We will take you through the entire landscape of components included in this repository and surrounding processes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>A Bootiful Podcast: Intuit's Katie Levy on Spring Boot, Kotlin, Android and more</title>
     <link rel="alternate" href="https://spring.io/blog/2020/07/17/a-bootiful-podcast-intuit-s-katie-levy-on-spring-boot-kotlin-android-and-more" />
@@ -971,36 +1284,6 @@ Artem&lt;/p&gt;
 &lt;p&gt;Revisiting Spring&amp;rsquo;s web support, Spring MVC comes with &lt;code&gt;PathPattern&lt;/code&gt; parsing for efficient URL matching now, and WebFlux comes with a completely new and fully reactive multipart parser implementation, plus many further refinements in 5.3 M1 already.&lt;/p&gt;
 &lt;p&gt;A &lt;a href="https://github.com/spring-projects/spring-framework/milestone/237"&gt;second milestone&lt;/a&gt; is planned for early August, introducing data binding for Java record classes as well as Kotlin 1.4 and &lt;a href="https://github.com/Kotlin/kotlinx.serialization"&gt;&lt;code&gt;kotlinx.serialization&lt;/code&gt;&lt;/a&gt; support for JSON on Spring MVC. A first release candidate is planned for mid September, with general availability expected in late October.&lt;/p&gt;
 &lt;p&gt;Cheers,&lt;br/&gt;Juergen&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>This Week in Spring - June 23, 2020</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/06/23/this-week-in-spring-june-23-2020" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2020-06-23:4113</id>
-    <updated>2020-06-23T22:43:00Z</updated>
-    <content type="html">&lt;p&gt;Hi, Spring fans! What a week it&amp;rsquo;s been! Tomorrow I&amp;rsquo;ll be presenting a webinar on the easy integration &lt;a href="https://tanzu.vmware.com/content/webinars/jun-24-tanzu-observability-tips-for-understanding-your-spring-boot-applications"&gt;between Spring Boot and Tanzu Wavefront&lt;/a&gt;. Wavefront is an all-in-one, integrated distributed tracing metrics analytics observability platform. Join us tomorrow to learn about observability, about Wavefront, and their integration in the Spring ecosystem with Spring Cloud Sleuth and Micrometer, among other things.&lt;/p&gt;
-&lt;p&gt;We&amp;rsquo;ve so many great things to look at this week so let&amp;rsquo;s get to it! &lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/19/spring-tools-4-7-0-released"&gt;Spring Tools 4.7.0 released&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/19/a-bootiful-podcast-nisha-kumar-and-rose-judge-on-the-linux-foundation-s-project-tern"&gt;A Bootiful Podcast: Nisha Kumar and Rose Judge on the Linux Foundation&amp;rsquo;s project Tern&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/18/what-s-new-in-spring-boot-2-3"&gt;What&amp;rsquo;s new in Spring Boot 2.3&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/17/getting-started-with-rsocket-spring-security"&gt;Getting Started With RSocket: Spring Security&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/16/spring-tips-spring-and-graal-pt-2"&gt;Spring Tips: Spring and Graal (pt. 2)&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/16/spring-boot-for-apache-geode-vmware-gemfire-1-1-8-release-and-1-2-8-release-available"&gt;Spring Boot for Apache Geode &amp;amp; VMware GemFire 1.1.8.RELEASE and 1.2.8.RELEASE available!&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://twitter.com/juliendubois/status/1275415716049674241?s=12"&gt;Julien Dubois on an Azure Native Function with Spring Cloud Function&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://blogs.vmware.com/vmworld/2020/06/vmworld-2020-digital-edition.html"&gt;VMworld 2020 Digital Edition&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;I love this &lt;a href="https://github.com/spring-projects/spring-data-examples/blob/master/jdbc/jooq/README.adoc"&gt;Spring Data JDBC example demonstrating an integration with JOOQ&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Check out the rewritten getting started guide on &lt;a href="https://docs.microsoft.com/en-us/azure/developer/java/spring-framework/"&gt;using Spring Data JPA with Azure Database for MySQL&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;A great post on Okta Developer: &lt;a href="https://developer.okta.com/blog/2020/06/17/angular-docker-spring-boot"&gt;Angular, Docker with a Big Hug from Spring Boot &lt;/a&gt;. Okta&amp;rsquo;s Matt Raible drove the creation of the article. He solicited input from Benoit Sautel (who helped with Gradle), Google&amp;rsquo;s Ray Tsang (who helped with Docker and Jib), Google&amp;rsquo;s James Ward (Kubernetes and Google Cloud), Heroku&amp;rsquo;s Joe Kutner (who helped with Heroku and Docker and buildpacks), and me (I helped with Spring and Cloud Foundry). It was a lot of fun collaborating with so many talented people.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://www.infoq.com/presentations/ddd-spring-data-jdbc/"&gt;Domain-Driven Design with Relational Databases Using Spring Data JDBC&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;A great post on the Codecentric AG blog: &lt;a href="https://blog.codecentric.de/en/2020/06/spring-boot-graalvm-native-image-maven-plugin/"&gt;Simplifying Spring Boot GraalVM Native Image builds with the native-image-maven-plugin&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://inside.java/2020/06/18/java14-preview-api/"&gt;Java 14 - Preview Features and their APIs&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://inside.java/2020/06/17/sealed-classes/"&gt;Java Feature Spotlight: Sealed Classes&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

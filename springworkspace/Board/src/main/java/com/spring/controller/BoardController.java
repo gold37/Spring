@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -835,7 +834,7 @@ public class BoardController {
 	   return "msg";
    }
     
-    */
+   */
    
 	   
    // === #90. 원게시물에 딸린 댓글들을 조회해오기(Ajax 로 처리) ===
@@ -863,7 +862,53 @@ public class BoardController {
 	   return jsonArr.toString();
    } 
 	   
-	
-	
+   
+   // === #106. 검색어 입력시 자동글 완성하기 3 === //
+   @ResponseBody  /* 글자 그대로 보여줘서 뷰단이 필요없음 */
+   @RequestMapping(value="/wordSearchShow.action", produces="text/plain;charset=UTF-8")
+   public String wordSearchShow(HttpServletRequest request) {
+	   
+	   String searchType = request.getParameter("searchType");
+	   String searchWord = request.getParameter("searchWord");
+	   
+	   HashMap<String, String> paraMap = new HashMap<>();
+	   paraMap.put("searchType", searchType);
+	   paraMap.put("searchWord", searchWord);
+	   
+	   List<String> wordList = service.wordSearchShow(paraMap); // HashMap넘겨줄 메소드 생성
+	   
+	   JSONArray jsonArr = new JSONArray(); // 복수개라서 JSONArray로 만들어야함. list.jsp에서 json형식으로 넘겨주겠다고 이미 정함.
+
+	   if(wordList != null) {
+		   
+		   for(String word : wordList) {
+			   JSONObject jsonobj = new JSONObject();
+			   jsonobj.put("word", word);
+			   
+			   jsonArr.put(jsonobj);
+		   }
+	   }
+	   
+	   return jsonArr.toString();
+   }
+   
+
+   // == 스프링 스케줄러 연습하기 == //
+   // 여기서는 스프링 스케줄러 연습이므로 alert 를 창 띄우는 것으로 끝내지만 
+   // WAS에서 작업해야할 대량 메일발송 또는 대량 문자발송이라든지 
+   // 또는 DB에 접속하여 DB와 관련된 업무처리를 하도록 서비스업무를 호출하도록 하면 된다.
+   @RequestMapping(value="/alarmTest.action", method= {RequestMethod.GET}) 
+   public ModelAndView alertTest(HttpServletRequest request, ModelAndView mav) {
+	   	   
+	   String msg = "점심 시간입니다. 맛점하세요 !";
+	   String loc = request.getContextPath()+"/index.action";
+	   
+	   mav.addObject("msg", msg);
+	   mav.addObject("loc", loc);
+	   mav.setViewName("msg");
+	   
+	   return mav;
+   }
+   
 	
 }
