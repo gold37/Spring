@@ -1,9 +1,0 @@
-package com.spring.board.model;
-
-public class BoardVO {
-
-	// === #52. VO 생성하기 === //
-	
-	
-	
-}

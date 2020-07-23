@@ -257,6 +257,36 @@ public class BoardDAO implements InterBoardDAO {
 		List<String> wordList = sqlsession.selectList("board.wordSearchShow", paraMap);
 		return wordList;
 	}
+
+	
+	// ===#114. 총 게시물 건수 구하기 === //
+	@Override
+	public int getTotalCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("board.getTotalCount", paraMap);
+		return totalCount;
+	}
+
+	
+	// === #117. 페이징 처리한 글목록 가져오기 (검색이 있든지 없든지 모두 다 포함) === //
+	@Override
+	public List<BoardVO> boardListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<BoardVO> boardList = sqlsession.selectList("board.boardListSearchWithPaging", paraMap);
+		return boardList;
+	}
+
+	// === #128. 원게시물에 딸린 댓글들을 페이징처리해서 조회해오기(Ajax 로 처리) === //
+	@Override
+	public List<CommentVO> getCommentListPaging(HashMap<String, String> paraMap) {
+		List<CommentVO> commentList = sqlsession.selectList("board.getCommentListPaging", paraMap);
+		return commentList;
+	}
+
+	// === #132. 원게시물에 딸린 댓글 getCommentTotalPage 알아오기(Ajax 로 처리) === //
+	@Override
+	public int getCommentTotalCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("board.getCommentTotalCount", paraMap);
+		return totalCount;
+	}
 	
 
 

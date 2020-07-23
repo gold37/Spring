@@ -137,7 +137,18 @@
 	 
 	 function goView(seq) {
 		 
-		 location.href = "<%= ctxPath%>/view.action?seq="+seq;
+		<%--  location.href = "<%= ctxPath%>/view.action?seq="+seq; --%>
+
+		// === #122.
+		// 페이징 처리되어진 후 특정글제목을 클릭하여 상세내용을 본 이후
+		// 사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
+		// 현재 페이지 주소를 뷰단으로 넘겨준다.
+		var frm = document.goViewFrm;
+		frm.seq.value = seq;
+		
+		frm.method = "GET";
+		frm.action = "view.action";
+		frm.submit();
 		 
 	 } // end of function goView(seq) -------------------
 	 
@@ -190,6 +201,13 @@
 		</c:forEach>
 	</table>
 	
+	
+	<%-- === #120. 페이지바 보여주기 ===  --%>
+	<div align="center" style="width: 70%; margin: 10px auto;">
+		${pageBar}
+	</div>
+	
+	
 	<%-- === #99. 글검색 폼 추가하기 : 글제목, 글쓴이로 검색을 하도록 한다. === --%> 
 	<form name="searchFrm" style="margin-top: 20px;">
 		<select name="searchType" id="searchType" style="height: 26px;">
@@ -203,8 +221,14 @@
 	
 	<%-- === #104. 검색어 입력시 자동글 완성하기 1 === --%>
 	<div id="displayList" style="border: solid 1px gray; width: 318px; height: 100px; margin-left: 70px; margin-top: -1px; overflow: auto;">
-																										<!-- 위로 올리기 ▲ 		▲ div에 글 넘쳐나면 스크롤바 생김 -->
 	</div>
+	
+	
+	<%-- === #122 === --%>	
+	<form name="goViewFrm">
+		<input type="hidden" name="seq" />
+		<input type="hidden" name="gobackURL" value="${gobackURL}" />
+	</form>
 	
 	
 </div>		

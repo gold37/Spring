@@ -39,8 +39,8 @@ a {text-decoration: none !important;}
 						$(this).removeClass("moveColor");
 					});
 		
-		
-		goReadComment(); // 댓글 읽어오기 
+		//goReadComment(); // 페이징 처리 안한 댓글 읽어오기 
+	      goViewComment("1"); //페이징 처리한 댓글 읽어오기
 		
 	}); // end of $(document).ready(function(){})----------------
 	
@@ -64,7 +64,7 @@ a {text-decoration: none !important;}
 			dataType:"JSON",
 			success:function(json){
 				if(json.n == 1) {
-					goReadComment(); // 댓글 읽어오기 
+				//	goReadComment(); // 페이징 처리 안한 댓글 읽어오기 
 				}
 				else {
 					alert("댓글쓰기 실패!!");
@@ -80,7 +80,7 @@ a {text-decoration: none !important;}
 	}// end of function goAddWrite()----------------------
 	
 	
-	// === 댓글 읽어오기  === //
+	// === 페이징 처리 안한 댓글 읽어오기  === //
 	function goReadComment() {
 		$.ajax({
 			url:"<%= request.getContextPath()%>/readComment.action",
@@ -103,9 +103,47 @@ a {text-decoration: none !important;}
 					html += "<td colspan='4' style='text-align: center;'>댓글이 없습니다.</td>";
 					html += "</tr>";
 				}
+
+				$("#commentDisplay").html(html);
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});	
+	
+	}// end of function goReadComment()--------------------
+
+	
+	
+	// === #125. Ajax로 불러온 댓글내용을 페이징 처리하기  === //
+	function goViewComment(currentShowPageNo) {
+		$.ajax({
+			url:"<%= request.getContextPath()%>/commentList.action",
+			data:{"parentSeq":"${boardvo.seq}",
+				  "currentShowPageNo":currentShowPageNo}, // 몇페이지를 보고싶은지
+			dataType:"JSON",
+			success:function(json){
+				var html = "";
+				if(json.length > 0) {
+					$.each(json, function(index, item){
+						html += "<tr>";
+						html += "<td style='text-align: center;'>"+(index+1)+"</td>";
+						html += "<td>"+item.content+"</td>";
+						html += "<td style='text-align: center;'>"+item.name+"</td>";
+						html += "<td style='text-align: center;'>"+item.regDate+"</td>";
+						html += "</tr>";
+					});
+				}
+				else {
+					html += "<tr>";
+					html += "<td colspan='4' style='text-align: center;'>댓글이 없습니다.</td>";
+					html += "</tr>";
+				}
 				
 				$("#commentDisplay").html(html);
-				frm.content.value = "";
+				
+				// 페이지바 함수 호출
+				makeCommentPageBar(currentShowPageNo);
 			},
 			error: function(request, status, error){
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -113,6 +151,29 @@ a {text-decoration: none !important;}
 		});	
 		
 	}// end of function goReadComment()--------------------
+	
+	
+	// === 댓글내용 페이지바 Ajax로 만들기 === // 
+	function makeCommentPageBar(currentShowPageNo) {
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/getCommentTotalPage.action",
+			data:{"parentSeq":"${boardvo.seq}",
+				  "sizePerPage":"5"},
+			type:"GET",
+			dataType:"JSON",
+			success:function(json) {
+				console.log("전체 페이지 수 : " + json.totalPage);
+			
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		
+		});
+		
+	} // end of function makeCommentPageBar(currentShowPageNo) --------------- 
+	
 	
 </script>
 
@@ -162,7 +223,11 @@ a {text-decoration: none !important;}
 	
 	<br/>
 	
-	<button type="button" onclick="javascript:location.href='list.action'" >목록보기</button>
+	<button type="button" onclick="javascript:location.href='list.action'" >전체목록보기</button>
+	
+	<!-- === #124. === -->
+	<button type="button" onclick="javascript:location.href='${gobackURL}'" >목록보기</button>
+	
 	<button type="button" onclick="javascript:location.href='edit.action?seq=${boardvo.seq}'" >수정</button>
 	<button type="button" onclick="javascript:location.href='delete.action?seq=${boardvo.seq}'" >삭제</button>
 	

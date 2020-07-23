@@ -223,4 +223,54 @@
 	 </select>
 	 
 	 
+	 <!-- #115. 총 게시물 건수 구하기  -->
+	 <select id="getTotalCount" parameterType="HashMap" resultType="int">
+	 	select count(*)
+		from tblBoard
+		where status = 1
+		<if test='searchWord != ""'>
+			and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		</if>
+	 </select>
+	 
+	 
+	 <!-- #118. 페이징 처리한 글목록 가져오기 (검색이 있든지 없든지 모두 다 포함) -->
+	 <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.spring.board.model.BoardVO">
+		select seq, fk_userid, name, subject, readcount, regDate, commentCount
+		from 
+		(
+		select row_number() over(order by seq desc) AS rno, 
+		       seq, fk_userid, name, subject,  
+		       readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+		       commentCount
+		from tblBoard
+		where status = 1
+		<if test='searchWord != ""'>
+			and ${searchType} like '%'|| #{searchWord} ||'%'
+		</if>
+		) V
+		where rno between #{startRno} and #{endRno}
+	 </select>
+	 
+	 <!-- === #129. 원게시물에 딸린 댓글들을 페이징처리해서 조회해오기(Ajax 로 처리) === -->
+	 <select id="getCommentListPaging" parameterType="HashMap" resultType="com.spring.board.model.CommentVO" >
+		select name, content, regDate
+		from 
+		(
+		    select row_number() over(order by seq desc) AS rno, 
+		          name, content, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+		    from tblComment
+		    where status = 1 and parentSeq = #{parentSeq}
+		) V
+		where rno between #{startRno} and #{endRno}
+	 </select>
+	 
+	 <!-- === #133. 원게시물에 딸린 댓글 getCommentTotalPage 알아오기(Ajax 로 처리) === -->
+	 <select id="getCommentTotalCount" parameterType="HashMap" resultType="int">
+	 	select count(*)
+	 	from tblComment
+	 	where status = 1 and parentSeq = #{parentSeq}
+	 </select>
+	 
+	 
 </mapper>

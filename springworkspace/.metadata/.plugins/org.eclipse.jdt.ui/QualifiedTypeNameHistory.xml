@@ -37,4 +37,5 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.net.URI"/>
 <fullyQualifiedTypeName name="org.aspectj.lang.ProceedingJoinPoint"/>
+<fullyQualifiedTypeName name="com.spring.common.MyUtil"/>
 </qualifiedTypeNameHistroy>

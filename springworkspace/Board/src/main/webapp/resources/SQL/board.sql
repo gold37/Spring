@@ -271,3 +271,185 @@ where to_date(to_char(vistdate, 'yyyy-mm-dd'), 'yyyy-mm-dd') - to_date(to_char(s
 ------------------------------------
     회원명     이메일      예약방문일자
 ------------------------------------
+
+
+
+------------------------ >>>  페이징 처리하기 <<< -----------------------------------------
+begin
+    for i in 1..100 loop 
+        insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
+        values(boardSeq.nextval, 'jwjw', '지원지원', '좋은아침~'||i, '오늘도 힘차게 달려봅시다!'||i, '1234', default, default, default); 
+    end loop;
+end;   
+
+begin
+    for i in 1..100 loop 
+        insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
+        values(boardSeq.nextval, 'rainbow', '무지개', '쉽게만 살아가면 재미없어 빙고!'||i, '히히^.^'||i, '1234', default, default, default); 
+    end loop;
+end;
+
+select *
+from tblBoard
+order by seq desc;
+
+commit;
+
+begin
+    for i in 1..100 loop 
+        insert into tblComment(seq, fk_userid, name, content, regdate, parentseq, status)
+        values(commentSeq.nextval, 'jwjw', '지원지원', '나는 정말 내가 좋아!'||i, default, 6, default);
+    end loop;
+end; 
+
+select *
+from tblBoard
+
+update tblBoard set commentCount = commentCount + 100
+where seq = 1;
+
+select *
+from tblComment
+where parentseq = 1
+order by seq desc;
+
+select seq, commentCount
+from tblBoard
+where seq = 1;
+
+commit;
+
+select count(content)
+from tblBoard
+where status =1;
+
+
+
+select seq, fk_userid, name, subject,  
+       readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+       commentCount
+from tblBoard
+where status = 1
+and subject like '%'|| '아침' ||'%'
+order by seq desc   
+
+
+select seq, fk_userid, name, subject, readcount, regDate, commentCount
+from 
+(
+    select rownum AS rno,
+           seq, fk_userid, name, subject, readcount, regDate, commentCount
+    from 
+    (
+        select seq, fk_userid, name, subject,  
+               readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+               commentCount
+        from tblBoard
+        where status = 1
+        and subject like '%'|| '아침' ||'%'
+        order by seq desc
+    ) V
+) T
+where rno between 1 and 10;   -- 1페이지   1   10
+
+-- 또는
+
+select seq, fk_userid, name, subject, readcount, regDate, commentCount
+from 
+(
+select row_number() over(order by seq desc) AS rno, 
+       seq, fk_userid, name, subject,  
+       readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+       commentCount
+from tblBoard
+where status = 1
+and subject like '%'|| '아침' ||'%'
+) V
+where rno between 1 and 10;   -- 1페이지   1   10
+        
+
+select seq, fk_userid, name, subject, readcount, regDate, commentCount
+from 
+(
+    select rownum AS rno,
+           seq, fk_userid, name, subject, readcount, regDate, commentCount
+    from 
+    (
+        select seq, fk_userid, name, subject,  
+               readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+               commentCount
+        from tblBoard
+        where status = 1
+        and subject like '%'|| '아침' ||'%'
+        order by seq desc
+    ) V
+) T
+where rno between 11 and 20;   -- 2페이지   11  20
+  
+  select seq, fk_userid, name, subject, readcount, regDate, commentCount
+  from 
+  (
+    select row_number() over(order by seq desc) AS rno, 
+           seq, fk_userid, name, subject,  
+           readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+           commentCount
+    from tblBoard
+    where status = 1
+    and subject like '%'|| '아침' ||'%'
+  ) V
+  where rno between 11 and 20;   -- 2페이지   11   10
+  
+                    
+select seq, fk_userid, name, subject, readcount, regDate, commentCount
+from 
+(
+    select rownum AS rno,
+           seq, fk_userid, name, subject, readcount, regDate, commentCount
+    from 
+    (
+        select seq, fk_userid, name, subject,  
+               readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+               commentCount
+        from tblBoard
+        where status = 1
+        and subject like '%'|| '아침' ||'%'
+        order by seq desc
+    ) V
+) T
+where rno between 21 and 30;  -- 3페이지   21  30
+
+select seq, fk_userid, name, subject, readcount, regDate, commentCount
+from 
+(
+select row_number() over(order by seq desc) AS rno, 
+       seq, fk_userid, name, subject,  
+       readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+       commentCount
+from tblBoard
+where status = 1
+and subject like '%'|| '아침' ||'%'
+) V
+where rno between 21 and 30;   -- 3페이지   21   30
+
+
+
+select name, content, regDate
+from 
+(
+    select row_number() over(order by seq desc) AS rno, 
+          name, content, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+    from tblComment
+    where status = 1 and parentSeq = '1'
+) V
+where rno between 1 and 5;      --- 1페이지
+
+
+select name, content, regDate
+from 
+(
+    select row_number() over(order by seq desc) AS rno, 
+          name, content, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+    from tblComment
+    where status = 1 and parentSeq = '1'
+) V
+where rno between 6 and 10;      --- 2페이지
