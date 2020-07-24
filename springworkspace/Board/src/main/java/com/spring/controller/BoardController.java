@@ -519,6 +519,16 @@ public class BoardController {
 	@RequestMapping(value="/add.action")
 	public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
+		// === #138. 답변 글쓰기가 추가 된 경우 ------------------------------
+		String fk_seq = request.getParameter("fk_seq");
+		String groupno = request.getParameter("groupno");
+		String depthno = request.getParameter("depthno");
+		
+		mav.addObject("fk_seq", fk_seq);
+		mav.addObject("groupno", groupno);
+		mav.addObject("depthno", depthno);
+		// ------------------------------------------------------------
+		
 		mav.setViewName("board/add.tiles1");
 		//		/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
 		
@@ -735,11 +745,11 @@ public class BoardController {
 		
 		String url = "list.action";
 		
-		
 		// === [이전] 만들기 ===
 		if(pageNo != 1) {
 			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 		}
+		
 		while (!(loop > blockSize || pageNo > totalPage )) {
 
 			

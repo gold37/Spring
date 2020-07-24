@@ -99,11 +99,27 @@
 	 </update>
 	 
 	 
-	 <!-- === #57. 글쓰기 (파일첨부가 없는 글쓰기) === -->
+	 <!-- === #57. 글쓰기 (파일첨부가 없는 글쓰기) === 
 	 <insert id="add" parameterType="com.spring.board.model.BoardVO">
 	 	insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
 	 	values(boardSeq.nextval, #{fk_userid}, #{name}, #{subject}, #{content}, #{pw}, default, default, default)
-	 							<!-- ▲ BoardVO에서 get다음 들어가는 이름 -->
+	 </insert>
+	 -->
+	 
+	 <!-- === #143. 답변형 글쓰기 (파일첨부가 없는 글쓰기) 
+	 				먼저, #57번을 주석처리한 후 아래와 같이 한다.  === -->
+	 <insert id="add" parameterType="com.spring.board.model.BoardVO">
+	 	<if test='fk_seq.equals("")'>
+		 	insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status, groupno, fk_seq, depthno)
+		 	values(boardSeq.nextval, #{fk_userid}, #{name}, #{subject}, #{content}, #{pw}, default, default, default, #{groupno}, default, default)
+		 							<!-- ▲ BoardVO에서 get다음 들어가는 이름 -->
+	 	</if>
+	 	
+	 	<if test='!fk_seq.equals("")'>
+		 	insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status, groupno, fk_seq, depthno)
+		 	values(boardSeq.nextval, #{fk_userid}, #{name}, #{subject}, #{content}, #{pw}, default, default, default, #{groupno}, #{fk_seq}, #{depthno}+1)
+		 							<!-- ▲ BoardVO에서 get다음 들어가는 이름 -->																	<!-- ▲ 답변쓰기에 들여쓰기해줌 -->
+	 	</if>						
 	 </insert>
 	 
 	 
@@ -126,7 +142,7 @@
 	 </select>
 	 
 	 
-	 <!-- === #66. (댓글쓰기 없는 게시판에서) 글 1개 보여주기 === -->
+	 <!-- === #66. (댓글쓰기 없는 게시판에서) 글 1개 보여주기 === 
 	 <select id="getView" parameterType="String" resultType="com.spring.board.model.BoardVO" >
 		select  previousseq, previoussubject, 
 		        seq, fk_userid, name, subject, content, readCount, regDate, 
@@ -145,6 +161,29 @@
 		) V
 		where V.seq = #{seq}
 	 </select>	 
+	 -->
+	 
+	 <!-- === #136. 글 1개 보여주기
+	 		  		먼저, 위의 #66번을 주석처리 한 다음 아래와 같이 한다. === -->
+	 <select id="getView" parameterType="String" resultType="com.spring.board.model.BoardVO" >
+		select previousseq, previoussubject, seq, fk_userid, name,
+		subject, content, readCount, regDate, nextseq, nextsubject,
+		depthno, fk_seq, groupno
+		from(
+			select lag(seq, 1) over(order by seq desc) as previousseq
+			, lag(subject, 1) over(order by seq desc) as previoussubject
+	
+			, seq, fk_userid, name, subject, content, readCount
+			, depthno, fk_seq, groupno
+			, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+	
+			, lead(seq, 1) over(order by seq desc) as nextseq
+			, lead(subject, 1) over(order by seq desc) as nextsubject
+			from tblBoard
+			where status = 1
+		)
+		where seq = #{seq}
+	 </select>
 	 
 	 <!-- === #67. 글조회수 1증가 하기 === -->
 	 <update id="setAddReadCount" parameterType="String">
@@ -234,7 +273,7 @@
 	 </select>
 	 
 	 
-	 <!-- #118. 페이징 처리한 글목록 가져오기 (검색이 있든지 없든지 모두 다 포함) -->
+	 <!-- #118. 페이징 처리한 글목록 가져오기 (검색이 있든지 없든지 모두 다 포함) 
 	 <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.spring.board.model.BoardVO">
 		select seq, fk_userid, name, subject, readcount, regDate, commentCount
 		from 
@@ -251,6 +290,63 @@
 		) V
 		where rno between #{startRno} and #{endRno}
 	 </select>
+	 -->
+	 
+	 <!-- #118. 페이징 처리한 글목록 가져오기 (검색이 있든지 없든지 모두 다 포함)
+	 <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.spring.board.model.BoardVO">
+		select seq, fk_userid, name, subject, readcount, regDate, commentCount
+		from 
+		(
+		select row_number() over(order by seq desc) AS rno, 
+		       seq, fk_userid, name, subject,  
+		       readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+		       commentCount
+		from tblBoard
+		where status = 1
+		<if test='searchWord != ""'>
+			and ${searchType} like '%'|| #{searchWord} ||'%'
+		</if>
+		) V
+		where rno between #{startRno} and #{endRno}
+	 </select>
+	 -->
+	 
+	 <!-- #144. 답변형 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지 없든지 모두 다 포함) 
+	 			먼저, #118번을 주석처리한 후 아래와 같이 한다. -->
+	 <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.spring.board.model.BoardVO">
+		select seq, fk_userid, name, subject, readcount, regDate, commentCount
+		     , groupno, fk_seq, depthno 
+		from 
+		(
+		    select rownum AS rno
+		         , seq, fk_userid, name, subject, readcount, regDate, commentCount  
+		         , groupno, fk_seq, depthno 
+		    from
+		    (
+		        select seq, fk_userid, name, subject,  
+		               readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate,
+		               commentCount,
+		               groupno, fk_seq, depthno
+		        from tblBoard
+		        where status = 1
+		        <if test='searchWord != ""'>
+					and ${searchType} like '%'|| #{searchWord} ||'%'
+				</if>
+		        start with fk_seq = 0
+		        connect by prior seq = fk_seq
+		        order siblings by groupno desc, seq asc
+		         <!--    
+		         	order siblings by 를 사용하는 이유는
+		                        그냥 정렬(order by)하면 계층구조가 깨진다.
+		        	그래서 계층구조를 그대로 유지하면서
+		     	 	동일한 groupno 를 가진 행끼리 정렬을 하려면
+		            siblings 를 써야 한다. 
+		         -->
+		    ) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	 </select>
+	 
 	 
 	 <!-- === #129. 원게시물에 딸린 댓글들을 페이징처리해서 조회해오기(Ajax 로 처리) === -->
 	 <select id="getCommentListPaging" parameterType="HashMap" resultType="com.spring.board.model.CommentVO" >
@@ -272,5 +368,10 @@
 	 	where status = 1 and parentSeq = #{parentSeq}
 	 </select>
 	 
+	 <!-- === #142. tblBoard 테이블에서 groupno 컬럼의 최대값 구하기 -->
+	 <select id="getGroupnoMax" resultType="int">
+	 	select nvl(max(groupno), 0)
+	 	from tblBoard
+	 </select>
 	 
 </mapper>

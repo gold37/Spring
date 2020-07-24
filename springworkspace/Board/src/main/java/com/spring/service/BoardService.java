@@ -167,9 +167,16 @@ public class BoardService implements InterBoardService {
 	@Override
 	public int add(BoardVO boardvo) {
 
+		// === #140. 원글쓰기인지, 답변 글쓰기인지 구분하기  === // -------------------------
+		if(boardvo.getFk_seq() == null || boardvo.getFk_seq().trim().isEmpty()) {
+			// 원글쓰기인지
+			int groupno = dao.getGroupnoMax()+1;
+			boardvo.setGroupno(String.valueOf(groupno));
+		}
+		//-------------------------------------------------------------------------
+	
 		// db에 보내주기
 		int n = dao.add(boardvo);
-		
 		return n;
 	}
 

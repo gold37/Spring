@@ -5,16 +5,16 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-22T20:39:54Z</updated>
+  <updated>2020-07-22T20:39:00Z</updated>
   <entry>
-    <title>Spring Integration 4.3.23, 5.1.12, 5.2.8 &amp; 5.3.2 Avaialble; CVE-2020-5413</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/22/spring-integration-4-3-23-5-1-12-5-2-8-5-3-2-avaialble-cve-2020-5413" />
+    <title>Spring Integration 4.3.23, 5.1.12, 5.2.8 &amp; 5.3.2 available; CVE-2020-5413</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/22/spring-integration-4-3-23-5-1-12-5-2-8-5-3-2-available-cve-2020-5413" />
     <category term="releases" label="Releases" />
     <author>
       <name>Artem Bilan</name>
     </author>
     <id>tag:spring.io,2020-07-22:4137</id>
-    <updated>2020-07-22T20:39:54Z</updated>
+    <updated>2020-07-22T20:39:00Z</updated>
     <content type="html">&lt;div class="paragraph"&gt;
 &lt;p&gt;Dear Spring community,&lt;/p&gt;
 &lt;/div&gt;

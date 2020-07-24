@@ -124,6 +124,15 @@ table, th, td, input, textarea {border: solid gray 1px;}
 			</tr>
 		</table>
 		
+		<%-- === #139. 답변 글쓰기인 경우 
+					      부모글(원글)의 seq값인 fk_seq 값과
+					      부모글(원글)의 groupno값,
+					      부모글(원글)의 depthno값을 hidden 타입으로 보내준다.	=== --%>
+		
+		<input type="hidden" name="fk_seq" value="${fk_seq}" />
+		<input type="hidden" name="groupno" value="${groupno}" />
+		<input type="hidden" name="depthno" value="${depthno}" />
+		
 		<div style="margin: 20px;">
 			<button type="button" id="btnWrite">쓰기</button>
 			<button type="button" onclick="javascript:history.back()">취소</button>

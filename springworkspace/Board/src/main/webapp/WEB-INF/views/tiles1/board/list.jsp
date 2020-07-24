@@ -185,6 +185,7 @@
 
 				
 				<%-- 댓글쓰기가 있는 게시판 START --%>
+				<%-- 
 				<c:if test="${boardvo.commentCount > 0}">
 					<span class="subject" onclick="goView('${boardvo.seq}')">${boardvo.subject}&nbsp;<span style="vertical-align: super;">[<span style="color:red; font-size: 9pt; font-weight: bold;">${boardvo.commentCount}</span>]</span></span>
 				</c:if>
@@ -193,6 +194,28 @@
 					<span class="subject" onclick="goView('${boardvo.seq}')">${boardvo.subject}</span>
 				</c:if> 
 				<%-- 댓글쓰기가 있는 게시판 END --%>
+				
+				
+				<%-- 댓글쓰기 및 답변형 게시판 START --%>
+				<!-- 답변글이 아닌 원글인 경우 -->
+				<c:if test="${boardvo.depthno == 0}">
+					<c:if test="${boardvo.commentCount > 0}">
+						<span class="subject" onclick="goView('${boardvo.seq}')">${boardvo.subject}&nbsp;<span style="vertical-align: super;">[<span style="color:red; font-size: 9pt; font-weight: bold;">${boardvo.commentCount}</span>]</span></span>
+					</c:if>
+					<c:if test="${boardvo.commentCount == 0}">
+						<span class="subject" onclick="goView('${boardvo.seq}')">${boardvo.subject}</span>
+					</c:if> 
+				</c:if>
+				<!-- 답변글인 경우 -->
+				<c:if test="${boardvo.depthno > 0}">
+					<c:if test="${boardvo.commentCount > 0}">
+						<span class="subject" onclick="goView('${boardvo.seq}')"><span style="color: red; font-weight: bold; padding-left: ${boardvo.depthno*20}px">┗Re&nbsp;</span>${boardvo.subject}&nbsp;<span style="vertical-align: super;">[<span style="color:red; font-size: 9pt; font-weight: bold;">${boardvo.commentCount}</span>]</span></span>
+					</c:if>
+					<c:if test="${boardvo.commentCount == 0}">
+						<span class="subject" onclick="goView('${boardvo.seq}')"><span style="color: red; font-weight: bold; padding-left: ${boardvo.depthno*20}px">┗Re&nbsp;</span>${boardvo.subject}</span>
+					</c:if> 
+				</c:if>
+				<%-- 댓글쓰기 및 답변형 게시판 END --%>
 				
 				</td>
 				<td align="center">${boardvo.name}</td>

@@ -3,6 +3,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<% String ctxPath = request.getContextPath(); %>
+
 <style>
 	
 table, th, td, input, textarea {
@@ -163,7 +165,68 @@ a {text-decoration: none !important;}
 			type:"GET",
 			dataType:"JSON",
 			success:function(json) {
-				console.log("전체 페이지 수 : " + json.totalPage);
+			//	console.log("전체 페이지 수 : " + json.totalPage);
+				
+				if(json.totalPage > 0) {
+					// 댓글이 있는 경우
+					
+					var totalPage = json.totalPage;
+					
+					var pageBarHTML = "<ul style='list-style: none;'>";
+					
+					var blockSize = 10;
+					
+					var loop = 1;
+					
+					if(typeof currentShowPageNo == "string") {
+						// 문자열이라면 뺄셈할 수 없기 때문에 if문으로 string인지 검사
+						currentShowPageNo = Number(currentShowPageNo);
+					}
+					var pageNo = Math.floor( (currentShowPageNo - 1)/blockSize )* blockSize + 1;
+							// 			(2-1)10		1/10	==> Math.floor(0.1)	 ==> 0
+							//			(11-1)/10	10/10	==> Math.floor(1)	 ==> 1
+							//			(12-1)/10	11/10	==> Math.floor(1.1)	 ==> 1
+							
+					
+					// === [이전] 만들기 ===
+					if(pageNo != 1) {
+						
+						pageBarHTML += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='javascript:goViewComment(\""+(pageNo-1)+"\")'>[이전]</a></li>";
+					}
+					
+					while (!(loop > blockSize || pageNo > totalPage )) {
+
+						
+						if(pageNo == currentShowPageNo) {
+							pageBarHTML += "<li style='display:inline-block; width:30px; font-size: 12pt; border: solid 1px solid; color: red; padding: 2px 4px;'>" + pageNo + "</li>";
+						}
+						else {
+							pageBarHTML += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='javascript:goViewComment(\""+pageNo+"\")'>"+pageNo+"</a></li>";
+						}
+						
+						loop ++;
+						pageNo ++;
+						
+					} // end of while ----------------------------
+					
+					
+					// === [다음] 만들기 ===
+					if( !(pageNo > totalPage) ) {
+					
+						pageBarHTML += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='javascript:goViewComment(\""+pageNo+"\")'>[다음]</a></li>";		
+					
+					}
+					
+					pageBarHTML += "</ul>";
+					
+					$("#pageBar").html(pageBarHTML);
+					pageBarHTML = "";
+							
+				}
+				else {
+					// 댓글이 없는 경우
+					$("#pageBar").empty();
+				}
 			
 			},
 			error: function(request, status, error){
@@ -231,7 +294,12 @@ a {text-decoration: none !important;}
 	<button type="button" onclick="javascript:location.href='edit.action?seq=${boardvo.seq}'" >수정</button>
 	<button type="button" onclick="javascript:location.href='delete.action?seq=${boardvo.seq}'" >삭제</button>
 	
-	
+	<!-- === #136. 어떤 글에 대한 답변 글쓰기는 로그인 된 회원의 gradelevel 값이 10인 회원만 가능하도록 함  === -->
+	<c:if test="${sessionScope.loginuser.gradelevel == 10}"> 
+		<button type="button" onclick="javascript:location.href='<%= ctxPath%>/add.action?fk_seq=${boardvo.seq}&groupno=${boardvo.groupno}&depthno=${boardvo.depthno}'" >답변 글쓰기</button>
+	</c:if>
+
+
 	<!-- === #83. 댓글쓰기 폼 추가 === -->
 	<c:if test="${not empty sessionScope.loginuser}">
 		<h3 style="margin-top: 50px;">댓글쓰기 및 보기</h3>
@@ -264,5 +332,8 @@ a {text-decoration: none !important;}
 		</thead>
 		<tbody id="commentDisplay"></tbody>
 	</table>
+	
+	<!-- === #134. 댓글 페이지바 === -->
+	<div id="pageBar" style="padding-left: 100px; margin: 25px auto; width: 70%;"></div>
 	
 </div>
