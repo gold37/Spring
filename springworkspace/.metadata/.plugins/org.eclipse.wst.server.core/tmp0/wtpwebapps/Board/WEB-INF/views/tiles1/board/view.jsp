@@ -277,6 +277,28 @@ a {text-decoration: none !important;}
 			<th>작성일자</th>
 			<td>${boardvo.regDate}</td>
 		</tr>
+		
+		<!-- === #158. 첨부파일 이름 및 파일크기를 보여주고 첨부파일 다운로드 하기  -->
+		<tr>
+			<th>첨부파일</th>
+			<td>
+				<c:if test="${sessionScope.loginuser != null }">
+					<a href="<%= request.getContextPath()%>/download.action?seq=${boardvo.seq}"> ${boardvo.orgFilename} </a>
+				</c:if>
+				
+				<c:if test="${sessionScope.loginuser == null }">
+					${boardvo.orgFilename}
+				</c:if>
+			</td>
+		</tr>
+		
+		<tr>
+			<th>파일크기(bytes)</th>
+			<td>
+				${boardvo.fileSize}
+			</td>
+		</tr>
+
 	</table>
 	
 	<br/>

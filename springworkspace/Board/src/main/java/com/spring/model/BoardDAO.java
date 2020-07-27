@@ -295,8 +295,14 @@ public class BoardDAO implements InterBoardDAO {
 		int max = sqlsession.selectOne("board.getGroupnoMax");
 		return max;
 	}
+
 	
-
-
+	// === #152. 글쓰기 (파일첨부가 있는 글쓰기) === //
+	@Override
+	public int add_withFile(BoardVO boardvo) {
+		int n = sqlsession.insert("board.add_withFile", boardvo);
+		return n;
+	}
+	
 		
 }

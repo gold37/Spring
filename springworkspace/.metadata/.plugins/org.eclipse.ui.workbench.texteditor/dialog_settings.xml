@@ -6,27 +6,27 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="/readComment." key="selection"/>
+		<item value="fileSize" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="/readComment."/>
-			<item value="readComment"/>
-			<item value="총 페이지"/>
-			<item value="총페이지"/>
-			<item value="공식"/>
-			<item value="공식임"/>
-			<item value="#90"/>
-			<item value="댓글 읽어오기"/>
-			<item value="댓글"/>
-			<item value="121"/>
-			<item value="122"/>
+			<item value="fileSize"/>
+			<item value="8859_1"/>
+			<item value="8859"/>
+			<item value="159"/>
+			<item value="regDate"/>
+			<item value="158"/>
+			<item value="getView"/>
 			<item value="62"/>
-			<item value="104"/>
-			<item value="goView"/>
-			<item value="있는"/>
+			<item value="152"/>
+			<item value="requiredLogin_delete"/>
+			<item value="143"/>
+			<item value="140"/>
+			<item value="boardListSearchWithPaging"/>
+			<item value="paging"/>
+			<item value="136"/>
 		</list>
 		<list key="replacehistory">
 		</list>

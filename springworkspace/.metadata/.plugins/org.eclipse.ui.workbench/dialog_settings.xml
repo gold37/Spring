@@ -7,7 +7,7 @@
 	<section name="EditorSelectionDialog">
 		<item value="true" key="EditorSelectionDialog.STORE_ID_INTERNAL_EXTERNAL"/>
 		<item value=".sql" key="EditorSelectionDialog.STORE_ID_FILE_EXTENSION"/>
-		<item value="C:\sw\sqldeveloper-18.2.0.183.1748-no-jre\sqldeveloper\sqldeveloper.exe" key="EditorSelectionDialog.STORE_ID_DESCR"/>
+		<item value="C:\sqldeveloper-19.2.1.247.2212-no-jre\sqldeveloper\sqldeveloper.exe" key="EditorSelectionDialog.STORE_ID_DESCR"/>
 	</section>
 	<section name="org.eclipse.ui.internal.QuickAccess">
 		<item value="-1" key="dialogHeight"/>

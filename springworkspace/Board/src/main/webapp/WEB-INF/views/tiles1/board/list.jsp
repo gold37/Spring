@@ -171,8 +171,11 @@
 			<th style="width: 70px;  text-align: center;">글번호</th>
 			<th style="width: 360px; text-align: center;">제목</th>
 			<th style="width: 70px;  text-align: center;">성명</th>
-			<th style="width: 180px; text-align: center;">날짜</th>
+			<th style="width: 150px; text-align: center;">날짜</th>
 			<th style="width: 70px;  text-align: center;">조회수</th>
+			
+			<%-- ===#155. 첨부파일이 있는지 없는지 이미지로 보여준다. === --%>
+			<th style="width: 70px;  text-align: center;">첨부파일</th>
 		</tr>	
 		<c:forEach var="boardvo" items="${boardList}" varStatus="status">
 			<tr>
@@ -221,6 +224,13 @@
 				<td align="center">${boardvo.name}</td>
 				<td align="center">${boardvo.regDate}</td>
 				<td align="center">${boardvo.readCount}</td>
+				
+				<%-- === #156. 첨부파일이 있는지 없는지 이미지로 보여준다. === --%>
+				<td align="center">
+					<c:if test="${not empty boardvo.fileName}">
+						<img src="<%= request.getContextPath() %>/resources/images/disk.gif" />
+					</c:if>
+				</td>
 		</c:forEach>
 	</table>
 	

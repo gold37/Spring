@@ -63,5 +63,7 @@ public interface InterBoardDAO {
 	
 	int getGroupnoMax(); // tblBoard 테이블에서 groupno 컬럼의 최대값 구하기
 	
+	int add_withFile(BoardVO boardvo); // 글쓰기 (파일첨부가 있는 글쓰기)
+	
 	
 }

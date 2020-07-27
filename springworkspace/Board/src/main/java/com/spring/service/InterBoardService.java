@@ -65,6 +65,8 @@ public interface InterBoardService {
 	List<CommentVO> getCommentListPaging(HashMap<String, String> paraMap); // 원게시물에 딸린 댓글들을 페이징처리해서 조회해오기(Ajax 로 처리)
 
 	int getCommentTotalCount(HashMap<String, String> paraMap); // 원게시물에 딸린 댓글 getCommentTotalPage 알아오기(Ajax 로 처리)
+
+	int add_withFile(BoardVO boardvo); // 글쓰기 (파일첨부가 있는 글쓰기)
 	
 }
 

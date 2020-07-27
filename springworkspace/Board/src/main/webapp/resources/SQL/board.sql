@@ -66,7 +66,7 @@ where userid in ('jwjw', 'admin');
 commit;
 
 update mymvc_shopping_member set lastPwdChangeDate = '20/01/14'
-where userid= 'rainbow';
+where userid= 'juju';
 
 select idx, userid, name, email, gradelevel
     , trunc( months_between(sysdate, lastPwdChangeDate) ) AS pwdchangegap 

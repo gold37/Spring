@@ -463,4 +463,23 @@ public class BoardService implements InterBoardService {
 		return totalCount;
 	}
 
+
+	// === #151. 글쓰기 (파일첨부가 있는 글쓰기) === // 
+	@Override
+	public int add_withFile(BoardVO boardvo) {
+
+		// === 원글쓰기인지, 답변 글쓰기인지 구분하기  === // -------------------------
+		if(boardvo.getFk_seq() == null || boardvo.getFk_seq().trim().isEmpty()) {
+			// 원글쓰기인지
+			int groupno = dao.getGroupnoMax()+1;
+			boardvo.setGroupno(String.valueOf(groupno));
+		}
+		//-------------------------------------------------------------------------
+	
+		// db에 보내주기
+		int n = dao.add_withFile(boardvo); // 첨부파일이 있는 경우
+		return n;
+
+	}
+
 }
