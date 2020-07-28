@@ -1,0 +1,15 @@
+package com.spring.employees.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.spring.employees.model.InterEmpDAO;
+
+@Service
+public class EmpService implements InterEmpService {
+	
+	@Autowired
+	private InterEmpDAO dao;
+	
+	
+}

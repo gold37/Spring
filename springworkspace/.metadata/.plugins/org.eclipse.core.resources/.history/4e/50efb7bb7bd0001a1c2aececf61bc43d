@@ -1,0 +1,30 @@
+package com.spring.employees.model;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.spring.model.TestVO;
+
+@Repository
+public class EmpDAO implements InterEmpDAO {
+
+	@Resource 
+	private SqlSessionTemplate sqlsession3;
+
+	// employees 불러오기
+	@Override
+	public List<TestVO> employees_select() {
+
+		List<TestVO> emp = sqlsession.selectList("emp.employees_select"); 
+				
+		List<TestVO> testvoList = sqlsession.selectList("board.test_select"); // SQL문 호출함
+		
+		return null;
+	}
+	
+	
+}

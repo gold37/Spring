@@ -233,16 +233,16 @@ public class FileManager {
 	   int width=-1;
 		
 	   File file = new File(pathname);
-	     if (! file.exists())
-		return width;
+	   if (! file.exists())
+	   return width;
 		
 	   ParameterBlock pb=new ParameterBlock(); 
-           pb.add(pathname); 
-           RenderedOp rOp=JAI.create("fileload",pb); 
+       pb.add(pathname); 
+       RenderedOp rOp=JAI.create("fileload",pb); 
 
-           BufferedImage bi=rOp.getAsBufferedImage(); 
+       BufferedImage bi=rOp.getAsBufferedImage(); 
 
-           width = bi.getWidth(); 		
+       width = bi.getWidth(); 		
 		
 	   return width;
 	}
@@ -252,17 +252,17 @@ public class FileManager {
 	   int height=-1;
 		
 	   File file = new File(pathname);
-	     if (! file.exists())
-		return height;
+	   if (! file.exists())
+	   return height;
 		
 	   ParameterBlock pb=new ParameterBlock(); 
-           pb.add(pathname); 
-           RenderedOp rOp=JAI.create("fileload",pb); 
+       pb.add(pathname); 
+       RenderedOp rOp=JAI.create("fileload",pb); 
 
-           BufferedImage bi=rOp.getAsBufferedImage(); 
+       BufferedImage bi=rOp.getAsBufferedImage(); 
 
-           height = bi.getHeight();		
-		
+       height = bi.getHeight();		
+	
 	   return height;
 	}
 	

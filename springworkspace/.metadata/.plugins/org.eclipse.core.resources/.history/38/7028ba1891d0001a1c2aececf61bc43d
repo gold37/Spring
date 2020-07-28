@@ -1,0 +1,10 @@
+package com.spring.employees.model;
+
+import java.util.List;
+
+
+public interface InterEmpDAO {
+
+	List<String> deptIdList();
+
+}

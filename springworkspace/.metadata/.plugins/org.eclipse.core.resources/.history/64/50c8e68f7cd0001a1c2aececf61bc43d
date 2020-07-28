@@ -1,0 +1,7 @@
+package com.spring.employees.model;
+
+public class EmpVO {
+
+	String department_id;
+	
+}

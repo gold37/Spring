@@ -5,7 +5,432 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-24T20:33:29Z</updated>
+  <updated>2020-07-27T16:00:00Z</updated>
+  <entry>
+    <title>Creating a Supplier Function and generating Spring Cloud Stream Source</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/27/creating-a-supplier-function-and-generating-spring-cloud-stream-source" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Soby Chacko</name>
+    </author>
+    <id>tag:spring.io,2020-07-27:4143</id>
+    <updated>2020-07-27T16:00:00Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;This is part 3 of the blog series in which we are introducing java functions for Spring Cloud Stream applications.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Other parts in the series.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0"&gt;Part 1 - General Introduction&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/07/20/introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;Part 2 - Function Composition&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In the last two blogs in this series, we provided a &lt;a href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0"&gt;general introduction&lt;/a&gt; to this new initiative of migrating all the existing &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt; to functions and the various ways in which we can &lt;a href="https://spring.io/blog/2020/07/20/introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;compose them&lt;/a&gt;. In this blog, we continue the series, showing how these functions are developed, tested, and used to generate Spring Cloud Stream applications. In particular, here we are focusing on how to write a supplier function (implementing &lt;code&gt;java.util.function.Supplier&lt;/code&gt;)  and then generate the corresponding source application for Spring Cloud Stream.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="writing-a-new-supplier"&gt;&lt;a class="anchor" href="#writing-a-new-supplier"&gt;&lt;/a&gt;Writing a new supplier&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In order to drive the concept home, we are going to take a use case and implement a solution to satisfy it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="use-case"&gt;&lt;a class="anchor" href="#use-case"&gt;&lt;/a&gt;Use case&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We need a function, when invoked with the right configuration that gives us the contents of a blog feed in the format of atom, rss, etc.  We need to support two supplier invocation models - one in which we invoke the function programmatically (for example, a REST endpoint that is invoked in a FaaS environment) and the other is a streaming supplier in which we get a constant flow of feeds as soon as they become available. We want to build these suppliers based on the &lt;a href="https://rometools.github.io/rome/index.html"&gt;ROME library&lt;/a&gt; , a popular library for feed aggregation. We will look at this from the perspective of both Non Spring Developers and Spring Developers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="non-spring-developers"&gt;&lt;a class="anchor" href="#non-spring-developers"&gt;&lt;/a&gt;Non Spring Developers&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Let us assume for a second that you are not a Spring developer and not familiar with
+Spring Integration which
+ already provides abstractions for
+ ROME. In that case, we can certainly use ROME directly to produce feed records. For example, this is a valid Supplier for this scenario.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;public Supplier&amp;lt;SyndEntry&amp;gt; feedSupplier()
+{
+	return () -&amp;gt; {
+		//Use the ROME framework directly to produce syndicated entries.
+	}
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The benefit here is that we can develop the supplier without any knowledge of Spring, and it can be deployed to a serverless environment directly, using the abstractions provided by that environment or by relying on a framework like Spring Cloud Function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This essentially means that if you are a Java developer without much Spring Framework skills, you can still write the functions using just the interfaces defined in the &lt;code&gt;java.util.function&lt;/code&gt; package such as &lt;code&gt;Function&lt;/code&gt;, &lt;code&gt;Supplier&lt;/code&gt; and &lt;code&gt;Consumer&lt;/code&gt;, by providing the business logic. Then we can take this artifact that we developed and transform it into a Spring Cloud Stream application by adding a Spring Cloud Stream binder dependency and making it into a &lt;code&gt;SpringBootApplication&lt;/code&gt;. By providing a few configuration properties like the middleware destinations, we get the immediate value add of deploying the application on a platform like &lt;a href="https://spring.io/projects/spring-cloud-dataflow"&gt;Spring Cloud Data Flow&lt;/a&gt; which orchestrates the application as part of a  data pipeline. This way, we write the functions completely independent of any Spring dependencies and only bring Spring components like Spring Cloud Stream, Spring Cloud Function and Spring Cloud Data Flow etc. toward the end of the deployment journey. The following diagram captures this idea.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/stream-applications-dataflow-faas.png?raw=true" alt="Stream Applications Layered Architecture for Functions"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As we can observe, the function components can be invoked standalone or as part of the Spring Cloud Data Flow pipeline after making it a Spring Cloud Stream application.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="spring-developers"&gt;&lt;a class="anchor" href="#spring-developers"&gt;&lt;/a&gt;Spring Developers&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;While the above model is probably a good starting point, as we start diving into directly using the ROME framework, we might quickly realize that it involves a lot of heavy lifting and deeper library knowledge. Chances of making mistakes are high, so we need to write a lot of tests to verify that our custom implementation works as expected,  and that all the corner cases are covered. We start to wonder if there is already some simpler abstraction available. That way we don¡¯t need to write any ROME specific code as the abstraction layer takes care of all the intricacies. Luckily we have a solution. &lt;a href="https://spring.io/projects/spring-integration"&gt;Spring Integration&lt;/a&gt; provides a lot of inbound and outbound adapters for many enterprise technologies. The &lt;a href="https://docs.spring.io/spring-integration/reference/html/feed.html"&gt;feed adapter&lt;/a&gt; is one of them and the implementation is based on ROME. As a matter of fact, many of the function components that we provide in pre-packaged &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;stream-applications&lt;/a&gt;, are based on Spring Integration adapters. These adapters have been widely used and heavily battle tested for a vast number of enterprise use cases. However, there is a chance that the technology for which we  want to write a supplier is not available in Spring Integration. In that case, as we have seen above,  we can certainly write the code on our own and invoke it from the supplier.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="using-the-spring-integration-feed-adapter-in-the-supplier"&gt;&lt;a class="anchor" href="#using-the-spring-integration-feed-adapter-in-the-supplier"&gt;&lt;/a&gt;Using the Spring Integration Feed adapter in the supplier&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;If you haven¡¯t done so,  fork and clone the &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;stream applications repo&lt;/a&gt;. Then create a new &lt;code&gt;feed-supplier&lt;/code&gt; module under &lt;code&gt;functions/supplier&lt;/code&gt;.  Use one of the existing suppliers as a template to guide.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Add the following Spring Integration Feed adapter dependency in the project. This brings the feed adapter from Spring Integration as well as any other transitive dependencies.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+   &amp;lt;groupId&amp;gt;org.springframework.integration&amp;lt;/groupId&amp;gt;
+   &amp;lt;artifactId&amp;gt;spring-integration-feed&amp;lt;/artifactId&amp;gt;
+&amp;lt;/dependency&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="adding-basic-configuration-properties"&gt;&lt;a class="anchor" href="#adding-basic-configuration-properties"&gt;&lt;/a&gt;Adding basic configuration properties&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Now that we have our core dependency in, let¡¯s start writing some code. Since the functions are expected to be used in a Spring Boot context, we need to create a &lt;code&gt;ConfigurationProperties&lt;/code&gt; class to drive the configuration for the supplier function. Here is what it might look like.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;package org.springframework.cloud.fn.supplier.feed;
+
+@ConfigurationProperties("feed.supplier")
+public class FeedSupplierProperties {
+
+/**
+* Key used in metadata store to avoid duplicate read from the feed
+*/
+private String metadataKey;
+
+/**
+* Feed url.
+*/
+private URL feedUrl;
+
+// rest is omitted
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As we can see, we use the prefix of &lt;code&gt;feed.supplier&lt;/code&gt; on all the properties.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="adding-the-configuration-class"&gt;&lt;a class="anchor" href="#adding-the-configuration-class"&gt;&lt;/a&gt;Adding the Configuration class&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Next, let&amp;#8217;s create a Spring based configuration class where we provide all the necessary components. We will build it incrementally. Below is the basic structure of the class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;package org.springframework.cloud.fn.supplier.feed;
+...
+@Configuration
+@EnableConfigurationProperties(FeedSupplierProperties.class)
+public class FeedSupplierConfiguration {
+
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Add these fields to the class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;private final ConcurrentMetadataStore metadataStore;
+
+private final Resource resource;
+
+private final FeedSupplierProperties feedSuppplierProperties;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Quick note on these fields. Feed adapter in Spring Integration provides a capability for not reading the same entries that we read from a feed already.  The &lt;code&gt;metadataKey&lt;/code&gt; property we defined above is used for this purpose. The way it does is by using a metadata store. There are &lt;a href="https://docs.spring.io/spring-integration/docs/current/reference/html/system-management.html#metadata-store"&gt;various metadata stores available&lt;/a&gt; for popular databases. Include the following dependency for an in-memory simple metadata store.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+   &amp;lt;groupId&amp;gt;org.springframework.cloud.fn&amp;lt;/groupId&amp;gt;
+   &amp;lt;artifactId&amp;gt;metadata-store-common&amp;lt;/artifactId&amp;gt;
+   &amp;lt;version&amp;gt;${project.version}&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Note that this requirement is specific to this supplier and not all suppliers may need it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Users can provide a &lt;code&gt;Resource&lt;/code&gt; bean for reading the feed if there is no HTTP (or HTTPS) based url available (which we can set through the configuration property).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Let&amp;#8217;s add a constructor to use these fields.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;FeedSupplierConfiguration(FeedSupplierProperties feedSupplierProperties,
+                   ConcurrentMetadataStore metadataStore,
+                   @Nullable Resource resource) {
+  this.feedSuppplierProperties = feedSupplierProperties;
+  this.metadataStore = metadataStore;
+  this.resource = resource;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;code&gt;Resource&lt;/code&gt; is nullable because most often we can simply pass the URL string as a configuration property and not provide a &lt;code&gt;Resource&lt;/code&gt; bean.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The Spring Integration Feed adapter provides &lt;a href="https://github.com/spring-projects/spring-integration/blob/master/spring-integration-feed/src/main/java/org/springframework/integration/feed/inbound/FeedEntryMessageSource.java"&gt;FeedEntryMessageSource&lt;/a&gt;  which is a &lt;code&gt;MessageSource&lt;/code&gt; implementation. We will use this message source in our supplier. Let¡¯s set it up as a Spring Bean.The code below is pretty self explanatory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;@Bean
+public FeedEntryMessageSource feedEntryMessageSource() {
+  final FeedEntryMessageSource feedEntryMessageSource = this.resource == null ? new FeedEntryMessageSource(this.feedSuppplierProperties.getFeedUrl(),
+        this.feedSuppplierProperties.getMetadataKey()) :
+       ...
+  return feedEntryMessageSource;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="non-reactive-supplier"&gt;&lt;a class="anchor" href="#non-reactive-supplier"&gt;&lt;/a&gt;Non Reactive Supplier&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Now that we have the MessageSource bean ready, it is relatively trivial to  write a simple Supplier and invoke it programmatically by calling the &lt;code&gt;get&lt;/code&gt; method of the supplier. Here it is.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;@Bean
+public Supplier&amp;lt;Message&amp;lt;SyndEntry&amp;gt;&amp;gt; feedSupplier() {
+  return () -&amp;gt; feedEntryMessageSource().receive();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We can inject this Supplier bean into our application and call the &lt;code&gt;get&lt;/code&gt; method programmatically. When this &lt;code&gt;Supplier&lt;/code&gt; is used in a Spring Cloud Stream application (as we will see later), it will use a &lt;a href="https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/config/DefaultPollerProperties.java"&gt;default poller&lt;/a&gt; provided by Spring Cloud Stream that will trigger the supplier every second by default. This schedule can be changed in the poller.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="reactive-supplier"&gt;&lt;a class="anchor" href="#reactive-supplier"&gt;&lt;/a&gt;Reactive Supplier&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The non reactive polling solution looks alright, but we might ask, how about if I don¡¯t want to poll explicitly every so often, but I want the data as soon as it is available in the message source in a streaming manner? Well, we have a solution for that - develop a reactive supplier that delivers the data received as soon as it becomes available. Let¡¯s see the details.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here again, Spring Integration provides some abstractions we can use to  convert our &lt;code&gt;FeedEntryMessageSource&lt;/code&gt; into a reactive publisher as shown below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;@Bean
+public Supplier&amp;lt;Flux&amp;lt;Message&amp;lt;SyndEntry&amp;gt;&amp;gt;&amp;gt; feedSupplier() {
+  return () -&amp;gt; IntegrationReactiveUtils.messageSourceToFlux(feedEntryMessageSource());
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;You may notice that this supplier returns a &lt;code&gt;Flux&amp;lt;Message&amp;lt;SyndEntry&amp;gt;&amp;gt;&lt;/code&gt;  as opposed to &lt;code&gt;Message&amp;lt;SyndEntry&amp;gt;&lt;/code&gt; as shown in the initial non-reactive supplier in which we were relying on programmatic invocation of the supplier or some other polling mechanism.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="other-reactive-solutions"&gt;&lt;a class="anchor" href="#other-reactive-solutions"&gt;&lt;/a&gt;Other Reactive Solutions&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Ok, it was nice that we had a &lt;code&gt;MessageSource&lt;/code&gt; coming from Spring Integration and we could use that utility method for converting it to a &lt;code&gt;Flux&lt;/code&gt;. What if there was no such &lt;code&gt;MessageSource&lt;/code&gt; and we had to hand craft the basic retrieval of the data for the systems for which  we want to write a reactive style supplier? For those cases, we can use the various facilities provided by &lt;a href="https://projectreactor.io/docs/core/release/reference/#processors"&gt;Project Reactor&lt;/a&gt; and then programmatically feed the data to them. The bottom line is that, when we write a reactive streaming supplier, we have to return the data as a &lt;code&gt;Flux&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="unit-testing-the-reactive-supplier"&gt;&lt;a class="anchor" href="#unit-testing-the-reactive-supplier"&gt;&lt;/a&gt;Unit Testing the Reactive Supplier&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Let¡¯s add a unit test for this reactive supplier. We can use the atom feed example described in &lt;a href="https://tools.ietf.org/html/rfc4287"&gt;RFC 4287 - The Atom Syndication Format&lt;/a&gt; as our test data. Include it in &lt;code&gt;src/test/resources&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here is the test class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;@SpringBootTest(properties = {"feed.supplier.feedUrl=classpath:atom.xml",
+     "feed.supplier.metadataKey=feedTest" })
+@DirtiesContext
+public class FeedSupplierTests {
+
+  @Autowired
+  Supplier&amp;lt;Flux&amp;lt;Message&amp;lt;SyndEntry&amp;gt;&amp;gt;&amp;gt; feedSupplier;
+
+  @Test
+  public void testFromSampleRssFile() {
+     final Flux&amp;lt;Message&amp;lt;SyndEntry&amp;gt;&amp;gt; messageFlux = feedSupplier.get();
+
+     StepVerifier.create(messageFlux)
+           .assertNext((message) -&amp;gt; {
+              assertThat(message.getPayload().getTitle().trim()).isEqualTo("Atom draft-07 snapshot");
+              assertThat(message.getPayload().getContents().size()).isEqualTo(1);
+              assertThat(message.getPayload().getContents().get(0).getValue().contains("The Atom draft is finished.")).isTrue();
+           })
+           .thenCancel()
+           .verify();
+  }
+
+  @SpringBootApplication
+  static class FeedSupplierTestApplication {
+
+  }
+
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="adding-the-supplier-function-to-the-maven-bom-for-functions"&gt;&lt;a class="anchor" href="#adding-the-supplier-function-to-the-maven-bom-for-functions"&gt;&lt;/a&gt;Adding the Supplier function to the maven BOM for functions&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The functions project aggregates all the available functions in a &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/functions/function-dependencies/pom.xml"&gt;maven BOM&lt;/a&gt;. Add the &lt;code&gt;feed-supplier&lt;/code&gt; to this BOM. This is primarily needed, if you are generating the Spring Cloud Stream application based on this function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="generating-spring-cloud-stream-applications-from-the-supplier"&gt;&lt;a class="anchor" href="#generating-spring-cloud-stream-applications-from-the-supplier"&gt;&lt;/a&gt;Generating Spring Cloud Stream Applications from the Supplier&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;At this point in the process, we can submit a pull request to the repository with our supplier, but if we want to generate Spring Cloud Stream binder based applications from the supplier, keep on reading. Once generated, these applications can be run standalone or as part of a data orchestration pipeline in &lt;a href="https://spring.io/projects/spring-cloud-dataflow"&gt;Spring Cloud Data Flow&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Go ahead and create a new module called &lt;code&gt;feed-source&lt;/code&gt; under &lt;code&gt;applications/source&lt;/code&gt;. As we have mentioned in the previous blogs, &lt;code&gt;java.util.function.Supplier&lt;/code&gt; is mapped as a Spring Cloud Stream Source.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We don¡¯t need to add any custom code on top of our feed supplier as it can be used as it is. However, now that we are talking about Spring Cloud Stream application, we need to use the &lt;a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/3.0.6.RELEASE/reference/html/spring-cloud-stream.html#_testing"&gt;test binder&lt;/a&gt; with the supplier function to see how the supplier works with Spring Cloud Stream.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We can use one of the &lt;a href="https://github.com/spring-cloud/stream-applications/tree/master/applications/source"&gt;existing sources&lt;/a&gt; as a template to guide us through the process. We can even copy one of them and make changes incrementally.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;All the apps use the  parent pom &lt;a href="https://github.com/spring-cloud/stream-applications/tree/master/applications/stream-applications-core"&gt;stream-applications-core&lt;/a&gt; which brings all the necessary test dependencies, like the test binder mentioned above. It also provides the infrastructure for the application generator plugin that is responsible for generating the binder based applications.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;One point that we would like to emphasize is that unless the application module contains custom code, this module simply becomes an application generator that generates the binder based applications. In other words, we won¡¯t add a class with &lt;code&gt;@SpringBootApplicaiton&lt;/code&gt; to it, rather it is generated for us.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="testing-the-supplier-with-the-test-binder"&gt;&lt;a class="anchor" href="#testing-the-supplier-with-the-test-binder"&gt;&lt;/a&gt;Testing the supplier with the test binder&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Add the following dependency for testing with test binder:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;&amp;lt;dependencies&amp;gt;
+   &amp;lt;dependency&amp;gt;
+       &amp;lt;groupId&amp;gt;org.springframework.cloud.fn&amp;lt;/groupId&amp;gt;
+       &amp;lt;artifactId&amp;gt;feed-supplier&amp;lt;/artifactId&amp;gt;
+       &amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt;
+   &amp;lt;/dependency&amp;gt;
+&amp;lt;/dependencies&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Now we can add a test to verify that the &lt;code&gt;feed-supplier&lt;/code&gt; works with the test binder in Spring Cloud Stream. Basically, we need to ensure that the supplier produces the data through the test binder and it is delivered to the destination on the test binder.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here is the general idea behind the test:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;public class FeedSourceTests {
+
+  @Test
+  public void testFileSource() throws Exception {
+     try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
+           TestChannelBinderConfiguration
+                 .getCompleteConfiguration(FeedSourceTestApplication.class))
+           .web(WebApplicationType.NONE)
+           .run("--spring.cloud.function.definition=feedSupplier", "--feed.supplier.feedUrl=classpath:atom.xml", "--feed.supplier.metadataKey=feedTest")) {
+
+        OutputDestination target = context.getBean(OutputDestination.class);
+        Message&amp;lt;byte[]&amp;gt; sourceMessage = target.receive(10000);
+        Object title = JsonPath.parse(new String(sourceMessage.getPayload())).read("$.title");
+        assertThat(title).isEqualTo("Atom draft-07 snapshot");
+     }
+  }
+
+  @SpringBootApplication
+  @Import(FeedSupplierConfiguration.class)
+  public static class FeedSourceTestApplication {
+
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The test is largely similar to the unit test we added for the supplier, but with a big difference. In the supplier, we were directly invoking it and verifying the data produced. Here, we are not invoking the supplier directly, but the binding mechanism in Spring Cloud Stream does that for us automatically. We are receiving the data from the outbound destination and then verify that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Once the test passes, it is time for us to generate the applications.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="generating-the-binder-based-applications"&gt;&lt;a class="anchor" href="#generating-the-binder-based-applications"&gt;&lt;/a&gt;Generating the binder based applications&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;By default, the plugin generates applications for both Kafka and Rabbit binders in Spring Cloud Stream. This is configured in the parent pom in &lt;code&gt;stream-applications-core&lt;/code&gt;. If we have a need to customize the generation for different binders, we need to make those changes there. Below is the configuration for the application generator plugin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;&amp;lt;plugin&amp;gt;
+   &amp;lt;groupId&amp;gt;org.springframework.cloud.stream.app.plugin&amp;lt;/groupId&amp;gt;
+   &amp;lt;artifactId&amp;gt;spring-cloud-stream-app-maven-plugin&amp;lt;/artifactId&amp;gt;
+   &amp;lt;configuration&amp;gt;
+       &amp;lt;generatedApp&amp;gt;
+           &amp;lt;name&amp;gt;feed&amp;lt;/name&amp;gt;
+           &amp;lt;type&amp;gt;source&amp;lt;/type&amp;gt;
+           &amp;lt;version&amp;gt;${project.version}&amp;lt;/version&amp;gt;
+           &amp;lt;configClass&amp;gt;org.springframework.cloud.fn.supplier.feed.FeedSupplierConfiguration.class&amp;lt;/configClass&amp;gt;
+       &amp;lt;/generatedApp&amp;gt;
+       &amp;lt;dependencies&amp;gt;
+           &amp;lt;dependency&amp;gt;
+               &amp;lt;groupId&amp;gt;org.springframework.cloud.fn&amp;lt;/groupId&amp;gt;
+               &amp;lt;artifactId&amp;gt;feed-supplier&amp;lt;/artifactId&amp;gt;
+           &amp;lt;/dependency&amp;gt;
+           &amp;lt;dependency&amp;gt;
+               &amp;lt;groupId&amp;gt;org.springframework.cloud.stream.app&amp;lt;/groupId&amp;gt;
+               &amp;lt;artifactId&amp;gt;stream-applications-composite-function-support&amp;lt;/artifactId&amp;gt;
+               &amp;lt;version&amp;gt;${stream-apps-core.version}&amp;lt;/version&amp;gt;
+           &amp;lt;/dependency&amp;gt;
+       &amp;lt;/dependencies&amp;gt;
+   &amp;lt;/configuration&amp;gt;
+&amp;lt;/plugin&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Let¡¯s quickly go over some details here. We are requesting the plugin to create an application with the name &lt;code&gt;feed-source&lt;/code&gt; and want it to use our &lt;code&gt;Supplier&lt;/code&gt; developed above as the main configuration class. Within the dependencies section for the plugin, we also need to add any dependencies that the app needs, &lt;code&gt;feed-supplier&lt;/code&gt; in this case. We need to add all our processor functions in all the generated source applications. This is because we can compose the source with other processors without requiring them to run as individual microservices as we have seen in the &lt;a href="https://spring.io/blog/2020/07/20/introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;previous blog&lt;/a&gt;. More details on function composition with the processors can be found &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/docs/FunctionComposition.adoc"&gt;here&lt;/a&gt; as well. This is why we are adding the dependency, &lt;code&gt;stream-applications-composite-function-support&lt;/code&gt; in the dependencies section in the plugin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Build the application module and we will see the binder based apps in the &lt;code&gt;apps&lt;/code&gt; folder.
+They will be named as &lt;code&gt;feed-source-kafka&lt;/code&gt; and &lt;code&gt;feed-source-rabbit&lt;/code&gt;. We can go to either of those applications and build it and then use it as a standalone application or as part of a pipeline on Spring Cloud Data Flow.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="conclusion"&gt;&lt;a class="anchor" href="#conclusion"&gt;&lt;/a&gt;Conclusion.&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In this blog post, we saw the entire process of of developing, testing and contributing a combination of supplier/Spring Cloud Stream application. Please follow the procedures laid out here for writing your own suppliers and sources. If you have done so, please consider contributing them back to the repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="stay-tuned"&gt;&lt;a class="anchor" href="#stay-tuned"&gt;&lt;/a&gt;Stay tuned¡¦?&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;This blog is the third in a series that will cover many related topics. Look for more deep dives and focused topics in the coming weeks. In the next blog in this series, similar to what we did in this post about writing a new Supplier and Source, we will write a Consumer function and then generate a Sink application from it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Boot 2.3.2 available now</title>
     <link rel="alternate" href="https://spring.io/blog/2020/07/24/spring-boot-2-3-2-available-now" />
@@ -1078,116 +1503,6 @@ sink.complete();
     <updated>2020-07-03T01:48:58Z</updated>
     <content type="html">&lt;p&gt;Hi, Spring fans! In this installment, &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks to Dr. Yordan Karadzhov about instrumenting and visualizing the Linux Kernel, and understanding what&amp;rsquo;s happening from the perspective of the platform, containers, and cloud-native Spring applications.&lt;/p&gt;
 &lt;iframe title="Dr. Yordan Karadzhov on instrumenting and visualizing the Linux Kernel" height="122" width="100%" style="border: none;" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/media/player/wj8sm-e1ef51?from=yiiadmin&amp;download=1&amp;version=1&amp;skin=1&amp;btn-skin=107&amp;auto=0&amp;share=1&amp;fonts=Helvetica&amp;download=1&amp;rtl=0&amp;pbad=1"&gt;&lt;/iframe&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Security 5.4.0-M2 Released</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/02/spring-security-5-4-0-m2-released" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Josh Cummings</name>
-    </author>
-    <id>tag:spring.io,2020-07-01:4122</id>
-    <updated>2020-07-02T14:59:00Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;On behalf of the community, I¡¯m pleased to announce the release of
-Spring Security 5.4.0-M2! You can find the complete details in the &lt;a href="https://github.com/spring-projects/spring-security/releases/tag/5.4.0-M2"&gt;release notes&lt;/a&gt; and the highlights below:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="oauth-2-0"&gt;&lt;a class="anchor" href="#oauth-2-0"&gt;&lt;/a&gt;OAuth 2.0&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8700-oauth2authorizedclientargumentresolver-picks-up-oauth2authorizedclientmanager-bean"&gt;&lt;a class="anchor" href="#gh-8700-oauth2authorizedclientargumentresolver-picks-up-oauth2authorizedclientmanager-bean"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8700"&gt;gh-8700&lt;/a&gt; - OAuth2AuthorizedClientArgumentResolver picks up OAuth2AuthorizedClientManager bean&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8730-add-jwtprocessor-configuration-post-processor"&gt;&lt;a class="anchor" href="#gh-8730-add-jwtprocessor-configuration-post-processor"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8730"&gt;gh-8730&lt;/a&gt; - Add JWTProcessor Configuration Post-Processor&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8669-oauth2authorizedclientargumentresolver-for-xml"&gt;&lt;a class="anchor" href="#gh-8669-oauth2authorizedclientargumentresolver-for-xml"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8669"&gt;gh-8669&lt;/a&gt; - OAuth2AuthorizedClientArgumentResolver for XML&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8587-add-serverrequestcache-setter-in-oauth2authorizationcodegrantwebfilter"&gt;&lt;a class="anchor" href="#gh-8587-add-serverrequestcache-setter-in-oauth2authorizationcodegrantwebfilter"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/pull/8587"&gt;gh-8587&lt;/a&gt; - Add ServerRequestCache setter in OAuth2AuthorizationCodeGrantWebFilter&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8603-oauth2client-test-support-no-longer-requires-an-httpsessionoauth2authorizedclientrepository"&gt;&lt;a class="anchor" href="#gh-8603-oauth2client-test-support-no-longer-requires-an-httpsessionoauth2authorizedclientrepository"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8603"&gt;gh-8603&lt;/a&gt; - oauth2Client Test Support no longer requires an HttpSessionOAuth2AuthorizedClientRepository&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8501-add-issueruri-to-clientregistration"&gt;&lt;a class="anchor" href="#gh-8501-add-issueruri-to-clientregistration"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/pull/8501"&gt;gh-8501&lt;/a&gt; - Add issuerUri to ClientRegistration&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="web"&gt;&lt;a class="anchor" href="#web"&gt;&lt;/a&gt;Web&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8644-gh-8703-stricthttpfirewall-improvements"&gt;&lt;a class="anchor" href="#gh-8644-gh-8703-stricthttpfirewall-improvements"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/pull/8644"&gt;gh-8644&lt;/a&gt;, &lt;a href="https://github.com/spring-projects/spring-security/pull/8703"&gt;gh-8703&lt;/a&gt; - StrictHttpFirewall improvements&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8677-deprecate-x-frame-options-allow-from"&gt;&lt;a class="anchor" href="#gh-8677-deprecate-x-frame-options-allow-from"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8677"&gt;gh-8677&lt;/a&gt; - Deprecate X-Frame-Options ALLOW-FROM&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8676-replace-whiteblacklist-with-allowblocklist"&gt;&lt;a class="anchor" href="#gh-8676-replace-whiteblacklist-with-allowblocklist"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8676"&gt;gh-8676&lt;/a&gt; - Replace white/blacklist with allow/blocklist&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="docs"&gt;&lt;a class="anchor" href="#docs"&gt;&lt;/a&gt;Docs&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8199-gh-8542-additional-documentation-restructuring"&gt;&lt;a class="anchor" href="#gh-8199-gh-8542-additional-documentation-restructuring"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8199"&gt;gh-8199&lt;/a&gt;, &lt;a href="https://github.com/spring-projects/spring-security/pull/8542"&gt;gh-8542&lt;/a&gt; - Additional Documentation Restructuring&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="kotlin"&gt;&lt;a class="anchor" href="#kotlin"&gt;&lt;/a&gt;Kotlin&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8697-add-reified-function-variants-to-security-dsl"&gt;&lt;a class="anchor" href="#gh-8697-add-reified-function-variants-to-security-dsl"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8697"&gt;gh-8697&lt;/a&gt; - Add Reified Function Variants to Security DSL&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="openid"&gt;&lt;a class="anchor" href="#openid"&gt;&lt;/a&gt;OpenID&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8450-deprecate-openid-2-0-support"&gt;&lt;a class="anchor" href="#gh-8450-deprecate-openid-2-0-support"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/pull/8450"&gt;gh-8450&lt;/a&gt; - Deprecate OpenID 2.0 support&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="ldap"&gt;&lt;a class="anchor" href="#ldap"&gt;&lt;/a&gt;LDAP&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8416-apachedscontainer-allows-port-0"&gt;&lt;a class="anchor" href="#gh-8416-apachedscontainer-allows-port-0"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/pull/8416"&gt;gh-8416&lt;/a&gt; - ApacheDSContainer allows port 0&lt;/h5&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="saml"&gt;&lt;a class="anchor" href="#saml"&gt;&lt;/a&gt;SAML&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect4"&gt;
-&lt;h5 id="gh-8661-saml-2-0-attribute-support"&gt;&lt;a class="anchor" href="#gh-8661-saml-2-0-attribute-support"&gt;&lt;/a&gt;&lt;a href="https://github.com/spring-projects/spring-security/issues/8661"&gt;gh-8661&lt;/a&gt; - SAML 2.0 Attribute support&lt;/h5&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="http://projects.spring.io/spring-security/"&gt;Project Site&lt;/a&gt; |
-&lt;a href="https://docs.spring.io/spring-security/site/docs/5.4.0-M2/reference/html5/"&gt;Reference&lt;/a&gt;
-| &lt;a href="http://stackoverflow.com/questions/tagged/spring-security"&gt;Help&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

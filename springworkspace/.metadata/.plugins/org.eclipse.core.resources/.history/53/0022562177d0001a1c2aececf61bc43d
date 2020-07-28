@@ -1,0 +1,5 @@
+package com.spring.employees.service;
+
+public class EmpService implements InterEmpService {
+
+}

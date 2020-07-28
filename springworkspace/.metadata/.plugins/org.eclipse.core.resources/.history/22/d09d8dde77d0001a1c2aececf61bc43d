@@ -1,0 +1,11 @@
+package com.spring.employees.model;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class EmpDAO implements InterEmpDAO {
+
+	
+	
+	
+}

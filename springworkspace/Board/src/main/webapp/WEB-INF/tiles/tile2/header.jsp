@@ -6,7 +6,7 @@
 <%-- ======= #28. tile2 중 header 페이지 만들기  ======= --%>
 
 <%
-	String cxtpath = request.getContextPath();
+	String ctxpath = request.getContextPath();
 %>
 
 <div align="center">
@@ -14,10 +14,18 @@
 		<li class="dropdown"><a class="dropdown-toggle"
 			data-toggle="dropdown" href="#">Home <span class="caret"></span></a>
 			<ul class="dropdown-menu">
-				<li><a href="<%=cxtpath%>/index.action">Home</a></li>
+				<li><a href="<%=ctxpath%>/index.action">Home</a></li>
 				<li><a href="#">Submenu 1-2</a></li>
 				<li><a href="#">Submenu 1-3</a></li>
 			</ul></li>
+			
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">인사관리 <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="<%=ctxpath%>/emp/empList.action">직원목록</a></li>
+				<li><a href="<%=ctxpath%>/emp/chart.action">통계차트</a></li>
+			</ul></li>	
+			
 		<li class="dropdown"><a class="dropdown-toggle"
 			data-toggle="dropdown" href="#">주문 <span class="caret"></span></a>
 			<ul class="dropdown-menu">

@@ -1,0 +1,11 @@
+package com.spring.employees.service;
+
+import java.util.List;
+
+import com.spring.model.TestVO;
+
+public interface InterEmpService {
+
+	List<String> deptIdList();
+
+}

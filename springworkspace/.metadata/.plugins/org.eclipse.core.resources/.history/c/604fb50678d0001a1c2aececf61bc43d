@@ -1,0 +1,10 @@
+package com.spring.employees.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmpService implements InterEmpService {
+
+	
+	
+}
