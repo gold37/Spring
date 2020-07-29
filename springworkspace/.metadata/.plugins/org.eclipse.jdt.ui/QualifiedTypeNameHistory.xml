@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionTemplate"/>
-<fullyQualifiedTypeName name="java.awt.List"/>
-<fullyQualifiedTypeName name="com.spring.model.TestVO"/>
 <fullyQualifiedTypeName name="javax.annotation.Resource"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.config.BeanDefinition"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.support.BeanDefinitionRegistry"/>
@@ -13,7 +10,6 @@
 <fullyQualifiedTypeName name="com.spring.member.model.MemberVO"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="com.spring.common.AES256"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="java.lang.SuppressWarnings"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.spring.service.InterBoardService"/>
@@ -22,7 +18,6 @@
 <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
 <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Propagation"/>
 <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Isolation"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseBody"/>
 <fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="org.springframework.scheduling.annotation.Scheduled"/>
 <fullyQualifiedTypeName name="java.awt.Desktop"/>
@@ -45,4 +40,24 @@
 <fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseBody"/>
+<fullyQualifiedTypeName name="com.google.gson.JsonArray"/>
+<fullyQualifiedTypeName name="com.google.gson.Gson"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
+<fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+<fullyQualifiedTypeName name="org.apache.poi.xssf.streaming.SXSSFWorkbook"/>
+<fullyQualifiedTypeName name="org.apache.poi.xssf.streaming.SXSSFSheet"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.CellStyle"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.Font"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.Row"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.Cell"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.util.CellRangeAddress"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.HorizontalAlignment"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.VerticalAlignment"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.IndexedColors"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.FillPatternType"/>
+<fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.BorderStyle"/>
+<fullyQualifiedTypeName name="org.apache.poi.hssf.usermodel.HSSFDataFormat"/>
+<fullyQualifiedTypeName name="java.util.Locale"/>
 </qualifiedTypeNameHistroy>

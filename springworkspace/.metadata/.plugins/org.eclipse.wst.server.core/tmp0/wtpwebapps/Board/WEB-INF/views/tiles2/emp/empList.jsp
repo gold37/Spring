@@ -86,6 +86,33 @@
 		// ===== 체크박스 유지시키기  END ===== //
 		
 		
+		
+		// === Excel 파일로 다운받기 START === // 
+		$("#btnExcel").click(function(){
+
+				var arrDeptId = new Array();
+
+				$("input:checkbox[name=deptId]").each(function(){
+					var isChecked = $(this).is(":checked");
+					
+					if(isChecked) {
+						arrDeptId.push($(this).val());
+					}
+				});
+				
+				var sDeptIds = arrDeptId.join();
+			//	console.log(sDeptIds);
+			
+				var frm = document.searchFrm;
+				frm.sDeptIds.value = sDeptIds;
+				
+				frm.method = "POST"; // 파일로 다운받기 때문에 get아니고 post
+				frm.action = "/board/excel/downloadExcelFile.action";
+				frm.submit();
+			
+		});
+		// === Excel 파일로 다운받기 END === // 
+		
 	});
 
 </script>
@@ -109,6 +136,8 @@
 		  	<option>여</option>
 		  </select>
 		  <button type="button" id="btnSearch">검색</button>
+		  &nbsp;
+		  <button type="button" id="btnExcel">Excel파일로 저장</button>
 	  </form>
 	  
 	  <br/>

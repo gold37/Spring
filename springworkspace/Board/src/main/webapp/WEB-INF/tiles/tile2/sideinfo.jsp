@@ -31,7 +31,7 @@
 			                                               // 현재시각의 분이 59분이라면 weatherTimejugi에 (1+30)분을 넣어준다.
 		}
 		
-	//	loopshowWeather(); // 기상청 날씨정보 공공API XML데이터 호출하기
+		loopshowWeather(); // 기상청 날씨정보 공공API XML데이터 호출하기
 		
 	}); // end of ready(); ---------------------------------
 
@@ -97,7 +97,7 @@
 	function showWeather() {
 
 		$.ajax({
-				url: "<%= request.getContextPath() %>/weatherXML.action",
+				url: "<%= request.getContextPath() %>/opendata/weatherXML.action",
 				type: "GET",
 				dataType: "XML",
 				success: function(xml){
@@ -107,12 +107,12 @@
 										   
 					    var weather = $(rootElement).find("weather");
 					    console.log( $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시" );        
-						// 2020년 01월 07일 22시
+						// 2020년 07월 29일 14시
 						
 						var updateTime = $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시";
 						
 					    var localArr = $(rootElement).find("local");
-						console.log(localArr.length); 
+						console.log("지역갯수: "+localArr.length); 
 						// 95
 					
 						var html = "업데이트 : <span style='font-weight:bold;'>"+updateTime+"</span>&nbsp;";
@@ -168,7 +168,7 @@
 		setTimeout(function() {
 	           loopshowWeather();	
 			}, weatherTimejugi + (60*60*1000));  // 현재시각의 분이 5분이라면 weatherTimejugi가 25분이므로 25분후인 30분에 1시간을 더한후에 showWeather();를 실행한다.
-	}// end of loopshowWeather() --------------------------	
+	} // end of loopshowWeather() --------------------------	
 
 </script>
 

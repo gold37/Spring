@@ -6,12 +6,17 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="sDeptIds" key="selection"/>
+		<item value="weatherTimejugi" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="weatherTimejugi"/>
+			<item value="console"/>
+			<item value="loop"/>
+			<item value="&#x09;&#x09;&#x09;"/>
+			<item value="Pie charts are very"/>
 			<item value="sDeptIdes"/>
 			<item value="sDeptIds"/>
 			<item value="네이버"/>
@@ -22,11 +27,6 @@
 			<item value="8859_1"/>
 			<item value="8859"/>
 			<item value="159"/>
-			<item value="regDate"/>
-			<item value="158"/>
-			<item value="getView"/>
-			<item value="62"/>
-			<item value="152"/>
 		</list>
 		<list key="replacehistory">
 			<item value="sDeptIds"/>

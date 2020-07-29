@@ -1,0 +1,143 @@
+package com.spring.employees.controller;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.spring.employees.service.InterEmpService;
+
+@Controller
+/*
+@CrossOrigin(origins = "http://192.168.50.56, http://192.168.50.27, http://192.168.150.144")
+*/
+public class EmpController {
+	
+	@Autowired
+	private InterEmpService service;
+	
+	
+	
+	@RequestMapping(value="/emp/empList.action")
+	public ModelAndView empList(HttpServletRequest request, ModelAndView mav) {
+		
+		// employees 테이블에서 근무중인 사원들의 사원번호 불러오기
+		List<String> deptIdList = service.deptIdList();
+		
+		String sDeptIds = request.getParameter("sDeptIds");
+		
+		String gender = request.getParameter("gender");
+		
+		HashMap<String, Object> paraMap = new HashMap<>();
+		/*		
+		   in 연산자는 collection 만 들어오기 때문에 HashMap<String, String>이 아니라
+		   HashMap<String, Object>로 해줘야함 !!!
+		*/
+		
+		if(sDeptIds != null && !"".equals(sDeptIds)) {
+			String[] deptIdArr = sDeptIds.split(",");
+			paraMap.put("deptIdArr", deptIdArr);
+			
+			mav.addObject("sDeptIds", sDeptIds); // 뷰단에서 체크된 값을 유지시키기 위한 것
+		}
+		
+		if(gender != null && !"".equals(gender)) {
+			paraMap.put("gender", gender);
+			
+			mav.addObject("gender", gender); // 뷰단에서 체크된 값을 유지시키기 위한 것
+		}
+		
+		List<HashMap<String, String>> empList = service.empList(paraMap);
+		
+		mav.addObject("deptIdList", deptIdList);
+		mav.addObject("empList", empList);
+		mav.setViewName("/emp/empList.tiles2");
+		
+		return mav;
+	}
+	
+	
+	// >>> 차트를 보여주는 view단  <<< //
+	@RequestMapping(value="/emp/chart.action")
+	public ModelAndView chart(ModelAndView mav) {
+		mav.setViewName("emp/chart.tiles2");
+		return mav;
+	}
+	
+	
+	// >>> 차트 그리기 (Ajax) 부서명별 인원 수 및 퍼센테이지 가져오기  <<< //
+	@ResponseBody
+	@RequestMapping(value="/chart/deptnameJSON.action", produces="text/plain;charset=UTF-8")
+	public String deptnameJSON() {
+		
+		List<HashMap<String, String>> deptnamePercentageList = service.deptnameJSON();
+		
+		Gson gson = new Gson();
+		JsonArray jsonArr = new JsonArray();
+		
+		for(HashMap<String, String> map :deptnamePercentageList) {
+			JsonObject jsonObj = new JsonObject();
+			jsonObj.addProperty("department_name", map.get("department_name"));
+			jsonObj.addProperty("cnt", map.get("cnt"));
+			jsonObj.addProperty("percentage", map.get("percentage"));
+			
+			jsonArr.add(jsonObj);
+		}
+		
+		return gson.toJson(jsonArr);
+	}
+	
+	
+	// >>> 차트 그리기 (Ajax) 성별 인원수  <<< //
+	@ResponseBody
+	@RequestMapping(value="/chart/genderJSON.action", produces="text/plain;charset=UTF-8")
+	public String genderJSON() {
+		
+		List<HashMap<String, String>> genderPercentageList = service.genderJSON();
+		
+		Gson gson = new Gson();
+		JsonArray jsonArr = new JsonArray();
+		
+		for(HashMap<String, String> map : genderPercentageList) {
+			JsonObject jsonObj = new JsonObject();
+			jsonObj.addProperty("gender", map.get("gender"));
+			jsonObj.addProperty("cnt", map.get("cnt"));
+			jsonObj.addProperty("percentage", map.get("percentage"));
+			
+			jsonArr.add(jsonObj);
+		}
+		
+		return gson.toJson(jsonArr);
+	}
+	
+	
+	
+	// >>> 차트 그리기 (Ajax) 원격지 컴퓨터에 있는 부서명별 인원수 및 점유율 가져오기  <<< //
+	@RequestMapping(value="/chart/remote_genderJSON.action")
+	public String remote_genderJSON() {
+		// url을 내것인냥 했지만 실제는 남의것을 댕겨옴
+		return "remote/genderJSON"; // /Board/src/main/webapp/WEB-INF/views/remote/genderJSON.jsp 파일을 만든다.
+	}
+	
+	
+	// >>> 기상청 open API로 날씨정보 보여주기 <<< //
+	@RequestMapping(value="/opendata/weatherXML.action", method= {RequestMethod.GET})
+	public String weatherXML() {
+		return "opendata/weatherXML"; // /Board/src/main/webapp/WEB-INF/views/opendata/weatherXML.jsp 파일을 만든다.
+	}
+	
+	// >>> Excel 파일로 다운받기 <<< //
+	
+	@RequestMapping(value="/chart/downloadExcelFile.action")
+}

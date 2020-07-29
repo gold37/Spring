@@ -10,4 +10,8 @@ public interface InterEmpService {
 
 	List<HashMap<String, String>> empList(HashMap<String, Object> paraMap); // employees 테이블에서 조건에 만족하는 사원들 가져오기 
 
+	List<HashMap<String, String>> deptnameJSON(); // employees 테이블에서 부서명별 인원 수 및 퍼센테이지 가져오기 
+
+	List<HashMap<String, String>> genderJSON(); // employees 테이블에서 성별 인원 수 및 퍼센테이지 가져오기
+
 }

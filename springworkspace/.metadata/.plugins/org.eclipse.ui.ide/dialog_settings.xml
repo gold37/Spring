@@ -109,7 +109,7 @@
 	</section>
 	<section name="org.springsource.ide.eclipse.commons.quicksearch.ui.QuickSearchDialog.DIALOG_SETTINGS">
 		<item value="true" key="CASE_SENSITIVE"/>
-		<item value="144" key="LAST_QUERY"/>
+		<item value="&#x09;&#x09;&#x09;&#x09;&#x09;for(vat i=0; i&lt;json.length; i++) {&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;var obj = {name: json[i].department_name,&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;// 배열의 요소 중 하나만 가져오기 i&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;   y: Number(json[i].percentage)&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;// 점유율&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;   };&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;resultArr.push(obj); // 배열속에 객체 넣기 push&#x0D;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;}" key="LAST_QUERY"/>
 		<list key="SASH_WEIGHTS">
 			<item value="833"/>
 			<item value="166"/>
