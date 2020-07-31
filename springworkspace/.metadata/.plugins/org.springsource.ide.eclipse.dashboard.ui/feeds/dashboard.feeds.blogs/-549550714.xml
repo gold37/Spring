@@ -5,7 +5,38 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-28T22:13:50Z</updated>
+  <updated>2020-07-30T06:20:09Z</updated>
+  <entry>
+    <title>Spring Tools 4.7.1 released</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/30/spring-tools-4-7-1-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Martin Lippert</name>
+    </author>
+    <id>tag:spring.io,2020-07-30:4146</id>
+    <updated>2020-07-30T06:20:09Z</updated>
+    <content type="html">&lt;p&gt;Dear Spring Community,&lt;/p&gt;
+&lt;p&gt;I am happy to announce the 4.7.1 release of the Spring Tools 4 for Eclipse, Visual Studio Code, and Theia.&lt;/p&gt;
+&lt;p&gt;Highlights from this release include:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;(Spring Boot)&lt;/em&gt; enhancement: Syntax check for Annotations with Spring Expression Language (&lt;a href="https://github.com/spring-projects/sts4/issues/475"&gt;#475&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Spring Boot)&lt;/em&gt; fixed: hard to reproduce BadLocationException inside of language server fixed now, occurred e.g. in (&lt;a href="https://github.com/spring-projects/sts4/issues/451"&gt;#451&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; new: early access update sites and distribution builds for Eclipse 2020-09 available now (and requires JDK11 to run)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; improvement: old Spring Boot launch configs are now &amp;ldquo;fixed&amp;rdquo; automatically to exclude test classes again&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; improvement: new Spring Symbols view now works a lot better when selecting the file scope (also takes selections from package explorer into account)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: STS4 Does Not Start After Installing Papyrus Plugin (&lt;a href="https://github.com/spring-projects/sts4/issues/499"&gt;#499&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: language server now being shutdown correctly when used by new Spring Symbols view&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: it is possible now to install the Spring Tools 4 into an existing Eclipse via the Spring Tools 4 p2 repo only - the main Eclipse update site doesn&amp;rsquo;t have to be enabled anymore (&lt;a href="https://github.com/spring-projects/sts4/issues/497"&gt;#497&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To download the distribution for Eclipse and find links to the marketplace entries for Visual Studio Code and Theia, please go visit:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring Tools 4: &lt;a href="https://spring.io/tools/"&gt;https://spring.io/tools/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Detailed changes can be found here: &lt;a href="https://github.com/spring-projects/sts4/wiki/Changelog#2020-07-30-471-release-incl-language-servers-version-1200"&gt;https://github.com/spring-projects/sts4/wiki/Changelog#2020-07-30-471-release-incl-language-servers-version-1200&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Spring Tools 4.7.2 is scheduled to be released in late August 2020.&lt;/p&gt;
+&lt;p&gt;Enjoy!&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>This Week in Spring - July 28th, 2020</title>
     <link rel="alternate" href="https://spring.io/blog/2020/07/28/this-week-in-spring-july-28th-2020" />
@@ -1717,72 +1748,6 @@ We will take you through the entire landscape of components included in this rep
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>First milestone of Reactor 2020.0 (Codename Europium)</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/10/first-milestone-of-reactor-2020-0-codename-europium" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Simon Basl?</name>
-    </author>
-    <id>tag:spring.io,2020-07-07:4125</id>
-    <updated>2020-07-10T14:00:00Z</updated>
-    <content type="html">&lt;p&gt;Earlier this month, we released a first milestone of Reactor 2020.0.&lt;br/&gt;This cycle, codename &lt;code&gt;Europium&lt;/code&gt;, follows the Dysprosium one (which included reactor-core 3.3.x and reactor-netty 0.9.x).&lt;/p&gt;
-&lt;p&gt;It includes reactor-core &lt;code&gt;3.4.0&lt;/code&gt; and reactor-netty &lt;code&gt;1.0.0&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;In this blog post, we&amp;rsquo;ll cover a few highlights of the reactor-core milestone, and briefly mention what&amp;rsquo;s in store for M2.&lt;/p&gt;
-&lt;p&gt;For reactor-netty, we&amp;rsquo;ll link to a separate blog post here as soon as it is out.&lt;/p&gt;
-&lt;p&gt;Note also that there is a new versioning scheme in place, which has been adopted accross the Spring portfolio: see the &lt;a href="https://projectreactor.io/docs/core/snapshot/reference/#getting-started-understanding-bom"&gt;reference guide&lt;/a&gt; and &lt;a href="https://spring.io/blog/2020/04/30/updates-to-spring-versions"&gt;this blog post&lt;/a&gt;.&lt;/p&gt;&lt;h1&gt;&lt;a href="#changes-around-code-processor-code" class="anchor" name="changes-around-code-processor-code"&gt;&lt;/a&gt;Changes around &lt;code&gt;Processor&lt;/code&gt;&lt;/h1&gt;
-&lt;p&gt;The main change in core is a long overdue effort around &lt;code&gt;Processor&lt;/code&gt; implementations in Reactor and how they are exposed.&lt;/p&gt;
-&lt;p&gt;This is the main focus of &lt;code&gt;reactor-core 3.4.0-M1&lt;/code&gt;, and the goal is to phase out usage of the concrete flavor of &lt;code&gt;FluxProcessor&lt;/code&gt; (and to some extent &lt;code&gt;MonoProcessor&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Processor&lt;/code&gt; is an interface from Reactive Streams, originally intended as a way to represent a &amp;ldquo;step&amp;rdquo; in a reactive pipeline that could be shared between libraries.But these days, operators are largely directly implemented as &lt;code&gt;Publisher/Subscriber&lt;/code&gt; pairs, so in Reactor processors end up covering different use cases (most often, multicasting from one &lt;code&gt;Publisher&lt;/code&gt; to multiple &lt;code&gt;Subscriber&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;So most often, users are looking at processors as a way to &amp;ldquo;manually create a &lt;code&gt;Flux&lt;/code&gt;&amp;rdquo;: rather than connecting a &lt;code&gt;Processor&lt;/code&gt; to a parent publisher (aka using it as a &lt;code&gt;Subscriber&lt;/code&gt;), they directly call its &lt;code&gt;onNext&lt;/code&gt;/&lt;code&gt;onComplete&lt;/code&gt;/&lt;code&gt;onError&lt;/code&gt; methods. This is unfortunately a problematic approach, because such calls MUST be made in a way that conforms to the Reactive Streams specification, meaning that they need to be externally synchronized.&lt;/p&gt;
-&lt;p&gt;Historically, this has been alleviated by the introduction of the &lt;code&gt;sink()&lt;/code&gt; method on &lt;code&gt;FluxProcessor&lt;/code&gt;. The idea was that if you want to use the &lt;code&gt;FluxProcessor&lt;/code&gt; in a manual way like this, you would need to instantiate the processor flavor you want, then call its &lt;code&gt;sink()&lt;/code&gt; method ONCE and use the resulting &lt;code&gt;FluxSink&lt;/code&gt; from there on to trigger signals to subscribers. Downstream, the &lt;code&gt;FluxProcessor&lt;/code&gt; itself is exposed (as a &lt;code&gt;Flux&lt;/code&gt; on which operators can be composed).&lt;/p&gt;
-&lt;p&gt;This is still problematic from a discoverability standpoint, because the &amp;ldquo;right way&amp;rdquo; of cattering to the most common use case is the hardest to come up with.&lt;/p&gt;
-&lt;p&gt;With 3.4.0, we intend to turn that around and put the &lt;code&gt;Sink&lt;/code&gt; usage pattern in the spotlight as the first class citizen, and make the &lt;code&gt;Processor&lt;/code&gt; usage pattern harder to accidentally discover or misuse.&lt;/p&gt;
-&lt;p&gt;This first milestone makes a first step towards that by:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;deprecating all concrete implementations of &lt;code&gt;FluxProcessor&lt;/code&gt;, which are now slated for removal in &lt;code&gt;3.5.0&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;exposing a &lt;code&gt;Sinks&lt;/code&gt; utility class that bears factory methods for sinks aimed to be manually triggered&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;In M1 the flavors of processors are still there but the factory methods have been copied over the &lt;code&gt;Processors&lt;/code&gt; class, &lt;em&gt;but that is already being reworked in M2&lt;/em&gt;.&lt;br/&gt;We intend to move the choice of flavors on &lt;code&gt;Sinks&lt;/code&gt; instead in M2. There would then be a way to turn a &lt;code&gt;Sink&lt;/code&gt; into a &lt;code&gt;FluxProcessor&lt;/code&gt; from there on, removing the need for &lt;code&gt;Processors&lt;/code&gt; in M2.&lt;/p&gt;&lt;h1&gt;&lt;a href="#migrating-away-from-concrete-processors-in-m1" class="anchor" name="migrating-away-from-concrete-processors-in-m1"&gt;&lt;/a&gt;Migrating away from concrete processors in M1&lt;/h1&gt;
-&lt;p&gt;In &lt;code&gt;M1&lt;/code&gt;, all factory methods on concrete &lt;code&gt;xxxProcessor&lt;/code&gt; (eg. &lt;code&gt;UnicastProcessor.create()&lt;/code&gt;) have been moved to either &lt;code&gt;Processors&lt;/code&gt; for the base case or &lt;code&gt;Processors.more()&lt;/code&gt; for the overloads that allow finer tuning. The methods distinguish flavors by prefixes:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;UnicastProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.unicast()&lt;/code&gt; and &lt;code&gt;Processors.more().unicast(...)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;EmitterProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.multicast()&lt;/code&gt; and &lt;code&gt;Processors.more().multicast(...)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;DirectProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.more().multicastNoBackpressure()&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;ReplayProcessor&lt;/code&gt; -&amp;gt; &lt;code&gt;Processors.replayAll()&lt;/code&gt;/&lt;code&gt;replay(int)&lt;/code&gt;/&lt;code&gt;replayTimeout(Duration)&lt;/code&gt;/&lt;code&gt;replaySizeAndTimeout(int, Duration)&lt;/code&gt; and similar methods on &lt;code&gt;Processors.more()&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;All these processors conceptually have the same input and output type &lt;code&gt;&amp;lt;T&amp;gt;&lt;/code&gt;, so they are &lt;code&gt;FluxProcessor&amp;lt;T,T&amp;gt;&lt;/code&gt;. A convenience interface &lt;code&gt;FluxIdentityProcessor&amp;lt;T&amp;gt;&lt;/code&gt; has been introduced in M1 but it doesn&amp;rsquo;t bring much other than reducing the number of generics, so it might be removed in M2.&lt;/p&gt;
-&lt;p&gt;But rather than using a &lt;code&gt;FluxProcessor&lt;/code&gt; from &lt;code&gt;Processors&lt;/code&gt;, we said one should favor using &lt;code&gt;Sinks&lt;/code&gt;. In this scenario, one would get a sink first and turn it into a &lt;code&gt;Flux&lt;/code&gt; or &lt;code&gt;Mono&lt;/code&gt; for the rest of the application to compose upon, like in the below example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint"&gt;//you get the sink first and foremost&#xD;
-StandaloneFluxSink&amp;lt;Integer&amp;gt; sink = Sinks.multicast();&#xD;
-&#xD;
-//this is what the rest of the application sees and uses&#xD;
-Flux&amp;lt;Integer&amp;gt; flux = sink.asFlux();&#xD;
-flux.map(i -&amp;gt; i * 10).subscribe();&#xD;
-flux.filter(i -&amp;gt; i % 2 == 0).subscribe();&#xD;
-&#xD;
-//this is how you push data to the subscribers through the sink (thread safe)&#xD;
-sink.next(1);&#xD;
-sink.next(2);&#xD;
-sink.next(3);&#xD;
-sink.next(4);&#xD;
-sink.complete();
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note that the class currently offers less variants than &lt;code&gt;Processors&lt;/code&gt;, but this is being reconsidered for M2.&lt;/p&gt;&lt;h1&gt;&lt;a href="#deprecations-and-removals" class="anchor" name="deprecations-and-removals"&gt;&lt;/a&gt;Deprecations and Removals&lt;/h1&gt;
-&lt;p&gt;Several classes that were deprecated back in 3.3.0 have been &lt;strong&gt;removed&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;TopicProcessor&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;WorkQueueProcessor&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The &lt;code&gt;Schedulers.boundedElastic()&lt;/code&gt; has been out since 3.3.0 and we think we can now &lt;strong&gt;deprecate&lt;/strong&gt; its ancestor, &lt;code&gt;elastic()&lt;/code&gt;, rather than just recommend using boundedElastic over elastic.&lt;/p&gt;
-&lt;p&gt;Further down the road, in 3.5.0, the &lt;code&gt;elastic&lt;/code&gt; &lt;code&gt;Scheduler&lt;/code&gt; will be removed.&lt;/p&gt;&lt;h1&gt;&lt;a href="#reactor-netty-is-hitting-1-0" class="anchor" name="reactor-netty-is-hitting-1-0"&gt;&lt;/a&gt;Reactor-Netty is hitting 1.0&lt;/h1&gt;
-&lt;p&gt;There is much much to cover here, which we&amp;rsquo;ll do in a separate blog post.&lt;/p&gt;&lt;h1&gt;&lt;a href="#conclusion" class="anchor" name="conclusion"&gt;&lt;/a&gt;Conclusion&lt;/h1&gt;
-&lt;p&gt;Please try out the &lt;a href="https://repo.spring.io/milestone/io/projectreactor/reactor-core/3.4.0-M1/"&gt;M1&lt;/a&gt;!&lt;/p&gt;
-&lt;p&gt;We&amp;rsquo;re already making further changes to sinks and processors in M2, along with other themes like &lt;code&gt;Context&lt;/code&gt; operators, avoiding thrown exceptions in &lt;code&gt;subscribe&lt;/code&gt; and improving the story around metrics.&lt;/p&gt;
-&lt;p&gt;As always, feedback for both M1 and current M2 snapshots is very welcome.&lt;/p&gt;
-&lt;p&gt;In the meantime, happy reactive coding !&lt;br/&gt;The Reactor Team.&lt;/p&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>
