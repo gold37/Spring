@@ -1,0 +1,14 @@
+package kh.spring.controller;
+
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+@WebAppConfiguration
+@ContextConfiguration(locations={
+		"",
+		""
+})
+public class ControllerTest {
+
+	
+}

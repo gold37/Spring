@@ -29,6 +29,8 @@ C:\springworkspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4286788
 \Board\src\main\java
 C:\springworkspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2843203518.index
 \Board\src\main\java
+C:\springworkspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3767687238.index
+\JUnitExam\src\main\java
 C:\springworkspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\48972985.index
 \Board\src\main\java
 C:\springworkspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\232641658.index

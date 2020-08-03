@@ -5,7 +5,71 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-07-30T06:20:09Z</updated>
+  <updated>2020-07-30T23:52:49Z</updated>
+  <entry>
+    <title>A Bootiful Podcast: Josh Lock on supply chain security, Docker trust, TUF, and more</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/30/a-bootiful-podcast-josh-lock-on-supply-chain-security-docker-trust-tuf-and-more" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-07-30:4148</id>
+    <updated>2020-07-30T23:52:49Z</updated>
+    <content type="html">&lt;p&gt;Hi Spring fans! In this installment &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks about yaks, the implicit tension in systems design, and then talks with &lt;a href="http://twitter.com/hi_joshuagl"&gt;Josh Lock (@hi_joshuagl)&lt;/a&gt; (Levenshtein distance: 2!) about supply chain security, Docker trust, TUF, and more.&lt;/p&gt;
+&lt;iframe title="Josh Lock on supply chain security, Docker trust, TUF, and more " height="122" width="100%" style="border: none;" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/media/player/r25bt-e50f2d?from=pb6admin&amp;amp;download=1&amp;amp;version=1&amp;amp;auto=0&amp;amp;share=1&amp;amp;download=1&amp;amp;rtl=0&amp;amp;fonts=Helvetica&amp;amp;skin=1&amp;amp;pfauth=&amp;amp;btn-skin=107"&gt;&lt;/iframe&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring HATEOAS 1.1.1.RELEASE is out!</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/07/30/spring-hateoas-1-1-1-release-is-out" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Greg L. Turnquist</name>
+    </author>
+    <id>tag:spring.io,2020-07-30:4147</id>
+    <updated>2020-07-30T19:34:41Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;Dear Spring community,&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Spring HATEOAS &lt;code&gt;1.1.1.RELEASE&lt;/code&gt; is out, the first patched release of the latest stable line, supporting Spring Boot 2.3.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Among many things, you&amp;#8217;ll find:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;We are now listing community-led efforts to implement other media types. &lt;a href="https://docs.spring.io/spring-hateoas/docs/1.1.1.RELEASE/reference/html/#mediatypes.community.json:api"&gt;JSON:API&lt;/a&gt; and &lt;a href="https://docs.spring.io/spring-hateoas/docs/1.1.1.RELEASE/reference/html/#mediatypes.community.siren"&gt;Siren&lt;/a&gt; are the latest. You want to add another media type? Just &lt;a href="https://docs.spring.io/spring-hateoas/docs/1.1.1.RELEASE/reference/html/#mediatypes.custom"&gt;check out the details&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;VndErrors&lt;/code&gt; is a media type for reporting, well, errors. And it has had a sneaky bug that crept in that we&amp;#8217;ve now patched. "logref" values are no longer confined to integers. It&amp;#8217;s important to also note that the &lt;code&gt;VndErrors&lt;/code&gt; spec is showing no signs of life, hence we&amp;#8217;ve deprecated its support. If you&amp;#8217;re starting a new hypermedia-driven project, our recommendation is to use &lt;a href="https://docs.spring.io/spring-hateoas/docs/1.1.1.RELEASE/reference/html/#mediatypes.http-problem"&gt;RFC-7807&amp;#8217;s &lt;code&gt;application/problem+json&lt;/code&gt; format&lt;/a&gt; instead. The API is more elegant and more importantly, under active development. And we&amp;#8217;ve made some fixes based on community feedback.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We are continuing to fix memory usage issues as more people crank out hypermedia links in more intense environments.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring HATEOS has de-lomboked the source code. This effort has been applied to the latest 1.2 and this version of 1.1 as well. (Versions predating 1.1 aren&amp;#8217;t getting backports except in very special situations.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;You can enjoy these changes immediately if you are using Spring Boot 2.3 or higher. Simply adjust &lt;code&gt;spring-hateoas.version&lt;/code&gt; in your build file to &lt;code&gt;1.1.1.RELEASE&lt;/code&gt; and give it a spin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Check out the &lt;a href="https://github.com/spring-projects/spring-hateoas/milestone/51?closed=1"&gt;complete changelog on Github&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Spring HATEOAS as a project has had a lot of new updates as it gets more usage in the field. Plato&amp;#8217;s famous saying, "Necessity is the mother of invention" rings true as community usage increase, exposing new ways to simplify link creation and management.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Be sure to stay tuned by monitoring out &lt;a href="https://gitter.im/spring-projects/spring-hateoas"&gt;Gitter channel&lt;/a&gt; and &lt;a href="https://twitter.com/springhateoas"&gt;following us on Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Cheers!&lt;/p&gt;
+&lt;/div&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Tools 4.7.1 released</title>
     <link rel="alternate" href="https://spring.io/blog/2020/07/30/spring-tools-4-7-1-released" />
@@ -1477,277 +1541,6 @@ Function&amp;lt;Integer, Message&amp;lt;String&amp;gt;&amp;gt; convertIntMessage
     <content type="html">&lt;p&gt;The ¡°State of Spring 2020¡± report will be published soon, based on the views and experiences of Spring Boot development experts across the globe. In exchange for 15 minutes of your time to complete the survey, you¡¯ll be among the first to receive the survey report and the insights included in it. Please feel free to share this email with your Spring development colleagues. The survey will close at the end of July.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://dimensionalresearch.co1.qualtrics.com/jfe/form/SV_b18rQR0rXsFFQcB"&gt;Take the survey now&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Thanks for sharing your thoughts and experiences with us!&lt;br/&gt;The Spring Team&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Building web applications with Spring Boot and Vaadin</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/14/building-web-applications-with-spring-boot-and-vaadin" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>St?phane Nicoll</name>
-    </author>
-    <id>tag:spring.io,2020-07-13:4127</id>
-    <updated>2020-07-14T13:59:12Z</updated>
-    <content type="html">&lt;blockquote&gt;
-  &lt;p&gt;This post is a guest post by community member &lt;a href="https://twitter.com/marcushellberg"&gt;Marcus Hellberg (@marcushellberg)&lt;/a&gt;. Marcus is the head of the Community team at Vaadin. He likes helping developers discover and learn modern web technologies by creating online content and speaking with developers at events. &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Building web apps can be a daunting task. There are many moving parts: you need to define the structure in HTML and then use CSS to make it look the way you want. For frontend apps, you also need to write the app logic in JavaScript and connect it to your backend over REST. And of course, you also need to implement the backend logic and REST services. &lt;/p&gt;
-&lt;p&gt;None of these things are that hard in and of themselves, but building something that both looks good and works well requires mastering several languages and often means spending a lot of time on setup and other tasks that don&amp;rsquo;t add end-user value. &lt;/p&gt;
-&lt;p&gt;Why not consider Vaadin as an alternative? It is far less task intensive and offers many additional benefits.&lt;/p&gt;&lt;h2&gt;&lt;a href="#vaadin-a-modern-web-application-framework-for-java" class="anchor" name="vaadin-a-modern-web-application-framework-for-java"&gt;&lt;/a&gt;Vaadin: a modern web application framework for Java&lt;/h2&gt;
-&lt;p&gt;Vaadin is a full-stack framework for the JVM that has a different approach to building web apps. It comes with:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;An extensive set of customizable UI components with a Java API.&lt;/li&gt;
-  &lt;li&gt;Automatic browser communication.&lt;/li&gt;
-  &lt;li&gt;Powerful data binding and end-to-end type safety.&lt;/li&gt;
-  &lt;li&gt;Built-in support for Spring technologies.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Let&amp;rsquo;s take a look at a concrete example. Below, we create a view by mapping a &lt;code&gt;VerticalLayout&lt;/code&gt; component to the &lt;code&gt;contacts&lt;/code&gt; path. We use Spring to inject a service class into the constructor for backend access. We then instantiate a Vaadin Grid component and pass in a list of &lt;code&gt;Contact&lt;/code&gt; objects to the grid. Finally, we add an &lt;code&gt;H1&lt;/code&gt; header and the grid to our view to display them. &lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Route(&amp;quot;contacts&amp;quot;) // localhost:8080/contacts&#xD;
-public class ContactsView extends VerticalLayout {&#xD;
-&#xD;
- // Autowire a Spring @Service&#xD;
- public VaadinView(ContactService service) {&#xD;
-&#xD;
-   // Instantiate Vaadin data grid component&#xD;
-   Grid&amp;lt;Contact&amp;gt; grid = new Grid&amp;lt;&amp;gt;(Contact.class);&#xD;
-&#xD;
-   // Pass in a list of Contacts to show in the grid&#xD;
-   grid.setItems(service.findAll());&#xD;
-  &#xD;
-   // Define columns&#xD;
-   grid.addColumn(Contact::getFirstName).setHeader(&amp;quot;First Name&amp;quot;);&#xD;
-   grid.addColumn(Contact::getLastName).setHeader(&amp;quot;Last Name&amp;quot;);&#xD;
-   grid.addColumn(Contact::getEmail).setHeader(&amp;quot;Email&amp;quot;);&#xD;
-   grid.addColumn(contact -&amp;gt; contact.getCompany().getName()).setHeader(&amp;quot;Company&amp;quot;);&#xD;
-&#xD;
-   // Add components to the layout to show them&#xD;
-   add(&#xD;
-       new H1(&amp;quot;All contacts&amp;quot;),&#xD;
-       grid&#xD;
-   );&#xD;
- }&#xD;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the example above, &lt;code&gt;@Route&lt;/code&gt; is a specialized &lt;code&gt;@Component&lt;/code&gt; that makes sure &lt;code&gt;ContractsView&lt;/code&gt; is a regular Spring bean in the context.&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://static.spring.io/blog/snicoll/20200714/contacts.png" alt="A Vaadin Grid showing contacts from a Spring @Service" /&gt;&lt;/p&gt;
-&lt;p&gt;What&amp;rsquo;s worth noting here is what we didn&amp;rsquo;t do: we didn&amp;rsquo;t write an HTML template, CSS, JavaScript, or REST endpoints. We used the Spring backend we had and connected it to our UI, all in Java. &lt;/p&gt;&lt;h2&gt;&lt;a href="#easier-vaadin-development-with-spring-boot" class="anchor" name="easier-vaadin-development-with-spring-boot"&gt;&lt;/a&gt;Easier Vaadin development with Spring Boot&lt;/h2&gt;
-&lt;p&gt;Spring Boot is the most popular backend for Vaadin applications. Both Vaadin and Spring Boot are built with the developer in mind. They&amp;rsquo;re easy enough to learn quickly, but robust enough to run in production. &lt;/p&gt;
-&lt;p&gt;Vaadin views are Spring-managed by default, which means you can autowire services and access your database and other server resources. You can use Spring Security to handle authentication and restrict access to parts of your application. &lt;/p&gt;&lt;h2&gt;&lt;a href="#learn-web-app-development-with-spring-boot-and-vaadin" class="anchor" name="learn-web-app-development-with-spring-boot-and-vaadin"&gt;&lt;/a&gt;Learn web app development with Spring Boot and Vaadin&lt;/h2&gt;
-&lt;p&gt;Vaadin recently published &lt;a href="https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin"&gt;a comprehensive tutorial series on Spring Boot and Vaadin&lt;/a&gt;. It&amp;rsquo;s suitable for anyone who has some Java knowledge and wants to learn to build web applications. &lt;/p&gt;
-&lt;p&gt;The text and video tutorial cover the full application-development lifecycle:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Setting up a development environment.&lt;/li&gt;
-  &lt;li&gt;Creating a new Spring Boot project with Vaadin support.&lt;/li&gt;
-  &lt;li&gt;Using Spring Data to access a database.&lt;/li&gt;
-  &lt;li&gt;Vaadin views, layouts, forms and data binding.&lt;/li&gt;
-  &lt;li&gt;Making the app installable and defining an offline fallback page.&lt;/li&gt;
-  &lt;li&gt;Unit and browser testing.&lt;/li&gt;
-  &lt;li&gt;Cloud deployment.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;[&lt;a href="https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin"&gt;Read the Spring Boot and Vaadin tutorial&lt;/a&gt;]&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Introducing Java Functions for Spring Cloud Stream Applications - Part 0</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>David Turanski</name>
-    </author>
-    <id>tag:spring.io,2020-07-13:4128</id>
-    <updated>2020-07-13T22:52:00Z</updated>
-    <content type="html">&lt;div id="preamble"&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;We are happy to announce the release of &lt;a href="https://github.com/spring-cloud/stream-applications/releases/tag/v2020.0.0-M2"&gt;Spring Cloud Stream applications 2020.0.0-M2&lt;/a&gt;. This release is a complete overhaul of the legacy &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt;.
-Starting with this release, we are moving away from theme-oriented release train names (famous scientists in alphabetical order) to calendar based versioning.
-The current GA release is called &lt;em&gt;Einstein&lt;/em&gt;, and we are pleased to introduce &lt;em&gt;2020.0.0-M2&lt;/em&gt;.
-We are also moving away from the app starters.
-Having reorganized, repackaged, and (in some cases) rewritten the underlying code, we now have a new Git repository: &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;spring-cloud/stream-applications: Functions and Spring Cloud Stream Applications for data driven microservices&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="how-did-we-get-here"&gt;&lt;a class="anchor" href="#how-did-we-get-here"&gt;&lt;/a&gt;How Did We Get Here?&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The Spring team has maintained pre-packaged applications, built on &lt;a href="https://spring.io/projects/spring-cloud-stream"&gt;Spring Cloud Stream&lt;/a&gt;, since the inception of &lt;a href="https://spring.io/projects/spring-cloud-dataflow"&gt;Spring Cloud Data Flow&lt;/a&gt; in 2016.
-These are production-ready applications, built on the proven capabilities of Spring and Spring Integration to provide out-of-the-box integration with commonly used open source data stores, message brokers, online services, and communication protocols.
-In fact, we have been providing the underlying components, used by enterprise developers to build business-critical systems, for more than a decade now.
-The timeline below summarizes the evolution from &lt;a href="https://spring.io/projects/spring-integration"&gt;Spring Integration&lt;/a&gt; components to pre-packaged applications.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/stream-applications-history.png?raw=true" alt="Stream Applications Timeline"&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;These applications give you a jump start when orchestrating data streaming pipelines with Data Flow or using them directly as Data microservices.
-As always, in keeping with the Spring philosophy, we do the heavy lifting for you, letting you focus on business logic.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;At the heart of it, a Spring Cloud Stream application is a Spring Boot application (uber jar) that includes a Spring Cloud Stream binder dependency.
-The binder exposes a service provider interface to abstract implementations that utilize underlying messaging middleware (such as Apache Kafka, RabbitMQ, Amazon Kinesis, Google Pub Sub, and Solace) for distributed communications, hiding the specific details of the middleware from the application.
-Therefore, the application has no knowledge of the underlying middleware it is using to communicate.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;This architecture enabled us to implement the core functionality without a binder, as &lt;a href="https://github.com/spring-cloud-stream-app-starters"&gt;Spring Cloud Stream App Starters&lt;/a&gt;.
-A custom Maven plugin was used to generate Maven poms (one each for the Apache Kafka binder and the RabbitMQ binder) and a generic Spring Boot main class that imports the app starter configuration.
-The pom also includes &lt;a href="https://dataflow.spring.io/docs/feature-guides/streams/monitoring/"&gt;monitoring&lt;/a&gt; and security support.
-The pre-packaged stream applications work with either Apache Kafka or RabbitMQ and are published to public repositories as Spring Boot executable jars and Docker images.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;In many respects, the pre-packaged stream applications can be compared with Kafka Connect.
-Although this is not a direct apples to apples comparison, the stream applications can be used in place of Kafka connect applications.
-Kafka Connect applications require Apache Kafka to produce and consume data, whereas the Spring Cloud Stream applications work with a wide variety of middleware technologies, including Kafka, as previously mentioned.
-Note that all of our pre-packaged applications are free and open source, whereas many of the Kafka connectors are commercially licensed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="what-has-changed"&gt;&lt;a class="anchor" href="#what-has-changed"&gt;&lt;/a&gt;What Has Changed?&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="sect2"&gt;
-&lt;h3 id="java-functions"&gt;&lt;a class="anchor" href="#java-functions"&gt;&lt;/a&gt;Java Functions&lt;/h3&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Continual advances in the Java and Spring ecosystem have driven us to rethink our approach.
-The most significant change is that we have implemented a layered architecture in which the core functionality, previously provided by the app starters, are now provided as Java functions, implementing the standard interfaces found in the &lt;em&gt;java.util.function&lt;/em&gt; package.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The functional components in this release can be exposed as standard Spring beans and then used for your data integration needs by directly embedding them in an application.
-By injecting these functions in a custom application, you immediately benefit from the features provided by underlying libraries. For example, Spring Integration adapters are used in many of these functions.
-You can invoke the function directly, use &lt;a href="https://spring.io/projects/spring-cloud-function"&gt;Spring Cloud Function&lt;/a&gt; to invoke it through a REST endpoint, or use it in a serverless environment.
-Unlike the app starters, the functional components have no dependency on Spring Cloud Stream.
-They are now, however, the core components of the stream applications.
-The following image shows the relationship between the components and the applications:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/stream-applications-layered-architecture.png?raw=true" alt="Stream Applications Layered Architecture"&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect2"&gt;
-&lt;h3 id="stream-applications"&gt;&lt;a class="anchor" href="#stream-applications"&gt;&lt;/a&gt;Stream Applications&lt;/h3&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;By using Spring Cloud Stream, we can exploit the logical equivalence of the java.util.function types (Supplier, Function, Consumer) to the Spring Cloud Stream concepts (source, processor, and sink, respectively).
-As before, we use a new and improved &lt;a href="https://github.com/spring-cloud/spring-cloud-app-starters-maven-plugins/tree/master/spring-cloud-stream-app-maven-plugin"&gt;Maven plugin&lt;/a&gt; to generate the Spring Boot main class, application.properties file, and binder-specific Maven poms with built-in &lt;a href="https://dataflow.spring.io/docs/feature-guides/streams/monitoring/"&gt;monitoring&lt;/a&gt; and security support.
-With few exceptions, we can build the Spring Cloud Stream applications with no additional code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The new approach offers several advantages:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Spring Cloud Stream v3.x introduced a powerful &lt;a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/current/reference/html/spring-cloud-stream.html#spring_cloud_function"&gt;Functional programming model&lt;/a&gt; based on &lt;a href="https://spring.io/projects/spring-cloud-function"&gt;Spring Cloud Function&lt;/a&gt;.
-This approach is favored over the legacy annotation-based model (&lt;em&gt;@EnableBinding&lt;/em&gt;, &lt;em&gt;@StreamListener&lt;/em&gt;).
-Spring Cloud Stream can bind directly to the input(s) and output(s) of a Function &lt;em&gt;@Bean&lt;/em&gt;.
-With this model, neither the legacy Spring Cloud Stream annotations nor the Source, Processor, and Sink interfaces are needed.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The figure below illustrates this concept by using simple functions packaged as Spring Cloud Stream applications.
-The binder implementation and external configuration properties enable the applications to communicate through a message broker, but the application code is not concerned with any of this.
-Spring Cloud Stream invokes the &lt;em&gt;helloTime&lt;/em&gt; Function in the ProcessorApplication whenever a message arrives on the &lt;em&gt;time&lt;/em&gt; topic and directs its output to the &lt;em&gt;hello&lt;/em&gt; topic.
-Likewise, the &lt;em&gt;printTime&lt;/em&gt; Consumer in the SinkApplication is triggered by a message arriving on the &lt;em&gt;hello&lt;/em&gt; topic.
-But what triggers the SourceApplication?
-As you may have guessed, Spring Cloud Stream auto-configures a poller, which invokes the &lt;em&gt;currentTime&lt;/em&gt; Supplier every second (by default).
-Of course, this is configurable.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;span class="image"&gt;&lt;img src="https://github.com/spring-cloud/stream-applications/blob/gh-pages/img/spring-cloud-stream-example.png?raw=true" alt="Spring Cloud Stream Example"&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;The functional components are available to be packaged and deployed in a wide range of uses other than Spring Cloud Stream, particularly in FaaS environments.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The functional components are built with &lt;a href="https://projectreactor.io/"&gt;Project Reactor&lt;/a&gt;, where appropriate, to enable non-blocking reactive streaming.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The stream applications (or any Spring Boot application built with the functional components) can take advantage of Spring Cloud Function¡¯s declarative function composition features.
-This means that the pre-packaged stream applications can be configured to perform common transformation and filtering operations with no customization required.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The new &lt;a href="https://github.com/spring-cloud/stream-applications"&gt;stream-applications&lt;/a&gt; Git repository is a &lt;a href="https://en.wikipedia.org/wiki/Monorepo"&gt;monorepo&lt;/a&gt;.
-Unlike &lt;em&gt;stream-cloud-app-starters&lt;/em&gt;, where each app has its own repository, the new &lt;em&gt;stream-applications&lt;/em&gt; repository contains everything (functions, applications, and common components) in a single repository.
-This simplifies dependency management and allows for atomic commits. The hope is that this change, along with other ongoing efforts, will make it easier for developers and help encourage community contributions.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="what-does-this-release-contain"&gt;&lt;a class="anchor" href="#what-does-this-release-contain"&gt;&lt;/a&gt;What Does this Release Contain?&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The following is a partial list of the various functions and applications available in this release:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Suppliers and sources&lt;/strong&gt;: File, FTP, SFTP, AWS S3, HTTP, Geode, TCP, TIme, Twitter, Websocket, JDBC, JMS, RabbitMQ, MQTT.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Consumers and sinks&lt;/strong&gt;: Analytics, Cassandra, File, FTP, Geode, JDBC, Log, Mongodb, MQTT, Rabbit, Redis, AWS S3, SFTP, TCP, Twitter, Wavefront, Websocket.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Functions and processors&lt;/strong&gt;: Filter, Header Enricher, HTTP Request, Tensorflow (image recognition, object detection and semantic segmentation), SpEL, Splitter, Task Launch Request, Task Launcher, Twitter.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;See the &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/README.adoc"&gt;Stream Applications README&lt;/a&gt; for a complete list.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="what-does-this-mean-for-current-users"&gt;&lt;a class="anchor" href="#what-does-this-mean-for-current-users"&gt;&lt;/a&gt;What does this mean for current users?&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;In many cases, the new applications provide the equivalent functionality as the previous releases.
-In some cases (such as Twitter), we have significantly enhanced the functionality.
-We also have merged and renamed some of the applications.
-In short, there are some breaking changes. Notably, many of the configuration property names have changed, where appropriate, to reflect an association with the functional components (for example, &lt;em&gt;s3.supplier.remoteDir&lt;/em&gt;).
-Also, these applications may not work with stream applications that are built with older releases of Spring Cloud Stream.
-For example, a source built with an older version of Spring Cloud Stream is not guaranteed to work with a sink from this release.
-If you are already using pre-packaged applications from a previous release, there is no need to upgrade immediately, unless you are compelled to take advantage of some of the new features.
-The &lt;em&gt;Einstein&lt;/em&gt; release train will go into maintenance mode, so it will include only bug fixes going forward.
-All new development will be applied to future releases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="how-do-i-contribute-a-new-function-or-application"&gt;&lt;a class="anchor" href="#how-do-i-contribute-a-new-function-or-application"&gt;&lt;/a&gt;How do I contribute a new function or application?&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;If you cannot find what you are looking for in the existing catalog of functions and applications, please consider &lt;a href="https://github.com/spring-cloud/stream-applications/blob/master/docs/Contributing.adoc"&gt;contributing&lt;/a&gt;.
-This way, the entire open source community will benefit.
-In a subsequent post, we will walk through a real-world example of developing a function and stream application.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;We encourage the community to get involved with this project.
-We have several open issues labelled &lt;a href="https://github.com/spring-cloud/stream-applications/labels/ideal-for-contribution"&gt;ideal for contribution&lt;/a&gt;.
-In addition to code contributions, we really appreciate documentation improvements, creating issues, and starring the repository.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="stay-tuned"&gt;&lt;a class="anchor" href="#stay-tuned"&gt;&lt;/a&gt;Stay tuned&amp;#8230;&amp;#8203;&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;This blog is the first in a weekly series that will cover topics introduced here in a lot more detail.
-Look for more deep dives and focused topics in the coming weeks.
-We will take you through the entire landscape of components included in this repository and surrounding processes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect2"&gt;
-&lt;h3 id="more-posts-in-this-series"&gt;&lt;a class="anchor" href="#more-posts-in-this-series"&gt;&lt;/a&gt;More posts in this series&lt;/h3&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="https://spring.io/blog/2020/07/20/introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;Introducing Java Functions for Spring Cloud Stream Applications - Part 1&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>
